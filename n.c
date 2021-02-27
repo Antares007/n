@@ -1,23 +1,18 @@
 #include "n.h"
-#include <stdio.h>
-void *σπ;
-#define O o(o, b)
+extern int printf(const char *__restrict __format, ...);
+void *sp;
+#define O ο(ο, β)
 #define A(T, v)                                                                \
-  *(T *)σπ = v;                                                                  \
-  σπ += sizeof(T)
+  *(T *)sp = v;                                                                \
+  sp += sizeof(T)
 #define S(T, n)                                                                \
-  σπ -= sizeof(T);                                                               \
-  T n = *(T *)σπ
-typedef int d;
-typedef struct dd {
-  int x;
-  int y;
-} dd;
+  sp -= sizeof(T);                                                             \
+  T n = *(T *)sp
 N(narA) {
   printf("Anar\n");
-  A(d, 1);
+  A(int, 1);
   O;
-  A(d, 2);
+  A(int, 2);
   O;
   printf("narA\n");
 }
@@ -33,11 +28,10 @@ void p(void *o, void *b) {
   S(int, v);
   printf("P %d\n", v);
 }
-
 int main() {
   int ret = 0;
   char mem[4096];
-  σπ = mem;
+  sp = mem;
   printf("Main\n");
   narAandnarB(p, &ret);
   printf("maiN\n");
