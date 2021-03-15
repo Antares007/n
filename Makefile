@@ -7,6 +7,6 @@ CFLAGS=-std=c99 -g -Wall -Wno-multichar $(UFLAGS)
 %.dump: %.o
 	objdump -d -Mintel $<
 clean:
-	rm -f minilisp *~
+	git clean -xdf
 
 
