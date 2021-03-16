@@ -72,11 +72,48 @@ typedef unsigned long size_t;
 extern void *malloc(size_t __size);
 extern void free(void *__ptr);
 
+N(ret) { C(value); }
+N(f) {
+  S(int, a);
+  A(int, a + a), C(value);
+}
+N(M) { A(int, 6), C(value); }
+N(g) {
+  S(int, a);
+  A(int, a + a + a), C(value);
+}
+N(logd) {
+  S(int, d);
+  printf("%d\n", d);
+}
+N(Mβf) { N2(M, f), mb(o, sp); }
+N(fβg) { N2(f, g), mb(o, sp); }
 int main() {
   void *mem = malloc(1 << 12);
   void **sp = &mem;
+
+  struct cpith o2 = (struct cpith){
+      .value = logd,
+      .error = logerror,
+  };
+
+  printf("left identity\n");
+  A(int, 3), N2(f, ret), mb(&o2, sp);
+  A(int, 3), f(&o2, sp);
+
+  printf("right identity\n");
+  N2(M, ret), mb(&o2, sp);
+  M(&o2, sp);
+
+  printf("associativity\n");
+  N2(Mβf, g), mb(&o2, sp);
+  N2(M, fβg), mb(&o2, sp);
+  printf("\n");
+
   sum(&o, sp);
+  printf("\n");
   A2(int, int, 6, 2), N2(imul, printd), mb(&o, sp);
+  printf("\n");
   free(mem);
   return 0;
 }
