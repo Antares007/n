@@ -1,23 +1,25 @@
 #include "an.h"
-struct cpith {
-  N((*value));
-  N((*error));
+struct cmbpith {
+  struct cpith b;
+  struct cpith *o;
+  N((*narb));
 };
 extern int printf(const char *, ...);
 N(logvalue) { printf("end\n"); }
 N(logerror) { printf("error\n"); }
 
-static N(errorray) { ((struct cpith *)op)->error(op, sp, 0, 0); }
-static N(valueray) { ((nargo)narb)(op, sp, 0, 0); }
-
+static N(errorray) {
+  ((struct cmbpith *)o)->o->error(((struct cmbpith *)o)->o, sp);
+}
+static N(valueray) {
+  ((struct cmbpith *)o)->narb(((struct cmbpith *)o)->o, sp);
+}
 N(mb) {
   S2(nargo, nargo, narB, narA);
   narA(
-      &(struct cpith){
-          .value = valueray,
-          .error = errorray,
-      },
-      sp, o, narB);
+      (struct cpith *)&(struct cmbpith){
+          .b = {.value = valueray, .error = errorray}, .o = o, .narb = narB},
+      sp);
 }
 
 struct cpith o = (struct cpith){
@@ -49,14 +51,15 @@ static N(n5) {
 static N(ne) { C(error); }
 
 N(sum) {
-  N2(n1, n2), mb(o, sp, 0, 0);
-  N3(n1, n2, n3), mb(o, sp, 0, 0);
-  N4(n1, n2, n3, n4), mb(o, sp, 0, 0);
+  N2(n1, n2), mb(o, sp);
+  N3(n1, n2, n3), mb(o, sp);
+  N4(n1, n2, n3, n4), mb(o, sp);
+  N4(n1, n2, ne, n5), mb(o, sp);
 }
 
 N(imul) {
   S2(int, int, a, b);
-  A(int, (a * b));
+  A(int, (a / b));
   C(value);
 }
 N(printd) {
@@ -70,10 +73,10 @@ extern void *malloc(size_t __size);
 extern void free(void *__ptr);
 
 int main() {
-  void *mem = malloc(1024);
+  void *mem = malloc(1 << 12);
   void **sp = &mem;
-  sum(&o, sp, 0, 0);
-  A2(int, int, 3, 2), N2(imul, printd), mb(&o, sp, 0, 0);
+  sum(&o, sp);
+  A2(int, int, 6, 2), N2(imul, printd), mb(&o, sp);
   free(mem);
   return 0;
 }
