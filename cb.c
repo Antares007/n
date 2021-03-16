@@ -1,27 +1,9 @@
 #include "an.h"
-struct cmbpith {
-  struct cpith b;
-  struct cpith *o;
-  N((*narb));
-};
+#include "mb.h"
+
 extern int printf(const char *, ...);
 N(logvalue) { printf("end\n"); }
 N(logerror) { printf("error\n"); }
-
-static N(errorray) {
-  ((struct cmbpith *)o)->o->error(((struct cmbpith *)o)->o, sp);
-}
-static N(valueray) {
-  ((struct cmbpith *)o)->narb(((struct cmbpith *)o)->o, sp);
-}
-N(mb) {
-  S2(nargo, nargo, narB, narA);
-  narA(
-      (struct cpith *)&(struct cmbpith){
-          .b = {.value = valueray, .error = errorray}, .o = o, .narb = narB},
-      sp);
-}
-
 struct cpith o = (struct cpith){
     .value = logvalue,
     .error = logerror,
@@ -51,10 +33,10 @@ static N(n5) {
 static N(ne) { C(error); }
 
 N(sum) {
-  N2(n1, n2), mb(o, sp);
-  N3(n1, n2, n3), mb(o, sp);
-  N4(n1, n2, n3, n4), mb(o, sp);
-  N4(n1, n2, ne, n5), mb(o, sp);
+  N2(n1, n2), mb(ο, σ);
+  N3(n1, n2, n3), mb(ο, σ);
+  N4(n1, n2, n3, n4), mb(ο, σ);
+  N4(n1, n2, ne, n5), mb(ο, σ);
 }
 
 N(imul) {
@@ -73,6 +55,7 @@ extern void *malloc(size_t __size);
 extern void free(void *__ptr);
 
 N(ret) { C(value); }
+extern int sprintf(char *, const char *, ...);
 N(f) {
   S(int, a);
   A(int, a + a), C(value);
@@ -80,39 +63,39 @@ N(f) {
 N(M) { A(int, 6), C(value); }
 N(g) {
   S(int, a);
-  A(int, a + a + a), C(value);
+  A(int, a / 2), C(value);
 }
 N(logd) {
   S(int, d);
   printf("%d\n", d);
 }
-N(Mβf) { N2(M, f), mb(o, sp); }
-N(fβg) { N2(f, g), mb(o, sp); }
+N(Mβf) { N2(M, f), MBO; }
+N(fβg) { N2(f, g), MBO; }
+
 int main() {
   void *mem = malloc(1 << 12);
-  void **sp = &mem;
+  void **σ = &mem;
 
   struct cpith o2 = (struct cpith){
       .value = logd,
       .error = logerror,
   };
-
   printf("left identity\n");
-  A(int, 3), N2(f, ret), mb(&o2, sp);
-  A(int, 3), f(&o2, sp);
+  A(int, 3), N2(f, ret), MB(&o2);
+  A(int, 3), f(&o2, σ);
 
   printf("right identity\n");
-  N2(M, ret), mb(&o2, sp);
-  M(&o2, sp);
+  N2(M, ret), mb(&o2, σ);
+  M(&o2, σ);
 
   printf("associativity\n");
-  N2(Mβf, g), mb(&o2, sp);
-  N2(M, fβg), mb(&o2, sp);
+  N2(Mβf, g), mb(&o2, σ);
+  N2(M, fβg), mb(&o2, σ);
   printf("\n");
 
-  sum(&o, sp);
+  sum(&o, σ);
   printf("\n");
-  A2(int, int, 6, 2), N2(imul, printd), mb(&o, sp);
+  A2(int, int, 6, 2), N2(imul, printd), MB(&o);
   printf("\n");
   free(mem);
   return 0;
