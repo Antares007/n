@@ -53,8 +53,6 @@ MAKEADVANCER(advanceint, int)
 MAKEADVANCER(advancefloat, float)
 MAKEADVANCER(advancevoidptr, void *)
 
-#define RETREAT(t, n) t n = (advance -= sizeof(t), *(t *)advance);
-#define param(T, n) RETREAT(T, n)
 #define apply(nar, o, ...)                                                     \
   {                                                                            \
     void *advance_ = advance;                                                  \
@@ -62,10 +60,26 @@ MAKEADVANCER(advancevoidptr, void *)
     nar(o, advance_);                                                          \
   }
 
+#define param(t, n) t n = (advance -= sizeof(t), *(t *)advance)
 #define nargo(n, P) void n(struct P *o, void *advance)
 typedef void (*nargo_t)(void *, void *);
+#define pith(n, body)                                                          \
+  typedef struct n {                                                           \
+    body;                                                                      \
+  } CAT(n, _pith);                                                             \
+  typedef void (*CAT(n, _nar))(CAT(n, _pith) *, void *)
 
+#define padd(b, n, body)                                                       \
+  typedef struct CAT(CAT(b, o), n) {                                           \
+    CAT(b, _pith) b;                                                       \
+    CAT(b, _pith) * o;                                                         \
+    body;                                                                      \
+  } CAT(CAT(CAT(b, o), n), _pith);                                             \
+  typedef void (*CAT(CAT(CAT(b, o), n), _nar))(                                \
+      CAT(CAT(CAT(b, o), n), _pith) *, void *)
+
+#define P pith
+#define A padd
 #define C apply
 #define N nargo
-#define O(ray,...) C(o->ray,o,__VA_ARGS__)
-
+#define O(ray, ...) C(o->ray, o, __VA_ARGS__)

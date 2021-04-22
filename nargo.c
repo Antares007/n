@@ -1,29 +1,20 @@
 #include "nargo.h"
 
-typedef struct lr {
-  void (*r)(struct lr *, void *);
-  void (*l)(struct lr *, void *);
-} lr_pith;
-typedef void (*lr_nar)(lr_pith *, void *);
+pith(lr, void (*r)(struct lr *, void *); void (*l)(struct lr *, void *));
 
-typedef struct lronar {
-  lr_pith super;
-  lr_pith *o;
-  lr_nar nar;
-} lronar_pith;
-typedef void (*lronar_nar)(lronar_pith *, void *);
+padd(lr, nar, lr_nar nar);
 
-nargo(aray, lronar) { o->nar(o->o, advance); }
+nargo(ray, lronar) { o->nar(o->o, advance); }
 
 nargo(mb, lr) {
   param(lr_nar, narb);
   param(lr_nar, nara);
-  lronar_pith mbpith;
-  mbpith.super.r = (void *)aray;
-  mbpith.super.l = o->l;
-  mbpith.o = o;
-  mbpith.nar = narb;
-  nara((void *)&mbpith, advance);
+  lronar_pith no;
+  no.lr.r = (void *)ray;
+  no.lr.l = o->l;
+  no.o = o;
+  no.nar = narb;
+  nara((lr_pith *)&no, advance);
 }
 
 int printf(const char *, ...);
@@ -32,13 +23,16 @@ void free(void *);
 
 nargo(nar, lr) {
   param(int, a);
-  O(r, a + 3);
+  apply(o->r, o, a + 3);
 }
 nargo(logaray, lr) {
   param(int, a);
   printf("r:%d\n", a);
 }
-nargo(gof, lr) { C(mb, o, 1, nar, nar); }
+nargo(gof, lr) {
+  apply(mb, o, 1, nar, nar, mb, nar, mb, nar);
+}
+
 int main(void) {
   struct lr o;
   o.r = (void *)logaray;
