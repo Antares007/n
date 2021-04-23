@@ -7,7 +7,8 @@ mb.o: mb.h an.h
 cb.o: mb.h an.h 
 cb: mb.o cb.o 
 
-mblr.o: mblr.h nargo.h
+pith: pith.c hexdump.o
+	${CC} $^ -o $@ -lX11 -lGL -Wno-multichar
 nargo: nargo.c mblr.o
 	${CC} $^ -o $@ -lX11 -lGL -Wno-multichar
 nargoo: nargoo.cpp nargo.h
