@@ -1,6 +1,4 @@
 #include "olc3.h"
-#include "mblr.h"
-
 class Example : public olc::PixelGameEngine {
 public:
   Example() { sAppName = "Example"; }

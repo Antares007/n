@@ -9,11 +9,11 @@
     ((void (*)(void *, void *, void *))n)(p, begin, _advance);                 \
   }
 #define Co(n, ...) C(o[n - 'a'], o, __VA_ARGS__)
-#define pith(o, n, ...)                                                        \
+#define pith(n, b, ...)                                                        \
   void *n[32] = {__VA_ARGS__};                                                 \
   for (int i = 0; i < 32; i++)                                                 \
     if (n[i] == 0)                                                             \
-  n[i] = (void *)o[i]
+  n[i] = (void *)b[i]
 #define ray(n, i)                                                              \
   static nargo(n) {                                                            \
     ntype *on = (void *)o[31];                                                 \
@@ -27,14 +27,17 @@ ray(rm, 'm' - 'a') ray(rn, 'n' - 'a') ray(ro, 'o' - 'a') ray(rp, 'p' - 'a');
 ray(rq, 'q' - 'a') ray(rr, 'r' - 'a') ray(rs, 's' - 'a') ray(rt, 't' - 'a');
 ray(ru, 'u' - 'a') ray(rv, 'v' - 'a') ray(rw, 'w' - 'a');
 ray(rx, 'x' - 'a') ray(ry, 'y' - 'a') ray(rz, 'z' - 'a');
-static void *o[32] = {ra, rb, rc, rd, //
-                      re, rf, rg, rh, //
-                      ri, rj, rk, rl, //
-                      rm, rn, ro, rp, //
-                      rq, rr, rs, rt, //
-                      ru, rv, rw,     //
-                      rx, ry, rz,     //
-                      0,  0,  0,  0,  0, o};
+static void **trio() {
+  static void *pith[32] = {ra, rb, rc, rd, //
+                           re, rf, rg, rh, //
+                           ri, rj, rk, rl, //
+                           rm, rn, ro, rp, //
+                           rq, rr, rs, rt, //
+                           ru, rv, rw,     //
+                           rx, ry, rz,     //
+                           0,  0,  0,  0,  0, pith};
+  return pith;
+}
 void *malloc(unsigned long);
 void free(void *);
 #define Ma(size, ...)                                                          \

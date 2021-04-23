@@ -3160,6 +3160,7 @@ private:
   X11::XVisualInfo *olc_VisualInfo;
   X11::Colormap olc_ColourMap;
   X11::XSetWindowAttributes olc_SetWindowAttribs;
+
 public:
   virtual olc::rcode ApplicationStartUp() override { return olc::rcode::OK; }
   virtual olc::rcode ApplicationCleanUp() override {

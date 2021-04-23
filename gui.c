@@ -1,4 +1,3 @@
-#include "mblr.h"
 #include <GL/glx.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -15,9 +14,6 @@ uint32_t rnd() {
   tmp = (uint64_t)m1 * 0x12fad5c9;
   uint32_t m2 = (tmp >> 32) ^ tmp;
   return m2;
-}
-padd(lr, window, int a);
-nargo(window, lrowindow) {
 }
 int main() {
   Display *display = XOpenDisplay(NULL);
