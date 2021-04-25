@@ -1,7 +1,12 @@
 #pragma once
 ////////////////////////////
-#define nargo(n) static void n(nt *o, void *begin, void *advance)
+#define nargo(n) void n(nt *o, void *begin, void *advance)
+#define sargo(n) static nargo(n)
 #define arg(T, a) (*(T *)_advance = a, _advance += sizeof(T))
+#define ARG_int(a) arg(int, a);
+#define ARG_nt(a) arg(void *, a);
+#include "evalmap.h"
+#define args(T, ...) EVAL(MAP(CAT(ARG_, T), __VA_ARGS__))
 #define parg(T, n) T n = *(T *)(advance = (char *)advance - sizeof(T))
 #define C(n, p, ...)                                                           \
   {                                                                            \
