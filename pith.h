@@ -1,6 +1,6 @@
 #pragma once
 ////////////////////////////
-#define nargo(n) static void n(void **o, void *begin, void *advance)
+#define nargo(n) static void n(nt *o, void *begin, void *advance)
 #define arg(T, a) (*(T *)_advance = a, _advance += sizeof(T))
 #define parg(T, n) T n = *(T *)(advance = (char *)advance - sizeof(T))
 #define C(n, p, ...)                                                           \
