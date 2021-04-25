@@ -1,5 +1,6 @@
 #pragma once
 ////////////////////////////
+typedef void (*nt)(void **, void *, void *);
 #define nargo(n) void n(nt *o, void *begin, void *advance)
 #define sargo(n) static nargo(n)
 #define arg(T, a) (*(T *)_advance = a, _advance += sizeof(T))
@@ -14,7 +15,6 @@
     __VA_ARGS__;                                                               \
     ((void (*)(void *, void *, void *))n)(p, begin, (void *)_advance);         \
   }
-typedef void (*nt)(void **, void *, void *);
 
 #ifdef IMP
 

@@ -2,47 +2,47 @@
 #define IMP
 #include "pith.h"
 ////////////////////////////
-nargo(r0) { (((nt *)o[7])[0])((void *)o[7], begin, advance); }
-nargo(r1) { (((nt *)o[7])[1])((void *)o[7], begin, advance); }
-nargo(r2) { (((nt *)o[7])[2])((void *)o[7], begin, advance); }
-nargo(r3) { (((nt *)o[7])[3])((void *)o[7], begin, advance); }
-nargo(c47) { C(o[4], o[7]); }
-nargo(c57) { C(o[5], o[7]); }
-nargo(c67) { C(o[6], o[7]); }
+sargo(r0) { C(((void ***)o)[7][0], o[7]); }
+sargo(r1) { C(((void ***)o)[7][1], o[7]); }
+sargo(r2) { C(((void ***)o)[7][2], o[7]); }
+sargo(r3) { C(((void ***)o)[7][3], o[7]); }
+sargo(c47) { C(o[4], o[7]); }
+sargo(c57) { C(o[5], o[7]); }
+sargo(c67) { C(o[6], o[7]); }
 
-nargo(mb0) {
+sargo(mb0) {
   parg(nt, narb);
   parg(nt, nara);
   void *p[8] = {c67, r1, r2, r3, 0, 0, narb, (void *)o};
   C(nara, p);
 }
-nargo(mb1) {
+sargo(mb1) {
   parg(nt, narb);
   parg(nt, nara);
   void *p[8] = {r0, c67, r2, r3, 0, 0, narb, (void *)o};
   C(nara, p);
 }
-nargo(mb) { mb0(o, begin, advance); }
+sargo(mb) { mb0(o, begin, advance); }
 
-nargo(one) { C(o[0], o, arg(int, 1)); }
-nargo(add2) {
+sargo(one) { C(o[0], o, arg(int, 1)); }
+sargo(add2) {
   parg(int, a);
   C(o[0], o, arg(int, a + 2));
 }
-nargo(left) { C(o[0], o); }
+sargo(left) { C(o[0], o); }
 #define BA begin, advance
-nargo(printint) {
+sargo(printint) {
   parg(int, a);
   printf("%d\n", a);
   ((nt)o[0])((void *)o, BA);
 }
-nargo(catch) {
+sargo(catch) {
   C(o[0], o, {
     _advance = begin;
     arg(int, 9);
   });
 }
-void example(void **o, void *begin, void *advance) { //
+nargo(example) { //
   C(hexdump, o, {
     arg(uint64_t, -1);
     arg(uint32_t, 1);
@@ -56,7 +56,12 @@ void example(void **o, void *begin, void *advance) { //
     arg(int8_t, 1);
     arg(int8_t, 0xcc);
   });
-  C(mb, o, args(nt, one, add2, mb, add2, mb, add2));
+  C(mb, o, {
+    args(nt, one, add2, mb, add2, mb, add2);
+    for (int i = 11; i--;) {
+      args(nt, mb, add2);
+    }
+  });
 }
 int main() {
   Ma(1 << 12, {
