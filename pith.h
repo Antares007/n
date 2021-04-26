@@ -22,6 +22,18 @@ sargo(r73o7) { C0(((nt **)o)[7][3], (void *)o[7]); }
 sargo(r4o7) { C0(o[4], o[7]); }
 sargo(r5o7) { C0(o[5], o[7]); }
 sargo(r6o7) { C0(o[6], o[7]); }
+sargo(mb0) {
+  parg(nt, narb);
+  parg(nt, nara);
+  void *ob[8] = {r6o7, r71o7, r72o7, r73o7, 0, 0, narb, o};
+  C0(nara, ob);
+};
+sargo(mb1) {
+  parg(nt, narb);
+  parg(nt, nara);
+  void *ob[8] = {r71o7, r6o7, r72o7, r73o7, 0, 0, narb, o};
+  C0(nara, ob);
+};
 sargo(mb) {
   parg(uint64_t, conf);
   if (conf < 4) {

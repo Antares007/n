@@ -11,7 +11,7 @@ sargo(left) { C(o[1], o, args(uint32_t, 'left')); }
 sargo(catch) {
   C(o[0], o, {
     _advance = begin;
-    args(uint32_t, 'ctch');
+    args(uint32_t, -1);
   });
 }
 nargo(example0) { //
@@ -31,6 +31,7 @@ nargo(example0) { //
 }
 nargo(example1) { //
   C(mb, o, args(nt, one, add2, 0, mb, add2, 0, mb, add2, add2, catch, 0x101));
+  C(mb1, o, args(nt, one, add2, mb0, add2, mb0, add2, mb0, catch));
 }
 int main() {
   Ma(1 << 12, {
