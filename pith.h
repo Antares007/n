@@ -15,36 +15,36 @@ typedef void (*nt)(void **, void *, void *);
 
 #ifdef IMP
 ////////////////////////////
-sargo(r0) { C0(((nt **)o)[7][0], (void *)o[7]); }
-sargo(r1) { C0(((nt **)o)[7][1], (void *)o[7]); }
-sargo(r2) { C0(((nt **)o)[7][2], (void *)o[7]); }
-sargo(r3) { C0(((nt **)o)[7][3], (void *)o[7]); }
-sargo(c47) { C0(o[4], o[7]); }
-sargo(c57) { C0(o[5], o[7]); }
-sargo(c67) { C0(o[6], o[7]); }
+sargo(r70o7) { C0(((nt **)o)[7][0], (void *)o[7]); }
+sargo(r71o7) { C0(((nt **)o)[7][1], (void *)o[7]); }
+sargo(r72o7) { C0(((nt **)o)[7][2], (void *)o[7]); }
+sargo(r73o7) { C0(((nt **)o)[7][3], (void *)o[7]); }
+sargo(r4o7) { C0(o[4], o[7]); }
+sargo(r5o7) { C0(o[5], o[7]); }
+sargo(r6o7) { C0(o[6], o[7]); }
 sargo(mb) {
   parg(uint64_t, conf);
   if (conf < 4) {
     parg(nt, narb);
     parg(nt, nara);
-    void *ob[8] = {r0, r1, r2, r3, 0, 0, narb, o};
-    ob[conf] = c67;
+    void *ob[8] = {r70o7, r71o7, r72o7, r73o7, 0, 0, narb, o};
+    ob[conf] = r6o7;
     C0(nara, ob);
   } else if (conf < 0x100) {
     parg(nt, narc);
     parg(nt, narb);
     parg(nt, nara);
-    void *ob[8] = {c67, c67, c67, c67, 0, narb, narc, o};
-    ob[conf & 0x3] = c57;
+    void *ob[8] = {r6o7, r6o7, r6o7, r6o7, 0, narb, narc, o};
+    ob[conf & 0x3] = r5o7;
     C0(nara, ob);
   } else if (conf < 0x1000) {
     parg(nt, nard);
     parg(nt, narc);
     parg(nt, narb);
     parg(nt, nara);
-    void *ob[8] = {c67, c67, c67, c67, narb, narc, nard, o};
-    ob[conf & 0x3] = c57;
-    ob[(conf >> 4) & 0x3] = c47;
+    void *ob[8] = {r6o7, r6o7, r6o7, r6o7, narb, narc, nard, o};
+    ob[conf & 0x3] = r5o7;
+    ob[(conf >> 4) & 0x3] = r4o7;
     C0(nara, ob);
   } else
     C(o[1], o, args(int32_t, 'errr'));
@@ -53,7 +53,7 @@ sargo(mb) {
 ////////////////////////////
 typedef long int intptr_t;
 int printf(const char *, ...);
-nargo(hexdump) {
+sargo(hexdump) {
   for (; begin < advance; begin++) {
     unsigned char c = *(unsigned char *)begin & 0xff;
     if ((intptr_t)begin % 16 == 0)
