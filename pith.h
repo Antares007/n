@@ -34,34 +34,6 @@ sargo(mb1) {
   void *ob[8] = {r71o7, r6o7, r72o7, r73o7, 0, 0, narb, o};
   C0(nara, ob);
 };
-sargo(mb) {
-  parg(uint64_t, conf);
-  if (conf < 4) {
-    parg(nt, narb);
-    parg(nt, nara);
-    void *ob[8] = {r70o7, r71o7, r72o7, r73o7, 0, 0, narb, o};
-    ob[conf] = r6o7;
-    C0(nara, ob);
-  } else if (conf < 0x100) {
-    parg(nt, narc);
-    parg(nt, narb);
-    parg(nt, nara);
-    void *ob[8] = {r6o7, r6o7, r6o7, r6o7, 0, narb, narc, o};
-    ob[conf & 0x3] = r5o7;
-    C0(nara, ob);
-  } else if (conf < 0x1000) {
-    parg(nt, nard);
-    parg(nt, narc);
-    parg(nt, narb);
-    parg(nt, nara);
-    void *ob[8] = {r6o7, r6o7, r6o7, r6o7, narb, narc, nard, o};
-    ob[conf & 0x3] = r5o7;
-    ob[(conf >> 4) & 0x3] = r4o7;
-    C0(nara, ob);
-  } else
-    C(o[1], o, args(int32_t, 'errr'));
-}
-
 ////////////////////////////
 typedef long int intptr_t;
 int printf(const char *, ...);

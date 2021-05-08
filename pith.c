@@ -30,7 +30,6 @@ nargo(example0) { //
   });
 }
 nargo(example1) { //
-  C(mb, o, args(nt, one, add2, 0, mb, add2, 0, mb, add2, add2, catch, 0x101));
   C(mb1, o, args(nt, one, add2, mb0, add2, mb0, add2, mb0, catch));
 }
 int main() {
