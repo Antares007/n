@@ -54,6 +54,7 @@ nargo(_add) {
   parg(int, r);
   parg(char, op);
   parg(int, l);
+  ((void)op);
   C(o[0], o, arg(int, l + r), arg(int, pos), arg(char *, in));
 }
 nargo(_mul) {
@@ -62,6 +63,7 @@ nargo(_mul) {
   parg(int, r);
   parg(char, op);
   parg(int, l);
+  ((void)op);
   C(o[0], o, arg(int, (l * r)), arg(int, pos), arg(char *, in));
 }
 nargo(_ds) {
@@ -76,6 +78,7 @@ nargo(_31) {
   parg(char, r);
   parg(int, v);
   parg(char, l);
+  ((void)r, (void)l);
   C(o[0], o, arg(int, v), arg(int, pos), arg(char *, in));
 }
 
