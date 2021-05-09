@@ -2,22 +2,7 @@
 #define IMP
 #include "pith.h"
 
-static nargo(c3_2) { C0(o[3], o[2]); }
-static nargo(c21_2) { C0(((nt **)o)[2][1], o[2]); }
-static nargo(c20_2) { C0(((nt **)o)[2][0], o[2]); }
-static nargo(ma) {
-  parg(nt, a);
-  parg(nt, m);
-  void *oa[] = {c3_2, c21_2, o, a};
-  C0(m, oa);
-}
-static nargo(mb) {
-  parg(nt, b);
-  parg(nt, m);
-  void *ob[] = {c20_2, c3_2, o, b};
-  C0(m, ob);
-}
-static nargo(nar) {
+nargo(nar) {
   parg(nt, nar);
   C0(nar, o);
 }
@@ -89,23 +74,29 @@ Vcp(star, '*');
 Vcp(plus, '+');
 
 nargo(E);
-V(ds, decsym, _ds, ma);
-V(F, openParen, E, ma, closeParen, ma, _31, ma, ds, mb);
+V(ds, decsym, _ds, mb0);
+V(F, openParen, E, mb0, closeParen, mb0, _31, ds, mb01);
 
 nargo(T);
-V(T1, star, T, ma, _mul, ma, ε, mb);
-V(T, F, T1, ma);
+V(T1, star, T, mb0, _mul, ε, mb01);
+V(T, F, T1, mb0);
 
-V(E1, plus, E, ma, _add, ma, ε, mb);
-V(E, T, E1, ma);
+V(E1, plus, E, mb0, _add, ε, mb01);
+V(E, T, E1, mb0);
 
 Vcp(b, 'b');
 Vcp(a, 'a');
-V(as, a, as, ma);
-V(S, b, as, ma);
+V(as, a, as, ε, mb01);
+V(S, b, as, mb0);
+nargo(rm) {
+  parg(char *, in);
+  parg(int, pos);
+  ((void)in, (void)pos);
+  C0(o[0], o);
+}
 nargo(example) {
-  C(S, o, arg(int, 0), arg(char *, "baaaaaa"));
-  C(E, o, arg(int, 0), arg(char *, "(3+6)*9"));
+  C(nar, o, arg(int, 0), arg(char *, "baaaaaa"), args(nt, S, rm, mb0));
+  C(nar, o, arg(int, 0), arg(char *, "(3+6)*9"), args(nt, E, rm, mb0));
 }
 int main() {
   Ma(1 << 12, {
