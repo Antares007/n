@@ -10,7 +10,7 @@ typedef void (*nt)(void **, void *, void *);
   {                                                                            \
     char *_advance = (void *)advance;                                          \
     __VA_ARGS__;                                                               \
-    ((void (*)())n)(p, begin, (void *)_advance);         \
+    ((void (*)())n)(p, begin, (void *)_advance);                               \
   }
 
 #ifdef IMP
