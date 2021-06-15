@@ -1,5 +1,5 @@
 CC=clang
-CFLAGS=-std=c99 -g -Wall -Wno-multichar -Wno-unused-function $(UFLAGS)
+CFLAGS=-std=c99 -g -Wall -Wno-multichar -Wno-unused-function -Wno-int-to-void-pointer-cast $(UFLAGS)
 
 .PHONY: clean 
 
