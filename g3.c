@@ -1,47 +1,54 @@
-#include "evalmap.h"
 typedef void (*nt)(void **, void *, void *);
 typedef void (*nargo_t)(nt *, void *, void *);
-#define nargo(n) void n(nt *ო, void *ბ, void *ა)
-// param
-#define param(T, n) T n = *(T *)(ა = (char *)ა - sizeof(void *))
-// argument
-#define arg(T, a)                                                              \
-  *(T *)ოა = a;                                                                \
-  ოა += sizeof(void *)
+#define nargo(n) void n(nt *ο, void *β, void *α)
+#define param(T, n) T n = *(T *)(α -= sizeof(void *))
+#define arg(T, a) (*(T *)οα = a, οα += sizeof(void *))
 // colls
 #define C(n, p, ...)                                                           \
   {                                                                            \
-    char *ოა = (void *)ა;                                                      \
+    char *οα = (void *)α;                                                      \
     __VA_ARGS__;                                                               \
-    ((void (*)())n)(p, ბ, (void *)ოა);                                         \
+    ((void (*)())n)(p, β, (void *)οα);                                         \
   }
-#define CR(ray, ...) C(ო[ray], ო, __VA_ARGS__)
+#define CR(ray, ...) C(ο[ray], ο, __VA_ARGS__)
 #define C0(...) CR(0, __VA_ARGS__)
 #define C1(...) CR(1, __VA_ARGS__)
 #define C2(...) CR(2, __VA_ARGS__)
-// void star args
-#define VSA(nexp) arg(void *, (void *)nexp);
-#define VS(...) EVAL(MAP(VSA, __VA_ARGS__))
+
+// void stars
+#define V(v) arg(void *, v)
+#define V2(v1, v2)                                                             \
+  V(v1);                                                                       \
+  V(v2)
+#define V3(v1, v2, v3)                                                         \
+  V(v1);                                                                       \
+  V(v2);                                                                       \
+  V(v3)
+
 // mbo
-#define Mr(ray, nexp)                                                          \
-  {                                                                            \
-    nexp arg(void *, (void *)(ოა - nb));                                       \
-    arg(void *, mb##ray);                                                      \
-    nb = ოა;                                                                   \
-  }
-#define M0(nexp) Mr(0, nexp)
-#define M1(nexp) Mr(1, nexp)
-#define M2(nexp) Mr(2, nexp)
-#define B(ray, nexp, ...)                                                      \
-  {                                                                            \
-    nexp void *nb = ოა;                                                        \
-    EVAL(MAP(CAT(M, ray), __VA_ARGS__))                                        \
-  }
+#define Bn(ray, nexp)                                                          \
+  nb = οα;                                                                     \
+  nexp;                                                                        \
+  arg(void *, (void *)(οα - nb));                                              \
+  arg(void *, mb##ray)
+#define B2(ray, nexp1, nexp2)                                                  \
+  nexp1;                                                                       \
+  Bn(ray, nexp2)
+#define B3(ray, nexp1, nexp2, nexp3)                                           \
+  nexp1;                                                                       \
+  Bn(ray, nexp2);                                                              \
+  Bn(ray, nexp3)
+#define B4(ray, nexp1, nexp2, nexp3, nexp4)                                    \
+  nexp1;                                                                       \
+  Bn(ray, nexp2);                                                              \
+  Bn(ray, nexp3);                                                              \
+  Bn(ray, nexp4)
 #define O(nexp)                                                                \
   {                                                                            \
-    void *ოა = ა;                                                              \
-    nexp nargo_t nar = *(nargo_t *)(ოა = (char *)ოა - sizeof(void *));         \
-    (nar)((void *)ო, ბ, ოა);                                                   \
+    void *οα = α, *nb;                                                         \
+    ((void)nb);                                                                \
+    nexp;                                                                      \
+    οα -= sizeof(void *), (*(nargo_t *)οα)((void *)ο, β, οα);                  \
   }
 #define MBO(ray)                                                               \
   nargo(mb##ray) {                                                             \
@@ -52,8 +59,8 @@ int printf(const char *, ...);
 MBO(0)
 MBO(1)
 MBO(2)
-
 nargo(r1) { CR(1); }
+
 nargo(lt) {
   param(int, r);
   param(int, l);
@@ -61,26 +68,26 @@ nargo(lt) {
 }
 nargo(n18) {
   int a = 18;
-  CR(1, VS(&a));
+  CR(1, V(&a));
 }
 nargo(gcd) {
   param(int, y);
   param(int, x);
-  O(B(0,                                     //
-      B(1, VS(x, y, lt), VS(x, y - x, gcd)), //
-      B(1, VS(y, x, lt), VS(x - y, y, gcd)), //
-      VS(x, r1)));
+  O(B3(0,                                      //
+       B2(1, V3(x, y, lt), V3(x, y - x, gcd)), //
+       B2(1, V3(y, x, lt), V3(x - y, y, gcd)), //
+       V2(x, r1)));
 }
 typedef long int intptr_t;
 
 nargo(hexdump) {
-  for (; ბ < ა; ბ++) {
-    unsigned char c = *(unsigned char *)ბ & 0xff;
-    if ((intptr_t)ბ % 16 == 0)
-      printf("\n%03lx: %02x", (intptr_t)ბ & 0xfff, c);
-    else if ((intptr_t)ბ % 8 == 0)
+  for (; β < α; β++) {
+    unsigned char c = *(unsigned char *)β & 0xff;
+    if ((intptr_t)β % 16 == 0)
+      printf("\n%03lx: %02x", (intptr_t)β & 0xfff, c);
+    else if ((intptr_t)β % 8 == 0)
       printf(" %02x", c);
-    else if ((intptr_t)ბ % 4 == 0)
+    else if ((intptr_t)β % 4 == 0)
       printf(".%02x", c);
     else
       printf("%02x", c);
@@ -90,10 +97,10 @@ void *malloc(unsigned long);
 void free(void *);
 
 int main() {
-  void *ბ = malloc(1 << 12);
-  void *ა = ბ;
-  void *ო[] = {hexdump, hexdump, hexdump};
+  void *β = malloc(1 << 12);
+  void *α = β;
+  void *ο[] = {hexdump, hexdump, hexdump};
 
-  O(VS(18, 12, gcd));
-  free(ბ);
+  O(V3(18, 12, gcd));
+  free(β);
 }
