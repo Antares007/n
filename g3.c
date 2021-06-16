@@ -21,8 +21,7 @@ typedef void (*nargo_t)(nt *, void *, void *);
   V(v1);                                                                       \
   V(v2)
 #define V3(v1, v2, v3)                                                         \
-  V(v1);                                                                       \
-  V(v2);                                                                       \
+  V2(v1, v2);                                                                  \
   V(v3)
 
 // mbo
@@ -35,13 +34,10 @@ typedef void (*nargo_t)(nt *, void *, void *);
   nexp1;                                                                       \
   Bn(ray, nexp2)
 #define B3(ray, nexp1, nexp2, nexp3)                                           \
-  nexp1;                                                                       \
-  Bn(ray, nexp2);                                                              \
+  B2(ray, nexp1, nexp2);                                                       \
   Bn(ray, nexp3)
 #define B4(ray, nexp1, nexp2, nexp3, nexp4)                                    \
-  nexp1;                                                                       \
-  Bn(ray, nexp2);                                                              \
-  Bn(ray, nexp3);                                                              \
+  B3(ray, nexp1, nexp2, nexp3);                                                \
   Bn(ray, nexp4)
 #define O(nexp)                                                                \
   {                                                                            \
@@ -60,23 +56,32 @@ MBO(0)
 MBO(1)
 MBO(2)
 nargo(r1) { CR(1); }
-
 nargo(lt) {
-  param(int, r);
-  param(int, l);
-  CR(l < r);
+  param(int *, r);
+  param(int *, l);
+  CR(*l < *r);
+}
+nargo(sub) {
+  param(int *, r);
+  param(int *, l);
+  int rez = *l - *r;
+  CR(1, V(&rez));
+}
+nargo(gcd) {
+  param(int *, y);
+  param(int *, x);
+  O(B3(0,                                              //
+       B3(1, V3(x, y, lt), V3(y, x, sub), V2(x, gcd)), //
+       B3(1, V3(y, x, lt), V3(x, y, sub), V2(y, gcd)), //
+       V2(x, r1)));
 }
 nargo(n18) {
   int a = 18;
   CR(1, V(&a));
 }
-nargo(gcd) {
-  param(int, y);
-  param(int, x);
-  O(B3(0,                                      //
-       B2(1, V3(x, y, lt), V3(x, y - x, gcd)), //
-       B2(1, V3(y, x, lt), V3(x - y, y, gcd)), //
-       V2(x, r1)));
+nargo(n12) {
+  int a = 12;
+  CR(1, V(&a));
 }
 typedef long int intptr_t;
 
@@ -101,6 +106,6 @@ int main() {
   void *α = β;
   void *ο[] = {hexdump, hexdump, hexdump};
 
-  O(V3(18, 12, gcd));
+  O(V3(n18, n12, gcd));
   free(β);
 }
