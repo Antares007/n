@@ -29,6 +29,12 @@ typedef void (*nargo_t)(nt *, void *, void *);
 #define M4(ray, nexp1, nexp2, nexp3, nexp4)                                    \
   M3(ray, nexp1, nexp2, nexp3);                                                \
   Mn(ray, nexp4)
+#define M5(ray, nexp1, nexp2, nexp3, nexp4, nexp5)                             \
+  M4(ray, nexp1, nexp2, nexp3, nexp4);                                         \
+  Mn(ray, nexp5)
+#define M6(ray, nexp1, nexp2, nexp3, nexp4, nexp5, nexp6)                      \
+  M5(ray, nexp1, nexp2, nexp3, nexp4, nexp5);                                  \
+  Mn(ray, nexp6)
 #define O(nexp)                                                                \
   {                                                                            \
     void *οα = α;                                                              \
@@ -101,7 +107,40 @@ N(mbo) {
   P(nargo_t, nar);
   nar((void *)pith, β, α);
 }
-
+// 0xxxxxxx
+// 110xxxxx	10xxxxxx
+// 1110xxxx	10xxxxxx	10xxxxxx
+// 11110xxx	10xxxxxx	10xxxxxx	10xxxxxx
+N(la) {
+  P(int, pos);
+  P(char *, s);
+  if ((s[pos + 0] & 0x80) == 0) {
+    CR(1, V(int, s[pos + 0]); V(char *, s); V(int, pos));
+  } else if ((s[pos + 1] & 0xc0) != 0x80) {
+    CR(0, V(char *, s); V(int, pos));
+  } else if ((s[pos + 0] & 0xe0) == 0xc0) {
+    CR(1, V(int, (0x1f & s[pos + 0]) << 6 | (0x3f & s[pos + 1])); V(char *, s);
+       V(int, pos));
+  } else if ((s[pos + 2] & 0xc0) != 0x80) {
+    CR(0, V(char *, s); V(int, pos));
+  } else if ((s[pos + 0] & 0xf0) == 0xe0) {
+    CR(1, V(int, (0x0f & s[pos + 0]) << 12 | (0x3f & s[pos + 1]) << 6 |
+                     (0x3f & s[pos + 2]));
+       V(char *, s); V(int, pos));
+  } else if ((s[pos + 3] & 0xc0) != 0x80) {
+    CR(0, V(char *, s); V(int, pos));
+  } else if ((s[pos + 0] & 0xf8) == 0xf0) {
+    CR(1, V(int, (0x07 & s[pos + 0]) << 18 | (0x3f & s[pos + 1]) << 12 |
+                     (0x3f & s[pos + 2]) << 6 | (0x3f & s[pos + 3]));
+       V(char *, s); V(int, pos));
+  } else {
+    CR(0, V(char *, s); V(int, pos));
+  }
+}
+N(ppp) {
+  P(int, pos);
+  CR(1, V(int, pos + 3));
+}
 #define Ray(n)                                                                 \
   N(hexdump##n) {                                                              \
     printf("\n%d", n);                                                         \
@@ -131,5 +170,8 @@ int main() {
   void *α = β;
   void *ο[] = {hexdump0, hexdump1, hexdump2};
   O(V(int, 21); V(int, 14); V(void *, gcd));
+  O(M6(1, V(char *, "აბგ"); V(int, 0); V(void *, la), V(void *, ppp),
+                                       V(void *, la), V(void *, ppp),
+                                       V(void *, la), V(void *, ppp)));
   free(β);
 }
