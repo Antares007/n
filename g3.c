@@ -20,20 +20,20 @@ typedef void (*nargo_t)(nt *, void *, void *);
   }                                                                            \
   V(int, ray);                                                                 \
   V(void *, mbo)
-#define M2(ray, nexp1, nexp2)                                                  \
+#define B2(ray, nexp1, nexp2)                                                  \
   nexp1;                                                                       \
   Mn(ray, nexp2)
-#define M3(ray, nexp1, nexp2, nexp3)                                           \
-  M2(ray, nexp1, nexp2);                                                       \
+#define B3(ray, nexp1, nexp2, nexp3)                                           \
+  B2(ray, nexp1, nexp2);                                                       \
   Mn(ray, nexp3)
-#define M4(ray, nexp1, nexp2, nexp3, nexp4)                                    \
-  M3(ray, nexp1, nexp2, nexp3);                                                \
+#define B4(ray, nexp1, nexp2, nexp3, nexp4)                                    \
+  B3(ray, nexp1, nexp2, nexp3);                                                \
   Mn(ray, nexp4)
-#define M5(ray, nexp1, nexp2, nexp3, nexp4, nexp5)                             \
-  M4(ray, nexp1, nexp2, nexp3, nexp4);                                         \
+#define B5(ray, nexp1, nexp2, nexp3, nexp4, nexp5)                             \
+  B4(ray, nexp1, nexp2, nexp3, nexp4);                                         \
   Mn(ray, nexp5)
-#define M6(ray, nexp1, nexp2, nexp3, nexp4, nexp5, nexp6)                      \
-  M5(ray, nexp1, nexp2, nexp3, nexp4, nexp5);                                  \
+#define B6(ray, nexp1, nexp2, nexp3, nexp4, nexp5, nexp6)                      \
+  B5(ray, nexp1, nexp2, nexp3, nexp4, nexp5);                                  \
   Mn(ray, nexp6)
 #define O(nexp)                                                                \
   {                                                                            \
@@ -62,10 +62,10 @@ N(gcd) {
   P(int, y);
   P(int, x);
   printf("gcd(%d, %d)\n", x, y);
-  O(M3(0,
-       M3(1, V(int, x); V(int, y); V(void *, lt);, V(int, y); V(int, x);
+  O(B3(0,
+       B3(1, V(int, x); V(int, y); V(void *, lt);, V(int, y); V(int, x);
           V(void *, sub);, V(int, x); V(void *, gcd);),
-       M3(1, V(int, y); V(int, x); V(void *, lt);, V(int, x); V(int, y);
+       B3(1, V(int, y); V(int, x); V(void *, lt);, V(int, x); V(int, y);
           V(void *, sub);, V(int, y); V(void *, gcd);),
        V(int, x);
        V(void *, r1);));
@@ -170,7 +170,7 @@ int main() {
   void *α = β;
   void *ο[] = {hexdump0, hexdump1, hexdump2};
   O(V(int, 21); V(int, 14); V(void *, gcd));
-  O(M6(1, V(char *, "აბგ"); V(int, 0); V(void *, la), V(void *, ppp),
+  O(B6(1, V(char *, "აბგ"); V(int, 0); V(void *, la), V(void *, ppp),
                                        V(void *, la), V(void *, ppp),
                                        V(void *, la), V(void *, ppp)));
   free(β);
