@@ -35,6 +35,17 @@ typedef void (*nargo_t)(nt *, void *, void *);
 #define B6(ray, nexp1, nexp2, nexp3, nexp4, nexp5, nexp6)                      \
   B5(ray, nexp1, nexp2, nexp3, nexp4, nexp5);                                  \
   Mn(ray, nexp6)
+#define M2(nexp, nexp0, nexp1)                                                 \
+  nexp;                                                                        \
+  {                                                                            \
+    void *nb0 = οα;                                                            \
+    nexp0;                                                                     \
+    void *nb1 = οα;                                                            \
+    nexp1;                                                                     \
+    V(unsigned int, οα - nb1);                                                 \
+    V(unsigned int, nb1 - nb0);                                                \
+  }                                                                            \
+  V(void *, mbm)
 #define O(nexp)                                                                \
   {                                                                            \
     void *οα = α;                                                              \
@@ -73,19 +84,19 @@ N(gcd) {
 typedef long int intptr_t;
 typedef unsigned long int size_t;
 void *memcpy(void *destination, const void *source, size_t num);
-N(f0) {
+N(mb_f0) {
   nt *pith = (void *)ο[3];
   C(pith[0], pith);
 }
-N(f1) {
+N(mb_f1) {
   nt *pith = (void *)ο[3];
   C(pith[1], pith);
 }
-N(f2) {
+N(mb_f2) {
   nt *pith = (void *)ο[3];
   C(pith[2], pith);
 }
-N(cb) {
+N(mbo_cb) {
   nt *pith = (void *)ο[3];
   intptr_t size = (intptr_t)ο[4];
   memcpy(α, &ο[5], size);
@@ -97,13 +108,47 @@ N(mbo) {
   P(int, ray);
   P(int, size);
   void *pith[5 + size / sizeof(void *)];
-  pith[0] = f0;
-  pith[1] = f1;
-  pith[2] = f2;
-  pith[ray] = cb;
+  pith[0] = mb_f0;
+  pith[1] = mb_f1;
+  pith[2] = mb_f2;
+  pith[ray] = mbo_cb;
   pith[3] = ο;
   pith[4] = (void *)(intptr_t)size;
   memcpy(&pith[5], α = α - size, size);
+  P(nargo_t, nar);
+  nar((void *)pith, β, α);
+}
+N(mbm_cb0) {
+  nt *pith = (void *)ο[3];
+  intptr_t size = (intptr_t)ο[4];
+  memcpy(α, ο[5], size);
+  α += size;
+  P(nargo_t, nar);
+  nar(pith, β, α);
+}
+N(mbm_cb1) {
+  nt *pith = (void *)ο[3];
+  intptr_t size = (intptr_t)ο[6];
+  memcpy(α, ο[7], size);
+  α += size;
+  P(nargo_t, nar);
+  nar(pith, β, α);
+}
+N(mbm) {
+  P(unsigned int, s0);
+  P(unsigned int, s1);
+  char *nexp0[s0];
+  char *nexp1[s1];
+  void *pith[] = {mbm_cb0,
+                  mbm_cb1,
+                  mb_f2,
+                  ο,
+                  (void *)(intptr_t)s0,
+                  nexp0,
+                  (void *)(intptr_t)s1,
+                  nexp1};
+  memcpy(nexp1, α = α - s1, s1);
+  memcpy(nexp0, α = α - s0, s0);
   P(nargo_t, nar);
   nar((void *)pith, β, α);
 }
@@ -169,9 +214,24 @@ int main() {
   void *β = malloc(1 << 12);
   void *α = β;
   void *ο[] = {hexdump0, hexdump1, hexdump2};
-  O(V(int, 21); V(int, 14); V(void *, gcd));
-  O(B6(1, V(char *, "აბგ"); V(int, 0); V(void *, la), V(void *, ppp),
-                                       V(void *, la), V(void *, ppp),
-                                       V(void *, la), V(void *, ppp)));
+  O(M2(
+      {
+        V(int, 1);
+        V(int, 2);
+        V(void *, r1);
+      },
+      {
+        V(int, 4);
+        V(void *, r1);
+      },
+      {
+        V(int, 7);
+        V(int, 8);
+        V(void *, r0);
+      }));
+  // O(V(int, 21); V(int, 14); V(void *, gcd));
+  // O(B6(1, V(char *, "აბგ"); V(int, 0); V(void *, la), V(void *, ppp),
+  //                                     V(void *, la), V(void *, ppp),
+  //                                     V(void *, la), V(void *, ppp)));
   free(β);
 }
