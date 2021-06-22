@@ -7,8 +7,9 @@
 typedef void (*nt)(void **, void *, void *);
 typedef void (*nargo_t)(nt *, void *, void *);
 #define N(n) void n(nt *ο, void *β, void *α)
-#define P(T, n) T n = *(T *)(α -= sizeof(T))
-#define V(T, a) (*(T *)οα = a, οα += sizeof(T))
+#define P(T, n) T n = *(T *)(α -= sizeof(void *))
+#define V(T, a)                                                                \
+  (*(uintptr_t *)οα = 0xcccccccccccccccc, *(T *)οα = a, οα += sizeof(void *))
 // colls
 #define C(n, p, ...)                                                           \
   {                                                                            \
