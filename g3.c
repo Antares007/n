@@ -8,8 +8,24 @@ typedef void (*nt)(void **, void *, void *);
 typedef void (*nargo_t)(nt *, void *, void *);
 #define N(n) void n(nt *ο, void *β, void *α)
 #define P(T, n) T n = *(T *)(α -= sizeof(void *))
-#define V(T, a)                                                                \
-  (*(uintptr_t *)οα = 0xcccccccccccccccc, *(T *)οα = a, οα += sizeof(void *))
+#define GC(T)                                                                  \
+  T:                                                                           \
+  *(T *)οα
+#define GA(X)                                                                  \
+  *(uintptr_t *)οα = 0xcccccccccccccccc;                                       \
+  _Generic((X), GC(int32_t), GC(uint32_t), GC(float), GC(double), GC(char *),  \
+           GC(nargo_t), GC(void *)) = (X);                                     \
+  οα = ((char *)οα) + sizeof(void *)
+#define A(X) GA(X)
+#define A2(a, b)                                                               \
+  A(a);                                                                        \
+  A(b)
+#define A3(a, b, c)                                                            \
+  A2(a, b);                                                                    \
+  A(c)
+#define A4(a, b, c, d)                                                         \
+  A3(a, b, c);                                                                 \
+  A(d)
 // colls
 #define C(n, p, ...)                                                           \
   {                                                                            \
@@ -19,29 +35,29 @@ typedef void (*nargo_t)(nt *, void *, void *);
   }
 #define CR(ray, ...) C(ο[ray], ο, __VA_ARGS__)
 // mbo
-#define Mn(ray, nexp)                                                          \
+#define Mn(nexp, ray)                                                          \
   {                                                                            \
     void *nb = οα;                                                             \
     nexp;                                                                      \
-    V(uint32_t, (οα - nb));                                                    \
+    A((uint32_t)(οα - nb));                                                    \
   }                                                                            \
-  V(uint32_t, ray);                                                            \
-  V(void *, mbo)
-#define B2(ray, nexp1, nexp2)                                                  \
+  A((uint32_t)ray);                                                            \
+  A(mbo)
+#define B2(nexp1, nexp2, ray)                                                  \
   nexp1;                                                                       \
-  Mn(ray, nexp2)
-#define B3(ray, nexp1, nexp2, nexp3)                                           \
-  B2(ray, nexp1, nexp2);                                                       \
-  Mn(ray, nexp3)
-#define B4(ray, nexp1, nexp2, nexp3, nexp4)                                    \
-  B3(ray, nexp1, nexp2, nexp3);                                                \
-  Mn(ray, nexp4)
-#define B5(ray, nexp1, nexp2, nexp3, nexp4, nexp5)                             \
-  B4(ray, nexp1, nexp2, nexp3, nexp4);                                         \
-  Mn(ray, nexp5)
-#define B6(ray, nexp1, nexp2, nexp3, nexp4, nexp5, nexp6)                      \
-  B5(ray, nexp1, nexp2, nexp3, nexp4, nexp5);                                  \
-  Mn(ray, nexp6)
+  Mn(nexp2, ray)
+#define B3(nexp1, nexp2, nexp3, ray)                                           \
+  B2(nexp1, nexp2, ray);                                                       \
+  Mn(nexp3, ray)
+#define B4(nexp1, nexp2, nexp3, nexp4, ray)                                    \
+  B3(nexp1, nexp2, nexp3, ray);                                                \
+  Mn(nexp4, ray)
+#define B5(nexp1, nexp2, nexp3, nexp4, nexp5, ray)                             \
+  B4(nexp1, nexp2, nexp3, nexp4, ray);                                         \
+  Mn(nexp5, ray)
+#define B6(nexp1, nexp2, nexp3, nexp4, nexp5, nexp6, ray)                      \
+  B5(nexp1, nexp2, nexp3, nexp4, nexp5, ray);                                  \
+  Mn(nexp6, ray)
 #define M2(nexp, nexp0, nexp1)                                                 \
   nexp;                                                                        \
   {                                                                            \
@@ -49,10 +65,10 @@ typedef void (*nargo_t)(nt *, void *, void *);
     nexp0;                                                                     \
     void *nb1 = οα;                                                            \
     nexp1;                                                                     \
-    V(uint32_t, οα - nb1);                                                     \
-    V(uint32_t, nb1 - nb0);                                                    \
+    A((uint32_t)(οα - nb1));                                                   \
+    A((uint32_t)(nb1 - nb0));                                                  \
   }                                                                            \
-  V(void *, mbm)
+  A(mbm)
 #define O(nexp)                                                                \
   {                                                                            \
     void *οα = α;                                                              \
@@ -104,6 +120,7 @@ N(mbo) {
   P(nargo_t, nar);
   nar((void *)pith, β, α);
 }
+N(mbo0) {}
 N(mbm_cb0) {
   nt *pith = (void *)ο[3];
   intptr_t size = (intptr_t)ο[4];
@@ -151,19 +168,17 @@ N(sub) {
   P(int, r);
   P(int, l);
   printf("%d - %d = %d\n", l, r, l - r);
-  CR(1, V(int, l - r));
+  CR(1, A(l - r));
 }
+N(test) {}
 N(gcd) {
   P(int, y);
   P(int, x);
   printf("gcd(%d, %d)\n", x, y);
-  O(B3(0,
-       B3(1, V(int, x); V(int, y); V(void *, lt);, V(int, y); V(int, x);
-          V(void *, sub);, V(int, x); V(void *, gcd);),
-       B3(1, V(int, y); V(int, x); V(void *, lt);, V(int, x); V(int, y);
-          V(void *, sub);, V(int, y); V(void *, gcd);),
-       V(int, x);
-       V(void *, r1);));
+  O(B3(                                               //
+      B3(A3(x, y, lt), A3(y, x, sub), A2(x, gcd), 1), //
+      B3(A3(y, x, lt), A3(x, y, sub), A2(y, gcd), 1), //
+      A2(x, r1), 0));
 }
 // 0xxxxxxx
 // 110xxxxx	10xxxxxx
@@ -173,31 +188,30 @@ N(la) {
   P(int, pos);
   P(char *, s);
   if ((s[pos + 0] & 0x80) == 0) {
-    CR(1, V(int, s[pos + 0]); V(char *, s); V(int, pos));
+    CR(1, A3((uint32_t)s[pos + 0], s, pos));
   } else if ((s[pos + 1] & 0xc0) != 0x80) {
-    CR(0, V(char *, s); V(int, pos));
+    CR(0, A2(s, pos));
   } else if ((s[pos + 0] & 0xe0) == 0xc0) {
-    CR(1, V(int, (0x1f & s[pos + 0]) << 6 | (0x3f & s[pos + 1])); V(char *, s);
-       V(int, pos));
+    CR(1, A3((uint32_t)(0x1f & s[pos + 0]) << 6 | (0x3f & s[pos + 1]), s, pos));
   } else if ((s[pos + 2] & 0xc0) != 0x80) {
-    CR(0, V(char *, s); V(int, pos));
+    CR(0, A2(s, pos));
   } else if ((s[pos + 0] & 0xf0) == 0xe0) {
-    CR(1, V(int, (0x0f & s[pos + 0]) << 12 | (0x3f & s[pos + 1]) << 6 |
-                     (0x3f & s[pos + 2]));
-       V(char *, s); V(int, pos));
+    CR(1, A3((uint32_t)((0x0f & s[pos + 0]) << 12 | (0x3f & s[pos + 1]) << 6 |
+                        (0x3f & s[pos + 2])),
+             s, pos));
   } else if ((s[pos + 3] & 0xc0) != 0x80) {
-    CR(0, V(char *, s); V(int, pos));
+    CR(0, A2(s, pos));
   } else if ((s[pos + 0] & 0xf8) == 0xf0) {
-    CR(1, V(int, (0x07 & s[pos + 0]) << 18 | (0x3f & s[pos + 1]) << 12 |
-                     (0x3f & s[pos + 2]) << 6 | (0x3f & s[pos + 3]));
-       V(char *, s); V(int, pos));
+    CR(1, A3((uint32_t)(0x07 & s[pos + 0]) << 18 | (0x3f & s[pos + 1]) << 12 |
+                 (0x3f & s[pos + 2]) << 6 | (0x3f & s[pos + 3]),
+             s, pos));
   } else {
-    CR(0, V(char *, s); V(int, pos));
+    CR(0, A2(s, pos));
   }
 }
 N(ppp) {
   P(int, pos);
-  CR(1, V(int, pos + 3));
+  CR(1, A(pos + 3));
 }
 Ray(0);
 Ray(1);
@@ -206,24 +220,8 @@ int main() {
   void *β = malloc(1 << 12);
   void *α = β;
   void *ο[] = {hexdump0, hexdump1, hexdump2};
-  O(M2(
-      {
-        V(int, 1);
-        V(int, 2);
-        V(void *, r1);
-      },
-      {
-        V(int, 4);
-        V(void *, r1);
-      },
-      {
-        V(int, 7);
-        V(int, 8);
-        V(void *, r0);
-      }));
-  O(V(int, 21); V(int, 14); V(void *, gcd));
-  O(B6(1, V(char *, "აბგ"); V(int, 0); V(void *, la), V(void *, ppp),
-                                       V(void *, la), V(void *, ppp),
-                                       V(void *, la), V(void *, ppp)));
+  O(M2(A3(1, 2, r1), A2(4, r1), A3(7, 8, r0)));
+  O(A3(21, 14, gcd));
+  O(B6(A3("აბგ", 0, la), A(ppp), A(la), A(ppp), A(la), A(ppp), 1));
   free(β);
 }
