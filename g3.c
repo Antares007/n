@@ -220,18 +220,20 @@ N(inc) {
   CR(1, A(v + 1));
 }
 N(get) { CR(1, A((uint32_t)99)); }
-N(loop) { O(B2(A(ο[2]), A(inc), 1)); }
+N(loop) { O(B4(A(ο[2]), A(inc), A2(3, r1), A2(4, r1), 1)); }
 int main() {
   void *β = malloc(1 << 12);
   void *α = β;
   void *ο[] = {hexdump0, hexdump1, get};
-  O(B3(         //
-      A(loop),  //
-      A(r1),    //
-      A(r1), 1) //
-  );
+  O(B3(          //
+      A(loop),   //
+      A2(5, r1), //
+      A2(6, r1), //
+      1          //
+      )          //
+  );             //
   // O(M2(A3(1, 2, r1), A2(4, r1), A3(7, 8, r0)));
-  // O(A3(21, 14, gcd));
+  O(A3(21, 14, gcd));
   // O(B6(A3("აბგ", 0, la), A(ppp), A(la), A(ppp), A(la), A(ppp), 1));
   free(β);
 }
