@@ -8,15 +8,14 @@ typedef void (*nt)(void **, void *, void *);
 typedef void (*nargo_t)(nt *, void *, void *);
 #define N(n) void n(nt *ο, void *β, void *α)
 #define P(T, n) T n = *(T *)(α -= sizeof(void *))
-#define GC(T)                                                                  \
+#define AC(T)                                                                  \
   T:                                                                           \
   *(T *)οα
-#define GA(X)                                                                  \
+#define A(X)                                                                   \
   *(uintptr_t *)οα = 0xcccccccccccccccc;                                       \
-  _Generic((X), GC(int32_t), GC(uint32_t), GC(float), GC(double), GC(char *),  \
-           GC(nargo_t), GC(void *)) = (X);                                     \
+  _Generic((X), AC(int32_t), AC(uint32_t), AC(float), AC(double), AC(char *),  \
+           AC(nt), AC(nargo_t), AC(void *)) = (X);                             \
   οα = ((char *)οα) + sizeof(void *)
-#define A(X) GA(X)
 #define A2(a, b)                                                               \
   A(a);                                                                        \
   A(b)
@@ -216,12 +215,23 @@ N(ppp) {
 Ray(0);
 Ray(1);
 Ray(2);
+N(inc) {
+  P(uint32_t, v);
+  CR(1, A(v + 1));
+}
+N(get) { CR(1, A((uint32_t)99)); }
+N(loop) { O(B2(A(ο[2]), A(inc), 1)); }
 int main() {
   void *β = malloc(1 << 12);
   void *α = β;
-  void *ο[] = {hexdump0, hexdump1, hexdump2};
-  O(M2(A3(1, 2, r1), A2(4, r1), A3(7, 8, r0)));
-  O(A3(21, 14, gcd));
-  O(B6(A3("აბგ", 0, la), A(ppp), A(la), A(ppp), A(la), A(ppp), 1));
+  void *ο[] = {hexdump0, hexdump1, get};
+  O(B3(         //
+      A(loop),  //
+      A(r1),    //
+      A(r1), 1) //
+  );
+  // O(M2(A3(1, 2, r1), A2(4, r1), A3(7, 8, r0)));
+  // O(A3(21, 14, gcd));
+  // O(B6(A3("აბგ", 0, la), A(ppp), A(la), A(ppp), A(la), A(ppp), 1));
   free(β);
 }
