@@ -3,18 +3,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <uv.h>
 typedef void (*nt)(void **, void *, void *);
 typedef void (*nargo_t)(nt *, void *, void *);
 #define N(n) void n(nt *ο, void *β, void *α)
+#define NT(n, T) void n(struct T *o, void *β, void *α)
 #define P(T, n) T n = *(T *)(α -= sizeof(void *))
 #define AC(T)                                                                  \
   T:                                                                           \
   *(T *)οα
 #define A(X)                                                                   \
   *(uintptr_t *)οα = 0xcccccccccccccccc;                                       \
-  _Generic((X), AC(int32_t), AC(uint32_t), AC(float), AC(double), AC(char *),  \
-           AC(nt), AC(nargo_t), AC(void *)) = (X);                             \
+  _Generic((X), AC(int32_t), AC(uint32_t), AC(int64_t), AC(uint64_t),          \
+           AC(float), AC(double), default                                      \
+           : *(void **)οα) = (X);                                              \
   οα = ((char *)οα) + sizeof(void *)
 #define A2(a, b)                                                               \
   A(a);                                                                        \
@@ -27,11 +29,11 @@ typedef void (*nargo_t)(nt *, void *, void *);
   A(d)
 // colls
 #define C(n, p, ...)                                                           \
-  {                                                                            \
+  do {                                                                         \
     char *οα = (void *)α;                                                      \
     __VA_ARGS__;                                                               \
     ((void (*)())n)(p, β, (void *)οα);                                         \
-  }
+  } while (0)
 #define CR(ray, ...) C(ο[ray], ο, __VA_ARGS__)
 // mbo
 #define Mn(nexp, ray)                                                          \
@@ -69,11 +71,11 @@ typedef void (*nargo_t)(nt *, void *, void *);
   }                                                                            \
   A(mbm)
 #define O(nexp)                                                                \
-  {                                                                            \
+  do {                                                                         \
     void *οα = α;                                                              \
     nexp;                                                                      \
     οα -= sizeof(void *), (*(nargo_t *)οα)((void *)ο, β, οα);                  \
-  }
+  } while (0)
 #define Ray(n)                                                                 \
   N(hexdump##n) {                                                              \
     for (; β < α; β++) {                                                       \
@@ -154,9 +156,9 @@ N(mbm) {
   P(nargo_t, nar);
   nar((void *)pith, β, α);
 }
-N(r2) { CR(2); }
-N(r1) { CR(1); }
-N(r0) { CR(0); }
+static N(r2) { CR(2); }
+static N(r1) { CR(1); }
+static N(r0) { CR(0); }
 N(lt) {
   P(int, r);
   P(int, l);
@@ -186,27 +188,26 @@ N(gcd) {
 N(la) {
   P(int, pos);
   P(char *, s);
-  if ((s[pos + 0] & 0x80) == 0) {
+  if ((s[pos + 0] & 0x80) == 0)
     CR(1, A3((uint32_t)s[pos + 0], s, pos));
-  } else if ((s[pos + 1] & 0xc0) != 0x80) {
+  else if ((s[pos + 1] & 0xc0) != 0x80)
     CR(0, A2(s, pos));
-  } else if ((s[pos + 0] & 0xe0) == 0xc0) {
+  else if ((s[pos + 0] & 0xe0) == 0xc0)
     CR(1, A3((uint32_t)(0x1f & s[pos + 0]) << 6 | (0x3f & s[pos + 1]), s, pos));
-  } else if ((s[pos + 2] & 0xc0) != 0x80) {
+  else if ((s[pos + 2] & 0xc0) != 0x80)
     CR(0, A2(s, pos));
-  } else if ((s[pos + 0] & 0xf0) == 0xe0) {
+  else if ((s[pos + 0] & 0xf0) == 0xe0)
     CR(1, A3((uint32_t)((0x0f & s[pos + 0]) << 12 | (0x3f & s[pos + 1]) << 6 |
                         (0x3f & s[pos + 2])),
              s, pos));
-  } else if ((s[pos + 3] & 0xc0) != 0x80) {
+  else if ((s[pos + 3] & 0xc0) != 0x80)
     CR(0, A2(s, pos));
-  } else if ((s[pos + 0] & 0xf8) == 0xf0) {
+  else if ((s[pos + 0] & 0xf8) == 0xf0)
     CR(1, A3((uint32_t)(0x07 & s[pos + 0]) << 18 | (0x3f & s[pos + 1]) << 12 |
                  (0x3f & s[pos + 2]) << 6 | (0x3f & s[pos + 3]),
              s, pos));
-  } else {
+  else
     CR(0, A2(s, pos));
-  }
 }
 N(ppp) {
   P(int, pos);
@@ -219,21 +220,72 @@ N(inc) {
   P(uint32_t, v);
   CR(1, A(v + 1));
 }
-N(get) { CR(1, A((uint32_t)99)); }
-N(loop) { O(B4(A(ο[2]), A(inc), A2(3, r1), A2(4, r1), 1)); }
+void wait_for_a_while(uv_idle_t *handle) {
+  (*(uint64_t *)handle->data)++;
+  if (*(uint64_t *)handle->data % 1000000 == 0)
+    fprintf(stdout, "%ld\n", *(uint64_t *)handle->data);
+  if (*(uint64_t *)handle->data >= 10000000)
+    uv_idle_stop(handle);
+}
+N(onidle) {
+  P(uv_loop_t *, loop);
+  uv_idle_t *idler = malloc(sizeof(uv_idle_t));
+  uint64_t *counter = malloc(sizeof(uint64_t));
+  *counter = 0;
+  idler->data = counter;
+  uv_idle_init(loop, idler);
+  uv_idle_start(idler, wait_for_a_while);
+}
+N(loop) {
+  uv_loop_t loop;
+  uv_loop_init(&loop);
+  O(A2(&loop, r1));
+  uv_run(&loop, UV_RUN_DEFAULT);
+  uv_loop_close(&loop);
+}
+uint64_t counter = 0;
+N(wfaw) {}
+void cb_uv_idle(uv_idle_t *handle) {
+  counter++;
+  if (counter % 1000000 == 0)
+    fprintf(stdout, "%ld\n", counter);
+  if (counter >= 10000000)
+    uv_idle_stop(handle);
+}
+N(idle_ray) {
+  P(nargo_t, nar);
+  uv_loop_t *loop = (void *)ο[4];
+  printf("%p %p %p\n", loop, nar, wfaw);
+  uv_idle_t *idler = malloc(sizeof(uv_idle_t));
+  idler->data = 0;
+
+  // void *pith[] = {mb_f0, mb_f1, idle_ray, ο, &loop};
+  uv_idle_init(loop, idler);
+  uv_idle_start(idler, cb_uv_idle);
+  // nar((void *)pith, β, α);
+}
+N(app) { O(A2(wfaw, ο[2])); }
+N(mbloop) {
+  P(nargo_t, nar);
+  uv_loop_t loop;
+  uv_loop_init(&loop);
+  void *pith[] = {mb_f0, mb_f1, idle_ray, ο, &loop};
+  nar((void *)pith, β, α);
+  uv_run(&loop, UV_RUN_DEFAULT);
+  uv_loop_close(&loop);
+}
 int main() {
+  ((void)r0), ((void)r1), ((void)r2);
   void *β = malloc(1 << 12);
   void *α = β;
-  void *ο[] = {hexdump0, hexdump1, get};
-  O(B3(          //
-      A(loop),   //
-      A2(5, r1), //
-      A2(6, r1), //
-      1          //
-      )          //
-  );             //
+  void *ο[] = {hexdump0, hexdump1, hexdump2};
+  O(A3(0, app, mbloop));
+  // O(B2(A(loop), A(onidle), 1));
+  // O(B3(A2(3, r1), A2(5, r1), A2(6, r1), 1));
   // O(M2(A3(1, 2, r1), A2(4, r1), A3(7, 8, r0)));
-  O(A3(21, 14, gcd));
+  // O(A3(21, 14, gcd));
+  // O(A(21); A(14); A(gcd));
   // O(B6(A3("აბგ", 0, la), A(ppp), A(la), A(ppp), A(la), A(ppp), 1));
   free(β);
+  // uvloop();
 }
