@@ -253,18 +253,12 @@ void cb_uv_idle(uv_idle_t *handle) {
     uv_idle_stop(handle);
 }
 N(idle_ray) {
-  P(nargo_t, nar);
   uv_loop_t *loop = (void *)ο[4];
-  printf("%p %p %p\n", loop, nar, wfaw);
   uv_idle_t *idler = malloc(sizeof(uv_idle_t));
-  idler->data = 0;
-
-  // void *pith[] = {mb_f0, mb_f1, idle_ray, ο, &loop};
+  idler->data = ο;
   uv_idle_init(loop, idler);
   uv_idle_start(idler, cb_uv_idle);
-  // nar((void *)pith, β, α);
 }
-N(app) { O(A2(wfaw, ο[2])); }
 N(mbloop) {
   P(nargo_t, nar);
   uv_loop_t loop;
@@ -273,6 +267,15 @@ N(mbloop) {
   nar((void *)pith, β, α);
   uv_run(&loop, UV_RUN_DEFAULT);
   uv_loop_close(&loop);
+}
+N(app) {
+  O(A2(wfaw, ο[2]));
+  O(A2(wfaw, ο[2]));
+  O(A2(wfaw, ο[2]));
+  O(A2(wfaw, ο[2]));
+  O(A2(wfaw, ο[2]));
+  O(A2(wfaw, ο[2]));
+  O(A2(wfaw, ο[2]));
 }
 int main() {
   ((void)r0), ((void)r1), ((void)r2);

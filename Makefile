@@ -2,7 +2,8 @@ CC=clang
 CFLAGS=-std=c99 -g -Wall -Wno-multichar -Wno-unused-function $(UFLAGS)
 
 .PHONY: clean 
-
+g3: g3.c
+	${CC} $< -o $@ -luv -lpthread
 main: main.c
 	${CC} $< -o $@ -O3 -Wno-multichar  /usr/lib/libraylib.so  -lraylib
 pith: pith.c pith.h
