@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <uv.h>
-#define DEFAULT_PORT 7000
-#define DEFAULT_BACKLOG 128
 typedef struct {
   uv_write_t req;
   uv_buf_t buf;
@@ -13,28 +11,29 @@ void free_write_req(uv_write_t *req) {
   free(wr->buf.base);
   free(wr);
 }
-void alloc_buffer(uv_handle_t *handle, size_t suggested_size, uv_buf_t *buf) {
+void cb_alloc_buffer(uv_handle_t *handle, size_t suggested_size,
+                     uv_buf_t *buf) {
   buf->base = (char *)malloc(suggested_size);
   buf->len = suggested_size;
 }
-void on_close(uv_handle_t *handle) { free(handle); }
-void echo_write(uv_write_t *req, int status) {
+void cb_close(uv_handle_t *handle) { free(handle); }
+void cb_echo_write(uv_write_t *req, int status) {
   if (status) {
     fprintf(stderr, "Write error %s\n", uv_strerror(status));
   }
   free_write_req(req);
 }
-void echo_read(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf) {
+void cb_echo_read(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf) {
   if (nread > 0) {
     write_req_t *req = (write_req_t *)malloc(sizeof(write_req_t));
     req->buf = uv_buf_init(buf->base, nread);
-    uv_write((uv_write_t *)req, client, &req->buf, 1, echo_write);
+    uv_write((uv_write_t *)req, client, &req->buf, 1, cb_echo_write);
     return;
   }
   if (nread < 0) {
     if (nread != UV_EOF)
       fprintf(stderr, "Read error %s\n", uv_err_name(nread));
-    uv_close((uv_handle_t *)client, on_close);
+    uv_close((uv_handle_t *)client, cb_close);
   }
   free(buf->base);
 }
@@ -46,26 +45,28 @@ void on_new_connection(uv_stream_t *server, int status) {
   uv_tcp_t *client = (uv_tcp_t *)malloc(sizeof(uv_tcp_t));
   uv_tcp_init(server->data, client);
   if (uv_accept(server, (uv_stream_t *)client) == 0) {
-    uv_read_start((uv_stream_t *)client, alloc_buffer, echo_read);
+    uv_read_start((uv_stream_t *)client, cb_alloc_buffer, cb_echo_read);
   } else {
-    uv_close((uv_handle_t *)client, on_close);
+    uv_close((uv_handle_t *)client, cb_close);
   }
 }
-int main() {
-  // Address "0.0.0.0"
+void loop() {
   uv_loop_t loop;
   uv_loop_init(&loop);
   uv_tcp_t server;
   server.data = &loop;
   uv_tcp_init(&loop, &server);
   struct sockaddr_in addr;
-  uv_ip4_addr("0.0.0.0", DEFAULT_PORT, &addr);
+  const int port = 7000;
+  uv_ip4_addr("0.0.0.0", port, &addr);
   uv_tcp_bind(&server, (const struct sockaddr *)&addr, 0);
-  int r = uv_listen((uv_stream_t *)&server, DEFAULT_BACKLOG, on_new_connection);
+  int r = uv_listen((uv_stream_t *)&server, 128, on_new_connection);
   if (r) {
     fprintf(stderr, "Listen error %s\n", uv_strerror(r));
-    return 1;
+    return;
   }
-  fprintf(stdout, "Listening on port:%d\n", DEFAULT_PORT);
-  return uv_run(&loop, UV_RUN_DEFAULT);
+  fprintf(stdout, "Listening on port:%d\n", port);
+  uv_run(&loop, UV_RUN_DEFAULT);
+  uv_loop_close(&loop);
 }
+int main() { loop(); }
