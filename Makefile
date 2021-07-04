@@ -1,11 +1,9 @@
 CC=clang
-CFLAGS=-std=c99 -g -Wall -Wno-multichar -Wno-unused-function $(UFLAGS)
+CFLAGS=-std=gnu99 -g -Wall -Wno-multichar -Wno-unused-function $(UFLAGS)
 
 .PHONY: clean 
-g4: g4.c
-	${CC} $< -o $@ -luv -lpthread
-g3: g3.c
-	${CC} $< -o $@ -luv -lpthread
+g%: g%.c
+	${CC} $< -o $@ ${CFLAGS} ../libuv/build/libuv_a.a -lutil -lpthread -ldl -lrt
 main: main.c
 	${CC} $< -o $@ -O3 -Wno-multichar  /usr/lib/libraylib.so  -lraylib
 pith: pith.c pith.h

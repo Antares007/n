@@ -12,12 +12,18 @@ typedef void (*nargo_t)(nt *, void *, void *);
 #define AC(T)                                                                  \
   T:                                                                           \
   *(T *)οα
+//(((64) - (($-$$) % (64))) % (64))
+
+#define VS (sizeof(void *))
+#define S ((uintptr_t)οα)
+#define SS (((uintptr_t)(S / VS)) * VS)
+#define ALIGN (VS - (S - SS) % VS) % VS
 #define A(X)                                                                   \
   *(uintptr_t *)οα = 0xcccccccccccccccc;                                       \
   _Generic((X), AC(int32_t), AC(uint32_t), AC(int64_t), AC(uint64_t),          \
            AC(float), AC(double), default                                      \
            : *(void **)οα) = (X);                                              \
-  οα = ((char *)οα) + sizeof(void *)
+  οα = ((char *)οα) + VS
 #define A2(a, b)                                                               \
   A(a);                                                                        \
   A(b)
@@ -163,13 +169,13 @@ N(lt) {
   P(int, r);
   P(int, l);
   printf("%d < %d = %d\n", l, r, l < r);
-  CR(l < r);
+  O(A(ο[l < r]));
 }
 N(sub) {
   P(int, r);
   P(int, l);
   printf("%d - %d = %d\n", l, r, l - r);
-  CR(1, A(l - r));
+  O(A2(l - r, ο[1]));
 }
 N(test) {}
 N(gcd) {
@@ -179,7 +185,7 @@ N(gcd) {
   O(B3(                                               //
       B3(A3(x, y, lt), A3(y, x, sub), A2(x, gcd), 1), //
       B3(A3(y, x, lt), A3(x, y, sub), A2(y, gcd), 1), //
-      A2(x, r1), 0));
+      A2(x, ο[1]), 0));
 }
 // 0xxxxxxx
 // 110xxxxx	10xxxxxx
@@ -189,25 +195,26 @@ N(la) {
   P(int, pos);
   P(char *, s);
   if ((s[pos + 0] & 0x80) == 0)
-    CR(1, A3((uint32_t)s[pos + 0], s, pos));
+    O(A4((uint32_t)s[pos + 0], s, pos, ο[1]));
   else if ((s[pos + 1] & 0xc0) != 0x80)
-    CR(0, A2(s, pos));
+    O(A3(s, pos, ο[0]));
   else if ((s[pos + 0] & 0xe0) == 0xc0)
-    CR(1, A3((uint32_t)(0x1f & s[pos + 0]) << 6 | (0x3f & s[pos + 1]), s, pos));
+    O(A4((uint32_t)(0x1f & s[pos + 0]) << 6 | (0x3f & s[pos + 1]), s, pos,
+         ο[1]));
   else if ((s[pos + 2] & 0xc0) != 0x80)
-    CR(0, A2(s, pos));
+    O(A3(s, pos, ο[0]));
   else if ((s[pos + 0] & 0xf0) == 0xe0)
-    CR(1, A3((uint32_t)((0x0f & s[pos + 0]) << 12 | (0x3f & s[pos + 1]) << 6 |
-                        (0x3f & s[pos + 2])),
-             s, pos));
+    O(A4((uint32_t)((0x0f & s[pos + 0]) << 12 | (0x3f & s[pos + 1]) << 6 |
+                    (0x3f & s[pos + 2])),
+         s, pos, ο[1]));
   else if ((s[pos + 3] & 0xc0) != 0x80)
-    CR(0, A2(s, pos));
+    O(A3(s, pos, ο[0]));
   else if ((s[pos + 0] & 0xf8) == 0xf0)
-    CR(1, A3((uint32_t)(0x07 & s[pos + 0]) << 18 | (0x3f & s[pos + 1]) << 12 |
-                 (0x3f & s[pos + 2]) << 6 | (0x3f & s[pos + 3]),
-             s, pos));
+    O(A4((uint32_t)(0x07 & s[pos + 0]) << 18 | (0x3f & s[pos + 1]) << 12 |
+             (0x3f & s[pos + 2]) << 6 | (0x3f & s[pos + 3]),
+         s, pos, ο[1]));
   else
-    CR(0, A2(s, pos));
+    O(A3(s, pos, ο[0]));
 }
 N(ppp) {
   P(int, pos);
@@ -216,10 +223,6 @@ N(ppp) {
 Ray(0);
 Ray(1);
 Ray(2);
-N(inc) {
-  P(uint32_t, v);
-  CR(1, A(v + 1));
-}
 void wait_for_a_while(uv_idle_t *handle) {
   (*(uint64_t *)handle->data)++;
   if (*(uint64_t *)handle->data % 1000000 == 0)
@@ -239,7 +242,7 @@ N(onidle) {
 N(loop) {
   uv_loop_t loop;
   uv_loop_init(&loop);
-  O(A2(&loop, r1));
+  O(A2(&loop, ο[1]));
   uv_run(&loop, UV_RUN_DEFAULT);
   uv_loop_close(&loop);
 }
@@ -277,18 +280,22 @@ N(app) {
   O(A2(wfaw, ο[2]));
   O(A2(wfaw, ο[2]));
 }
+N(testesteron) {
+  O(A2(7, ο[0]));
+  O(A2(8, ο[1]));
+  O(A2(9, ο[2]));
+}
 int main() {
   ((void)r0), ((void)r1), ((void)r2);
   void *β = malloc(1 << 12);
   void *α = β;
   void *ο[] = {hexdump0, hexdump1, hexdump2};
-  O(A3(0, app, mbloop));
+  O(A(testesteron));
+  // O(A3(0, app, mbloop));
   // O(B2(A(loop), A(onidle), 1));
-  // O(B3(A2(3, r1), A2(5, r1), A2(6, r1), 1));
-  // O(M2(A3(1, 2, r1), A2(4, r1), A3(7, 8, r0)));
   // O(A3(21, 14, gcd));
-  // O(A(21); A(14); A(gcd));
-  // O(B6(A3("აბგ", 0, la), A(ppp), A(la), A(ppp), A(la), A(ppp), 1));
+  O(A(21); A(14); A(gcd));
+  O(B6(A3("აბგ", 0, la), A(ppp), A(la), A(ppp), A(la), A(ppp), 1));
   free(β);
   // uvloop();
 }

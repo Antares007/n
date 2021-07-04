@@ -1,29 +1,36 @@
+#include "uv.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <uv.h>
 typedef struct {
   uv_write_t req;
   uv_buf_t buf;
 } write_req_t;
-void free_write_req(uv_write_t *req) {
+void cb_free_write_req(uv_write_t *req) {
+  printf("cb_free_write_req %p\n", req);
   write_req_t *wr = (write_req_t *)req;
   free(wr->buf.base);
   free(wr);
 }
 void cb_alloc_buffer(uv_handle_t *handle, size_t suggested_size,
                      uv_buf_t *buf) {
+  printf("cb_alloc_buffer %p %ld %p\n", handle, suggested_size, buf);
   buf->base = (char *)malloc(suggested_size);
   buf->len = suggested_size;
 }
-void cb_close(uv_handle_t *handle) { free(handle); }
+void cb_close(uv_handle_t *handle) {
+  printf("cb_close %p\n", handle);
+  free(handle);
+}
 void cb_echo_write(uv_write_t *req, int status) {
+  printf("cb_echo_write %p %d \n", req, status);
   if (status) {
     fprintf(stderr, "Write error %s\n", uv_strerror(status));
   }
-  free_write_req(req);
+  cb_free_write_req(req);
 }
 void cb_echo_read(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf) {
+  printf("cb_echo_read %p %ld %p\n", client, nread, buf);
   if (nread > 0) {
     write_req_t *req = (write_req_t *)malloc(sizeof(write_req_t));
     req->buf = uv_buf_init(buf->base, nread);
@@ -38,6 +45,7 @@ void cb_echo_read(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf) {
   free(buf->base);
 }
 void on_new_connection(uv_stream_t *server, int status) {
+  printf("on_new_connection %p %d\n", server, status);
   if (status < 0) {
     fprintf(stderr, "New connection error %s\n", uv_strerror(status));
     return;

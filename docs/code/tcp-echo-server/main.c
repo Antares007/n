@@ -6,7 +6,7 @@ typedef struct {
   uv_write_t req;
   uv_buf_t buf;
 } write_req_t;
-void free_write_req(uv_write_t *req) {
+void cb_free_write_req(uv_write_t *req) {
   write_req_t *wr = (write_req_t *)req;
   free(wr->buf.base);
   free(wr);
@@ -21,7 +21,7 @@ void cb_echo_write(uv_write_t *req, int status) {
   if (status) {
     fprintf(stderr, "Write error %s\n", uv_strerror(status));
   }
-  free_write_req(req);
+  cb_free_write_req(req);
 }
 void cb_echo_read(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf) {
   if (nread > 0) {
