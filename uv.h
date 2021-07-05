@@ -265,6 +265,11 @@ UV_EXTERN int uv_replace_allocator(uv_malloc_func malloc_func,
 
 UV_EXTERN uv_loop_t *uv_default_loop(void);
 UV_EXTERN int uv_loop_init(uv_loop_t *loop);
+
+// Releases all internal loop resources. Call this function only when the loop
+// has finished executing and all open handles and requests have been closed,
+// or it will return UV_EBUSY. After this function returns, the user can free
+// the memory allocated for the loop.
 UV_EXTERN int uv_loop_close(uv_loop_t *loop);
 /*
  * NOTE:
@@ -283,6 +288,23 @@ UV_EXTERN int uv_loop_alive(const uv_loop_t *loop);
 UV_EXTERN int uv_loop_configure(uv_loop_t *loop, uv_loop_option option, ...);
 UV_EXTERN int uv_loop_fork(uv_loop_t *loop);
 
+// This function runs the event loop. It will act differently depending on the
+// specified mode:
+//
+// - UV_RUN_DEFAULT: Runs the event loop until there are no more active and
+//   referenced handles or requests. Returns non-zero if :c:func:`uv_stop`
+//   was called and there are still active handles or requests.  Returns
+//   zero in all other cases.
+// - UV_RUN_ONCE: Poll for i/o once. Note that this function blocks if
+//   there are no pending callbacks. Returns zero when done (no active handles
+//   or requests left), or non-zero if more callbacks are expected (meaning
+//   you should run the event loop again sometime in the future).
+// - UV_RUN_NOWAIT: Poll for i/o once but don't block if there are no
+//   pending callbacks. Returns zero if done (no active handles
+//   or requests left), or non-zero if more callbacks are expected (meaning
+//   you should run the event loop again sometime in the future).
+//
+// :c:func:`uv_run` is not reentrant. It must not be called from a callback.
 UV_EXTERN int uv_run(uv_loop_t *, uv_run_mode mode);
 UV_EXTERN void uv_stop(uv_loop_t *);
 
@@ -360,9 +382,13 @@ typedef enum { UV_LEAVE_GROUP = 0, UV_JOIN_GROUP } uv_membership;
 
 UV_EXTERN int uv_translate_sys_error(int sys_errno);
 
+// Returns the error message for the given error code.  Leaks a few bytes
+// of memory when you call it with an unknown error code.
 UV_EXTERN const char *uv_strerror(int err);
 UV_EXTERN char *uv_strerror_r(int err, char *buf, size_t buflen);
 
+// Returns the error name for the given error code.  Leaks a few bytes
+// of memory when you call it with an unknown error code.
 UV_EXTERN const char *uv_err_name(int err);
 UV_EXTERN char *uv_err_name_r(int err, char *buf, size_t buflen);
 
@@ -451,7 +477,10 @@ UV_EXTERN int uv_send_buffer_size(uv_handle_t *handle, int *value);
 UV_EXTERN int uv_recv_buffer_size(uv_handle_t *handle, int *value);
 
 UV_EXTERN int uv_fileno(const uv_handle_t *handle, uv_os_fd_t *fd);
-
+// Constructor for :c:type:`uv_buf_t`.
+// Due to platform differences the user cannot rely on the ordering of the
+// `base` and `len` members of the uv_buf_t struct. The user is responsible for
+// freeing `base` after the uv_buf_t is done. Return struct passed by value.
 UV_EXTERN uv_buf_t uv_buf_init(char *base, unsigned int len);
 
 UV_EXTERN int uv_pipe(uv_file fds[2], int read_flags, int write_flags);
@@ -480,10 +509,33 @@ struct uv_stream_s {
 };
 
 UV_EXTERN size_t uv_stream_get_write_queue_size(const uv_stream_t *stream);
-
+// Start listening for incoming connections. `backlog` indicates the number of
+// connections the kernel might queue, same as :man:`listen(2)`. When a new
+// incoming connection is received the :c:type:`uv_connection_cb` callback is
+// called.
 UV_EXTERN int uv_listen(uv_stream_t *stream, int backlog, uv_connection_cb cb);
+// This call is used in conjunction with :c:func:`uv_listen` to accept incoming
+// connections. Call this function after receiving a :c:type:`uv_connection_cb`
+// to accept the connection. Before calling this function the client handle must
+// be initialized. < 0 return value indicates an error.
+//
+// When the :c:type:`uv_connection_cb` callback is called it is guaranteed that
+// this function will complete successfully the first time. If you attempt to use
+// it more than once, it may fail. It is suggested to only call this function once
+// per :c:type:`uv_connection_cb` call.
+//
+// .. note::
+//     `server` and `client` must be handles running on the same loop.
 UV_EXTERN int uv_accept(uv_stream_t *server, uv_stream_t *client);
 
+// Read data from an incoming stream. The :c:type:`uv_read_cb` callback will
+// be made several times until there is no more data to read or
+// :c:func:`uv_read_stop` is called.
+//
+// .. versionchanged:: 1.38.0 :c:func:`uv_read_start()` now consistently
+//   returns `UV_EALREADY` when called twice, and `UV_EINVAL` when the
+//   stream is closing. With older libuv versions, it returns `UV_EALREADY`
+//   on Windows but not UNIX, and `UV_EINVAL` on UNIX but not Windows.
 UV_EXTERN int uv_read_start(uv_stream_t *, uv_alloc_cb alloc_cb,
                             uv_read_cb read_cb);
 UV_EXTERN int uv_read_stop(uv_stream_t *);
@@ -527,6 +579,7 @@ struct uv_tcp_s {
   UV_TCP_PRIVATE_FIELDS
 };
 
+// Initialize the handle. No socket is created as of yet.
 UV_EXTERN int uv_tcp_init(uv_loop_t *, uv_tcp_t *handle);
 UV_EXTERN int uv_tcp_init_ex(uv_loop_t *, uv_tcp_t *handle, unsigned int flags);
 UV_EXTERN int uv_tcp_open(uv_tcp_t *handle, uv_os_sock_t sock);
@@ -539,7 +592,16 @@ enum uv_tcp_flags {
   /* Used with uv_tcp_bind, when an IPv6 address is used. */
   UV_TCP_IPV6ONLY = 1
 };
-
+// Bind the handle to an address and port. `addr` should point to an
+// initialized ``struct sockaddr_in`` or ``struct sockaddr_in6``.
+//
+// When the port is already taken, you can expect to see an ``UV_EADDRINUSE``
+// error from :c:func:`uv_listen` or :c:func:`uv_tcp_connect`. That is,
+// a successful call to this function does not guarantee that the call
+// to :c:func:`uv_listen` or :c:func:`uv_tcp_connect` will succeed as well.
+//
+// `flags` can contain ``UV_TCP_IPV6ONLY``, in which case dual-stack support
+// is disabled and only IPv6 is used.
 UV_EXTERN int uv_tcp_bind(uv_tcp_t *handle, const struct sockaddr *addr,
                           unsigned int flags);
 UV_EXTERN int uv_tcp_getsockname(const uv_tcp_t *handle, struct sockaddr *name,
@@ -1440,6 +1502,7 @@ UV_EXTERN int uv_fs_event_stop(uv_fs_event_t *handle);
 UV_EXTERN int uv_fs_event_getpath(uv_fs_event_t *handle, char *buffer,
                                   size_t *size);
 
+// Convert a string containing an IPv4 addresses to a binary structure.
 UV_EXTERN int uv_ip4_addr(const char *ip, int port, struct sockaddr_in *addr);
 UV_EXTERN int uv_ip6_addr(const char *ip, int port, struct sockaddr_in6 *addr);
 
