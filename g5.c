@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define N(n, T) void n(struct T *o, void *b, void *a)
-#define A(T, v) *(T *)a = v, a += sizeof(void *);
+#define A(T, v) *(T *)a = v, a += sizeof(void *)
 #define P(T, n) T n = *(T *)(a -= sizeof(void *))
 struct ba_pith_s;
 typedef void (*ba_nar_t)(struct ba_pith_s *, void *, void *);
@@ -41,27 +41,37 @@ N(add, ba_pith_s) {
   o->b(o, b, a);
 }
 N(two, ba_pith_s) {
-  A(ba_nar_t, one)
-  A(ba_nar_t, one)
-  A(ba_nar_t, mb)
-  A(ba_nar_t, add)
+  A(ba_nar_t, one);
+  A(ba_nar_t, one);
+  A(ba_nar_t, mb);
+  A(ba_nar_t, add);
   mb(o, b, a);
 }
 N(exam, ba_pith_s) {
-  A(ba_nar_t, one)
-  A(ba_nar_t, two)
-  A(ba_nar_t, mb)
-  A(ba_nar_t, two)
-  A(ba_nar_t, mb)
-  A(ba_nar_t, two)
-  A(ba_nar_t, mb)
-  A(ba_nar_t, add)
-  A(ba_nar_t, mb)
-  A(ba_nar_t, add)
-  A(ba_nar_t, mb)
-  A(ba_nar_t, add)
+  A(ba_nar_t, one);
+  A(ba_nar_t, two);
+  A(ba_nar_t, mb);
+  A(ba_nar_t, two);
+  A(ba_nar_t, mb);
+  A(ba_nar_t, two);
+  A(ba_nar_t, mb);
+  A(ba_nar_t, add);
+  A(ba_nar_t, mb);
+  A(ba_nar_t, add);
+  A(ba_nar_t, mb);
+  A(ba_nar_t, add);
   mb(o, b, a);
 }
+N(fibonacci_next, ba_pith_s) {
+  P(int, c);
+  P(int, p);
+  P(int, n);
+  if (n)
+    A(int, n - 1), A(int, c), A(int, p + c), fibonacci_next(o, b, a);
+  else
+    A(int, n), A(int, p), A(int, c), o->b(o, b, a);
+}
+N(fibonacci, ba_pith_s) { A(int, 0), A(int, 1), fibonacci_next(o, b, a); }
 N(logint, ba_pith_s) {
   P(int, v);
   printf("%d\n", v);
@@ -69,7 +79,13 @@ N(logint, ba_pith_s) {
 int main() {
   void *b = malloc(1 << 12);
   struct ba_pith_s o = {logint, logint};
-  exam(&o, b, b);
+  {
+    exam(&o, b, b);
+  }
+  {
+    void *a = b;
+    A(int, 7), fibonacci(&o, b, a);
+  }
   free(b);
   return 0;
 }
