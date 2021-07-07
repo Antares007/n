@@ -72,6 +72,18 @@ N(fibonacci_next, ba_pith_s) {
     A(int, p), o->b(o, b, a);
 }
 N(fibonacci, ba_pith_s) { A(int, 0), A(int, 1), fibonacci_next(o, b, a); }
+
+N(gcd, ba_pith_s) {
+  P(int, y);
+  P(int, x);
+  x < y   ? (A(int, x), A(int, y - x), gcd(o, b, a))
+  : y < x ? (A(int, x - y), A(int, y), gcd(o, b, a))
+          : (A(int, x), o->b(o, b, a));
+}
+int gcd_c(int x, int y) {
+  return (x < y) ? gcd_c(x, y - x) : (y < x) ? gcd_c(x - y, y) : x;
+}
+
 N(logint, ba_pith_s) {
   P(int, v);
   printf("%d\n", v);
@@ -84,6 +96,10 @@ int main() {
   {
     void *a = b;
     A(int, ret), fibonacci(&o, b, a);
+  }
+  {
+    void *a = b;
+    A(int, 21), A(int, 14), gcd(&o, b, a);
   }
   free(b);
   return 0;
