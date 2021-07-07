@@ -69,7 +69,7 @@ N(fibonacci_next, ba_pith_s) {
   if (n)
     A(int, n - 1), A(int, c), A(int, p + c), fibonacci_next(o, b, a);
   else
-    A(int, n), A(int, p), A(int, c), o->b(o, b, a);
+    A(int, p), o->b(o, b, a);
 }
 N(fibonacci, ba_pith_s) { A(int, 0), A(int, 1), fibonacci_next(o, b, a); }
 N(logint, ba_pith_s) {
@@ -79,12 +79,11 @@ N(logint, ba_pith_s) {
 int main() {
   void *b = malloc(1 << 12);
   struct ba_pith_s o = {logint, logint};
-  {
-    exam(&o, b, b);
-  }
+  exam(&o, b, b);
+  int ret = *(int *)b;
   {
     void *a = b;
-    A(int, 7), fibonacci(&o, b, a);
+    A(int, ret), fibonacci(&o, b, a);
   }
   free(b);
   return 0;
