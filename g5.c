@@ -17,6 +17,7 @@ struct bao_pith_s {
   ba_nar_t b;
 };
 N(mb_forward_a, bao_pith_s) { o->o->a(o->o, b, a); }
+N(mb_forward_b, bao_pith_s) { o->o->b(o->o, b, a); }
 N(mb_call_b, bao_pith_s) { o->b(o->o, b, a); }
 N(mb, ba_pith_s) {
   P(ba_nar_t, narb);
@@ -25,6 +26,18 @@ N(mb, ba_pith_s) {
                                 {
                                     .a = (ba_nar_t)mb_forward_a,
                                     .b = (ba_nar_t)mb_call_b,
+                                },
+                            .o = o,
+                            .b = narb};
+  nara((struct ba_pith_s *)&pith, b, a);
+}
+N(ma, ba_pith_s) {
+  P(ba_nar_t, narb);
+  P(ba_nar_t, nara);
+  struct bao_pith_s pith = {.ba =
+                                {
+                                    .a = (ba_nar_t)mb_call_b,
+                                    .b = (ba_nar_t)mb_forward_b,
                                 },
                             .o = o,
                             .b = narb};
