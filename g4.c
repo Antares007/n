@@ -1,3 +1,4 @@
+#include "mbo.h"
 #include "uv.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -77,4 +78,23 @@ void loop() {
   uv_run(&loop, UV_RUN_DEFAULT);
   uv_loop_close(&loop);
 }
-int main() { loop(); }
+N(ba_loop, ba_pith_s) {
+  uv_loop_t loop;
+  A(uv_loop_t *, &loop), ((ba_nar_t *)o)[uv_loop_init(&loop) == 0](o, b, a);
+}
+N(ba_server, ba_pith_s) {}
+
+N(logint, ba_pith_s) {
+  P(int, v);
+  printf("%d\n", v);
+}
+int main() {
+  void *b = malloc(1 << 12);
+  struct ba_pith_s o = {logint, logint};
+  {
+    void *a = b;
+    A(int, 7), logint(&o, b, a);
+  }
+  free(b);
+  loop();
+}

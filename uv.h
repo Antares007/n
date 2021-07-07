@@ -264,6 +264,7 @@ UV_EXTERN int uv_replace_allocator(uv_malloc_func malloc_func,
                                    uv_free_func free_func);
 
 UV_EXTERN uv_loop_t *uv_default_loop(void);
+// Initializes the given `uv_loop_t` structure.
 UV_EXTERN int uv_loop_init(uv_loop_t *loop);
 
 // Releases all internal loop resources. Call this function only when the loop
