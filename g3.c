@@ -280,18 +280,12 @@ N(app) {
   O(A2(wfaw, ο[2]));
   O(A2(wfaw, ο[2]));
 }
-N(testesteron) {
-  O(A2(7, ο[0]));
-  O(A2(8, ο[1]));
-  O(A2(9, ο[2]));
-}
 int main() {
   ((void)r0), ((void)r1), ((void)r2);
   void *β = malloc(1 << 12);
   void *α = β;
   void *ο[] = {hexdump0, hexdump1, hexdump2};
-  O(A(testesteron));
-  // O(A3(0, app, mbloop));
+  O(A3(0, app, mbloop));
   // O(B2(A(loop), A(onidle), 1));
   // O(A3(21, 14, gcd));
   O(A(21); A(14); A(gcd));
