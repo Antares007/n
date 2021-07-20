@@ -8,7 +8,7 @@ typedef uint64_t u64;
 #define Nba(n) void n(void *obr, void *abo, void *aba)
 #define Advance(T, v)                                                          \
   assert(aba + sizeof(void *) <= obr), *(T *)aba = v, aba += sizeof(void *)
-#define Obr(i) (((n_t *)obr)[i])
+#define Obr(T, i) (((T *)obr)[i])
 #define ObrAdd(T, v)                                                           \
   assert(aba <= obr - sizeof(T)), obr -= sizeof(T), *(T *)obr = v
 #define T obr, abo, aba
@@ -32,12 +32,12 @@ typedef uint64_t Q_t;
 Nba(ε) {}
 Nba(a) {}
 Nba(b) {}
-Nba(r0) { Obr(0)(T); }
-Nba(r1) { Obr(1)(T); }
-Nba(f0) { Obr(3 + 0)(obr + sizeof(void *) * 3, abo, aba); }
-Nba(f1) { Obr(3 + 1)(obr + sizeof(void *) * 3, abo, aba); }
+Nba(r0) { Obr(n_t, 0)(T); }
+Nba(r1) { Obr(n_t, 1)(T); }
+Nba(f0) { Obr(n_t, 3 + 0)(obr + sizeof(void *) * 3, abo, aba); }
+Nba(f1) { Obr(n_t, 3 + 1)(obr + sizeof(void *) * 3, abo, aba); }
 Nba(cb) {
-  n_t n = Obr(2);
+  n_t n = Obr(n_t, 2);
   n(obr + sizeof(void *) * 3, abo, aba);
 }
 Nba(mb0) {
@@ -81,7 +81,7 @@ Nba(S1) {
 }
 Nba(one) {
   Advance(int, 1);
-  Obr(1)(T);
+  Obr(n_t, 1)(T);
 }
 Nba(add) {
   Retreat(int, r);
@@ -118,7 +118,7 @@ Nba(getdata) {
   Advance(Q_t, 0x1122abbccddeeff0);
   Advance(Q_t, 0x1122abbccddeeff0);
   Advance(W_t, 0x9);
-  Obr(0)(T);
+  Obr(n_t, 0)(T);
 }
 Nba(logint) {
   Retreat(int, v);
