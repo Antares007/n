@@ -1,6 +1,17 @@
 #pragma once
 #include <assert.h>
+//   abo, aba - 0123456789abcdef - obr
+//              XXXXXXXXXXXXXXXX
+//              ebp - fXe
+//                    dXc
+//                    bXa
+//                    9X8
+//                    7X6
+//                    5X4
+//                    3X2
+//                    1X0
 typedef void (*n_t)(void *, void *, void *);
+
 #define Nba(n) void n(void *obr, void *abo, void *aba)
 #define T obr, abo, aba
 

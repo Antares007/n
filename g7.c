@@ -7,8 +7,8 @@
 Nba(ε) {}
 Nba(a) {}
 Nba(b) {}
-Nba(r0) { Obr(n_t, 0)(T); }
-Nba(r1) { Obr(n_t, 1)(T); }
+Nba(ro) { Obr(n_t, 0)(T); }
+Nba(ra) { Obr(n_t, 1)(T); }
 Nba(f0) { Oree(sizeof(void *) * 3), Obr(n_t, 0)(T); }
 Nba(f1) { Oree(sizeof(void *) * 3), Obr(n_t, 1)(T); }
 Nba(cb) { Oree(sizeof(void *) * 3), Obr(n_t, -1)(obr, abo, aba); }
@@ -24,9 +24,10 @@ Nba(one) { A(int, 1), Obr(n_t, 1)(T); }
 Nba(add) {
   R(int, r);
   R(int, l);
-  A(int, l + r), A(n_t, r1), C;
+  A(int, l + r), A(n_t, ra), C;
 }
 Nba(two) { A(n_t, one), A(n_t, one), A(n_t, mba), A(n_t, add), A(n_t, mba), C; }
+
 Nba(exam) {
   A(n_t, one), A(n_t, two), A(n_t, mba), A(n_t, two), A(n_t, mba), A(n_t, two),
       A(n_t, mba), A(n_t, add), A(n_t, mba), A(n_t, add), A(n_t, mba),
@@ -81,8 +82,9 @@ int main() {
 //
 // S = S ₁ a ₀ b.
 Nba(S) {
-  Alloc(sizeof(n_t) * 5), Aba(n_t, 0) = S, Aba(n_t, 1) = a, Aba(n_t, 2) = mba,
-                                   Aba(n_t, 3) = b, Aba(n_t, 4) = mbo, C;
+  Alloc(sizeof(n_t) * 5), Aba(n_t, -5) = S, Aba(n_t, -4) = a,
+                                   Aba(n_t, -3) = mba, Aba(n_t, -2) = b,
+                                   Aba(n_t, -1) = mbo, C;
 }
 Nba(S2) { A(n_t, a), A(n_t, S2), A(n_t, mba), A(n_t, ε), A(n_t, mbo), C; }
 Nba(S1) { A(n_t, b), A(n_t, S2), A(n_t, mba), C; }
