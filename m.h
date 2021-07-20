@@ -1,17 +1,15 @@
 #pragma once
-#include <assert.h>
 //   abo, aba - 0123456789abcdef - obr
 //              XXXXXXXXXXXXXXXX
-//              ebp - fXe
-//                    dXc
-//                    bXa
-//                    9X8
-//                    7X6
-//                    5X4
-//                    3X2
-//                    1X0
+//              rbp - fXXe
+//                    dXXc
+//                    bXXa
+//                    9XX8
+//                    7XX6
+//                    5XX4
+//                    3XX2
+//                    1XX0
 typedef void (*n_t)(void *, void *, void *);
-
 #define Nba(n) void n(void *obr, void *abo, void *aba)
 #define T obr, abo, aba
 
@@ -28,3 +26,10 @@ typedef void (*n_t)(void *, void *, void *);
 #define Obr(T, i) (((T *)obr)[i])
 #define Olloc(bts) assert(aba <= obr - bts), obr -= bts
 #define Oree(bts) obr += bts
+
+#define Main(size, malloc, free, ...)                                          \
+  int main() {                                                                 \
+    void *obr, *abo, *aba;                                                     \
+    abo = aba = malloc(size), obr = abo + size, __VA_ARGS__, free(abo);        \
+  }
+#include <assert.h>

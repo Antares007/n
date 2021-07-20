@@ -1,17 +1,7 @@
-#include "ints.h"
 #include "m.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-Nba(ε) {}
-Nba(a) {}
-Nba(b) {}
-Nba(ro) { Obr(n_t, 0)(T); }
-Nba(ra) { Obr(n_t, 1)(T); }
-Nba(f0) { Oree(sizeof(void *) * 3), Obr(n_t, 0)(T); }
-Nba(f1) { Oree(sizeof(void *) * 3), Obr(n_t, 1)(T); }
-Nba(cb) { Oree(sizeof(void *) * 3), Obr(n_t, -1)(obr, abo, aba); }
+Nba(f0) { Oree(sizeof(void *) * 3), Obr(n_t, +0)(T); }
+Nba(f1) { Oree(sizeof(void *) * 3), Obr(n_t, +1)(T); }
+Nba(cb) { Oree(sizeof(void *) * 3), Obr(n_t, -1)(T); }
 Nba(mbo) {
   R(n_t, narb);
   O(n_t, narb), O(n_t, f1), O(n_t, cb), C;
@@ -21,22 +11,37 @@ Nba(mba) {
   O(n_t, narb), O(n_t, cb), O(n_t, f0), C;
 }
 Nba(one) { A(int, 1), Obr(n_t, 1)(T); }
+Nba(ro) { Obr(n_t, 0)(T); }
+Nba(ra) { Obr(n_t, 1)(T); }
 Nba(add) {
   R(int, r);
   R(int, l);
   A(int, l + r), A(n_t, ra), C;
 }
 Nba(two) { A(n_t, one), A(n_t, one), A(n_t, mba), A(n_t, add), A(n_t, mba), C; }
-
 Nba(exam) {
   A(n_t, one), A(n_t, two), A(n_t, mba), A(n_t, two), A(n_t, mba), A(n_t, two),
       A(n_t, mba), A(n_t, add), A(n_t, mba), A(n_t, add), A(n_t, mba),
       A(n_t, add), A(n_t, mba), C;
 }
+Nba(getdata);
+Nba(logint);
+Nba(dump);
+#include <stdlib.h>
+Main(4096, malloc, free, O(n_t, logint), O(n_t, dump), A(n_t, exam), C,
+     A(n_t, getdata), C);
+
+//
+//
+//
+//
+//
+#include "ints.h"
 Nba(getdata) {
   A(Q_t, 0x1122abbccddeeff0), A(Q_t, 0x1122abbccddeeff0), A(W_t, 0x9),
       Obr(n_t, 0)(T);
 }
+#include <stdio.h>
 Nba(logint) {
   R(int, v);
   printf("%d - %lu\n", v, aba - abo);
@@ -61,26 +66,10 @@ Nba(dump) {
     printf("%s\n", line);
   }
 }
-#define SS (1 << 12)
-int main() {
-  void *obr, *abo, *aba;
-  abo = aba = malloc(SS);
-  obr = abo + SS;
-  O(n_t, logint), O(n_t, dump), A(n_t, exam), C;
-  A(n_t, getdata), C;
-  free(abo);
-}
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 // S = S ₁ a ₀ b.
+Nba(ε) {}
+Nba(a) {}
+Nba(b) {}
 Nba(S) {
   Alloc(sizeof(n_t) * 5), Aba(n_t, -5) = S, Aba(n_t, -4) = a,
                                    Aba(n_t, -3) = mba, Aba(n_t, -2) = b,
