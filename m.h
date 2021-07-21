@@ -1,5 +1,6 @@
 #pragma once
-//   abo, aba - 0123456789abcdef - obr
+//           aba|              |obr      
+//        abo - 0123456789abcdef - rbs
 //              XXXXXXXXXXXXXXXX
 //              rbp - fXXe
 //                    dXXc
@@ -12,7 +13,6 @@
 typedef void (*n_t)(void *, void *, void *);
 #define Nba(n) void n(void *obr, void *abo, void *aba)
 #define T obr, abo, aba
-
 #define A(T, v) Aba(T, 0) = (v), Alloc(sizeof(void *))
 #define Aba(T, i) (((T *)aba)[i])
 #define Alloc(bts) assert(aba + bts <= obr), aba += bts
@@ -21,12 +21,10 @@ typedef void (*n_t)(void *, void *, void *);
 #define R(T, n)                                                                \
   Free(sizeof(void *));                                                        \
   T n = Aba(T, 0)
-
 #define O(T, v) Olloc(sizeof(T)), Obr(T, 0) = (v)
 #define Obr(T, i) (((T *)obr)[i])
 #define Olloc(bts) assert(aba <= obr - bts), obr -= bts
 #define Oree(bts) obr += bts
-
 #define Main(size, malloc, free, ...)                                          \
   int main() {                                                                 \
     void *obr, *abo, *aba;                                                     \
