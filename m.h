@@ -17,6 +17,7 @@ typedef void (*n_t)(void *, void *, void *, void *);
 #define T abo, aba, obr, rbs
 #define A(T, v) Aba(T, 0) = (v), Aalloc(sizeof(void *))
 #define Aba(T, i) (((T *)aba)[i])
+#define Abo(T, i) (((T *)abo)[i])
 #define Aalloc(bts) assert(aba + bts <= obr), aba += bts
 #define Afree(bts) assert(abo <= aba - bts), aba -= bts
 #define C Afree(sizeof(void *)), Aba(n_t, 0)(T)
