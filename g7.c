@@ -1,6 +1,5 @@
-/*
+/*                 abo* <= aba* <= obr* <= rbs*
                init                           next
-   ...........................................................
     aba* |              | obr*   .              fXXe
   abo* - 0123456789abcdef - rbs* .              dXXc
          XXXXXXXXXXXXXXXX        .        aba* |    | obr*
@@ -11,9 +10,7 @@
                7XX6              .              7XX6
                5XX4              .              5XX4
                3XX2              .              3XX2
-               1XX0              .              1XX0
-                    abo* <= aba* <= obr* <= rbs*
-*/
+               1XX0              .              1XX0 */
 typedef void (*n_t)(void *, void *, void *, void *);
 #define Nba(n) void n(void *abo, void *aba, void *obr, void *rbs)
 #define T abo, aba, obr, rbs
