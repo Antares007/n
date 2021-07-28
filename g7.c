@@ -3,9 +3,9 @@
     aba* |              | obr*   .              fXXe
   abo* - 0123456789abcdef - rbs* .              dXXc
          XXXXXXXXXXXXXXXX        .        aba* |    | obr*
-       rsp*  - fXXe              . abo* - 0123456789abcdef - rbs*
-               dXXc              .        XXXXXXXXXXXXXXXX
-               bXXa              .       rsp* - bXXa
+       rsp*  - 4XX3              . abo* - 0123456789abcdef - rbs*
+               2XX1              .        XXXXXXXXXXXXXXXX
+               xXXa              .       rsp* - bXXa
                9XX8              .              9XX8
                7XX6              .              7XX6
                5XX4              .              5XX4
@@ -70,6 +70,21 @@ Nba(logint) {
   R(int, v);
   printf("%d\n", v);
 }
+#include "ints.h"
+Nba(logQ_t) {
+  R(Q_t, v);
+  printf("%lu\n", v);
+}
+Nba(fib_next) {
+  R(Q_t, c);
+  R(Q_t, p);
+  R(Q_t, n);
+  n ? (A(Q_t, n - 1), A(Q_t, c), A(Q_t, c + p), fib_next(T))
+    : (A(Q_t, c), Obr(n_t, 0)(T));
+}
+Nba(fib) { A(Q_t, 0), A(Q_t, 1), fib_next(T); }
 #include <stdlib.h>
 // Main = logint; logint; seven .
-Main(4096, malloc, free, O(n_t, logint), O(n_t, logint), A(n_t, seven), C);
+// Main(4096, malloc, free, O(n_t, logint), O(n_t, logint), A(n_t, seven), C);
+Main(4096, malloc, free, O(n_t, logQ_t), O(n_t, logQ_t), A(Q_t, 50),
+     A(n_t, fib), C);
