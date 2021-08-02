@@ -29,7 +29,11 @@ function swap(A, b, t) {
   A[t] = ab;
 }
 function Partitions(A, p, b, t) {
-  for (let i = b; i < t; i++) if (A[i] < A[t]) swap(A, p, i), p++;
+  for (let i = b; i < t; i++) {
+    if (A[i] < A[t]) {
+      swap(A, p, i), p++;
+    }
+  }
   swap(A, p, t);
   return p;
 }

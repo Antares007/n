@@ -187,10 +187,10 @@ N(gcd) {
       B3(A3(y, x, lt), A3(x, y, sub), A2(y, gcd), 1), //
       A2(x, ο[1]), 0));
 }
-// 0xxxxxxx
-// 110xxxxx	10xxxxxx
-// 1110xxxx	10xxxxxx	10xxxxxx
-// 11110xxx	10xxxxxx	10xxxxxx	10xxxxxx
+// 0xxx xxxx
+// 110x xxxx	10xx xxxx
+// 1110 xxxx	10xx xxxx	10xx xxxx
+// 1111 0xxx	10xx xxxx	10xx xxxx	10xx xxxx
 N(la) {
   P(int, pos);
   P(char *, s);

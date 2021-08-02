@@ -45,17 +45,23 @@ Nba(cb) { Ofree(sizeof(void *) * 3), Obr(n_t, -1)(T); }
 Nba(mbo) {
   R(n_t, narb);
   R(n_t, nara);
+  Obr(n_t,1);
   O(n_t, narb), O(n_t, f1), O(n_t, cb), nara(T);
 }
-// mba nara:n_t narb:n_t =
-//  .  narb
-//  .  cb
-//  .  f0
-//  nara.
+// mba nara:n_t narb:n_t = .  narb .  cb .  f0 nara.
 Nba(mba) {
   R(n_t, narb);
   R(n_t, nara);
   O(n_t, narb), O(n_t, cb), O(n_t, f0), nara(T);
+}
+Nba(cb1) {
+  Ofree(sizeof(void *) * 4), A(void *, Obr(n_t, -2)), Obr(n_t, -1)(T);
+}
+Nba(mba1) {
+  R(n_t, narb);
+  R(void *, s1);
+  R(n_t, nara);
+  O(n_t, narb), O(void *, s1), O(n_t, cb1), O(n_t, f0), nara(T);
 }
 // one = 1 T[1].
 Nba(one) { A(int, 1), Obr(n_t, 1)(T); }
@@ -65,8 +71,12 @@ Nba(add) {
   R(int, l);
   A(int, l + r), Obr(n_t, 1)(T);
 }
+Nba(ret) { Obr(n_t, 1)(T); }
 // two = one one mba add mba.
-Nba(two) { A(n_t, one), A(n_t, one), A(n_t, mba), A(n_t, add), A(n_t, mba), C; }
+Nba(two) {
+  A(n_t, one), A(int, 1), A(n_t, ret), A(n_t, mba1), A(n_t, add), A(n_t, mba),
+      C;
+}
 // seven = one two mba two mba two mba add mba add mba add mba.
 Nba(seven) {
   A(n_t, one), A(n_t, two), A(n_t, mba), A(n_t, two), A(n_t, mba), A(n_t, two),
@@ -122,7 +132,7 @@ Nba(fib) {
       A(n_t, drop), A(n_t, mbo), A(n_t, swap), mbo(T);
 }
 // Main = .logQ_t2 5, fib.
-Main((1 << 13), malloc, free, O(n_t, logQ_t2), A(Q_t, 50), A(n_t, fib), C);
+//Main((1 << 13), malloc, free, O(n_t, logQ_t2), A(Q_t, 50), A(n_t, fib), C);
 
 // Main = logint; logint; seven .
-// Main(4096, malloc, free, O(n_t, logint), O(n_t, logint), A(n_t, seven), C);
+ Main(4096, malloc, free, O(n_t, logint), O(n_t, logint), A(n_t, seven), C);
