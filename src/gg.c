@@ -30,6 +30,6 @@ int main() {
   abo = aba = malloc(1 << 12);
   obr = rbs = aba + (1 << 12);
   O(n_t, logerr), O(n_t, logptr), O(n_t, logint);
-  A(unsigned long, 9), A(unsigned long, 2 << 10), talloc(T);
+  A(unsigned long, 9), A(unsigned long, 16), talloc(T);
   free(abo);
 }
