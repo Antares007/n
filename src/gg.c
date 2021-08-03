@@ -24,6 +24,19 @@ Nba(talloc) {
         *(void **)(aba - i * sizeof(void *));
   aba = aba_, A(void *, abo), abo += size, Obr(n_t, 1)(T);
 }
+// daN, anN, araN, andaN
+// cin1 cin2 da
+// cin1 cin2 an
+// cin1 ancin2 dacin3 anda
+// cin1
+//    'p1' 'p2' ancin2
+//    'p1' 'p2' 'p3' dacin3
+// 023 andaN
+//    gamoascoreshecdoma
+// ara.
+// cin1 cin2 ara
+// cin1 'par1' cin2 1 araN
+// cin1 'par1' 'par2' cin2 2 araN
 
 int main() {
   void *abo, *aba, *obr, *rbs;
