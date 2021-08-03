@@ -1,5 +1,5 @@
 CC=clang
-WFLAGS=-Wall -Wno-multichar -Wno-unused-function
+WFLAGS=-Wall -Wno-multichar
 CFLAGS=-std=gnu99 -g ${WFLAGS}
 UV=../libuv/build/libuv_a.a
 UVFLAGS=-lutil -lpthread -ldl -lrt
