@@ -1,3 +1,4 @@
+#include "m.h"
 #include "uv.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -58,14 +59,20 @@ void on_new_connection(uv_stream_t *server, int status) {
     uv_close((uv_handle_t *)client, cb_close);
   }
 }
+// loop draw 1000/60 'timer' r1 mba3 run mba.
+// loop  'serv' r1 mba3 run mba.
+// draw = jkhkhj.
 void loop() {
   uv_loop_t loop;
   uv_loop_init(&loop);
+
   uv_tcp_t server;
   uv_tcp_init(&loop, &server);
+
   struct sockaddr_in addr;
   const int port = 7000;
   uv_ip4_addr("0.0.0.0", port, &addr);
+
   uv_tcp_bind(&server, (const struct sockaddr *)&addr, 0);
   int r = uv_listen((uv_stream_t *)&server, 128, on_new_connection);
   if (r) {
