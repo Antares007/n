@@ -4,7 +4,7 @@
       "adapter": "CodeLLDB",
       "configuration": {
         "request": "launch",
-        "program": "${workspaceRoot}/${fileBasenameNoExtension}",
+        "program": "${fileDirname}/${fileBasenameNoExtension}",
         "args": [],
         "cwd": "${workspaceRoot}",
         "environment": [  ],

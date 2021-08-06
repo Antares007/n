@@ -36,4 +36,12 @@ typedef void (*n_t)(void *, void *, void *, void *);
     void *abo, *aba, *obr, *rbs;                                               \
     abo = aba = malloc(size), rbs = obr = abo + size, __VA_ARGS__, free(abo);  \
   }
+#define AA(T, a, b) A(T, a), A(T, b)
+#define AAA(T, a, b, c) A(T, a), A(T, b), A(T, c)
+#define AAAA(T, a, b, c, d) A(T, a), A(T, b), A(T, c), A(T, d)
+#define AAAAA(T, a, b, c, d, e) A(T, a), A(T, b), A(T, c), A(T, d), A(T, e)
+#define OO(T, a, b) O(T, b), O(T, a)
+#define OOO(T, a, b, c) O(T, c), O(T, b), O(T, a)
+#define OOOO(T, a, b, c, d) O(T, d), O(T, c), O(T, b), O(T, a)
+#define OOOOO(T, a, b, c, d, e) O(T, e), O(T, d), O(T, c), O(T, b), O(T, a)
 #include <assert.h>

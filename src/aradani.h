@@ -1,9 +1,7 @@
 #pragma once
 #include "m.h"
+N(ara);
 N(da);
-//N(an);
-//N(anda);
-//N(anarada);
-//N(ara);
-//N(arada);
-
+N(an);
+N(anda);
+N(aradani);
