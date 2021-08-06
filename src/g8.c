@@ -24,7 +24,7 @@ Partitions(B, pivot, lo, hi) =
 
 
 */
-Nba(dump) {
+N(dump) {
   b_t line[33] = {[32] = '\0'};
   b_t i = 0;
   b_t b;
@@ -44,11 +44,11 @@ Nba(dump) {
     printf("%s\n", line);
   }
 }
-Nba(asort) {
+N(asort) {
   q_t *A = &Abo(q_t, 0);
   q_t *E = &Aba(q_t, 0);
   Q_t N = E - A;
   printf("N = %lu %p %p\n", N, A, E);
 }
-Nba(getdata) { A(q_t, 8), A(q_t, 9), A(q_t, 7), asort(T); }
+N(getdata) { A(q_t, 8), A(q_t, 9), A(q_t, 7), asort(T); }
 Main(4096, malloc, free, O(n_t, dump), O(n_t, dump), A(n_t, getdata), C);

@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 typedef void (*n_t)(void *, void *, void *, void *);
-#define Nba(n) void n(void *abo, void *aba, void *obr, void *rbs)
+#define N(n) void n(void *abo, void *aba, void *obr, void *rbs)
 #define T abo, aba, obr, rbs
 #define A(T, v) Aba(T, 0) = (v), Aalloc(sizeof(void *))
 #define Aba(T, i) (((T *)aba)[i])
@@ -36,98 +36,98 @@ typedef void (*n_t)(void *, void *, void *, void *);
     abo = aba = malloc(size), rbs = obr = abo + size, __VA_ARGS__, free(abo);  \
   }
 // f0 = :n_t[3] .[0].
-Nba(f0) { Ofree(sizeof(void *) * 3), Obr(n_t, +0)(T); }
+N(f0) { Ofree(sizeof(void *) * 3), Obr(n_t, +0)(T); }
 // f1 = :n_t[3] .[1].
-Nba(f1) { Ofree(sizeof(void *) * 3), Obr(n_t, +1)(T); }
+N(f1) { Ofree(sizeof(void *) * 3), Obr(n_t, +1)(T); }
 // cb = r:n_t[3] r[2].
-Nba(cb) { Ofree(sizeof(void *) * 3), Obr(n_t, -1)(T); }
+N(cb) { Ofree(sizeof(void *) * 3), Obr(n_t, -1)(T); }
 // mbo nara:n_t narb:n_t = .narb, f1, cb nara.
-Nba(mbo) {
+N(mbo) {
   R(n_t, narb);
   R(n_t, nara);
   Obr(n_t,1);
   O(n_t, narb), O(n_t, f1), O(n_t, cb), nara(T);
 }
 // mba nara:n_t narb:n_t = .  narb .  cb .  f0 nara.
-Nba(mba) {
+N(mba) {
   R(n_t, narb);
   R(n_t, nara);
   O(n_t, narb), O(n_t, cb), O(n_t, f0), nara(T);
 }
-Nba(cb1) {
+N(cb1) {
   Ofree(sizeof(void *) * 4), A(void *, Obr(n_t, -2)), Obr(n_t, -1)(T);
 }
-Nba(mba1) {
+N(mba1) {
   R(n_t, narb);
   R(void *, s1);
   R(n_t, nara);
   O(n_t, narb), O(void *, s1), O(n_t, cb1), O(n_t, f0), nara(T);
 }
 // one = 1 T[1].
-Nba(one) { A(int, 1), Obr(n_t, 1)(T); }
+N(one) { A(int, 1), Obr(n_t, 1)(T); }
 // add r:int l:int = l + r obr[1].
-Nba(add) {
+N(add) {
   R(int, r);
   R(int, l);
   A(int, l + r), Obr(n_t, 1)(T);
 }
-Nba(ret) { Obr(n_t, 1)(T); }
+N(ret) { Obr(n_t, 1)(T); }
 // two = one one mba add mba.
-Nba(two) {
+N(two) {
   A(n_t, one), A(int, 1), A(n_t, ret), A(n_t, mba1), A(n_t, add), A(n_t, mba),
       C;
 }
 // seven = one two mba two mba two mba add mba add mba add mba.
-Nba(seven) {
+N(seven) {
   A(n_t, one), A(n_t, two), A(n_t, mba), A(n_t, two), A(n_t, mba), A(n_t, two),
       A(n_t, mba), A(n_t, add), A(n_t, mba), A(n_t, add), A(n_t, mba),
       A(n_t, add), A(n_t, mba), C;
 }
 // logint v:int =  printf("%d\n", v);
-Nba(logint) {
+N(logint) {
   R(int, v);
   printf("%d\n", v);
 }
 // logQ_t v:Q_t = printf("%lu\n", v);
-Nba(logQ_t) {
+N(logQ_t) {
   R(Q_t, v);
   printf("%lu\n", v);
 }
 // logQ_t2 v:Q_t = printf("%lu\n", v);
-Nba(logQ_t2) {
+N(logQ_t2) {
   R(Q_t, b);
   R(Q_t, a);
   printf("%lu %lu\n", a, b);
 }
 // rotate3 a:Q_t b:Q_t c:Q_t = b, c, a, .[0].
-Nba(rotate3) {
+N(rotate3) {
   R(Q_t, c);
   R(Q_t, b);
   R(Q_t, a);
   A(Q_t, b), A(Q_t, c), A(Q_t, a), Obr(n_t, 0)(T);
 }
 // drop :Q_t = .[0].
-Nba(drop) {
+N(drop) {
   R(Q_t, a);
   ((void)a);
   Obr(n_t, 0)(T);
 }
 // swap a:Q_t b:Q_t = b a .[0].
-Nba(swap) {
+N(swap) {
   R(Q_t, a);
   R(Q_t, b);
   A(Q_t, a), A(Q_t, b), Obr(n_t, 0)(T);
 }
 // fib_next h:Q_t p:Q_t c:Q_t =
 //      n - 1 c c + p (n ? fib_next : .[0]).
-Nba(fib_next) {
+N(fib_next) {
   R(Q_t, c);
   R(Q_t, p);
   R(Q_t, n);
   A(Q_t, n - 1), A(Q_t, c), A(Q_t, c + p), (n ? fib_next : Obr(n_t, 0))(T);
 }
 // fib = 0 1 fib_next rotate3 mbo drop mbo swap mbo.
-Nba(fib) {
+N(fib) {
   A(Q_t, 0), A(Q_t, 1), A(n_t, fib_next), A(n_t, rotate3), A(n_t, mbo),
       A(n_t, drop), A(n_t, mbo), A(n_t, swap), mbo(T);
 }

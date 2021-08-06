@@ -2,19 +2,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-Nba(logptr) {
+N(logptr) {
   R(void *, v);
   printf("ptr:%p", v);
 }
-Nba(logint) {
+N(logint) {
   R(int, v);
   printf("A%d", v);
 }
-Nba(logerr) {
+N(logerr) {
   R(int, v);
   printf("E%d", v);
 }
-Nba(talloc) {
+N(talloc) {
   R(unsigned long, size);
   void *aba_ = aba + size;
   if (obr < aba_)

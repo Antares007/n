@@ -1,15 +1,15 @@
 #include "m.h"
-Nba(mb0);
-Nba(f) {
+N(mb0);
+N(f) {
   R(int, x);
   A(int, x + 1), Obr(n_t, 0)(T);
 }
-Nba(g) {
+N(g) {
   R(int, x);
   A(int, x + 2), Obr(n_t, 0)(T);
 }
-Nba(gof) { A(n_t, f), A(n_t, g), mb0(T); }
-Nba(compose) {
+N(gof) { A(n_t, f), A(n_t, g), mb0(T); }
+N(compose) {
   R(n_t, f);
   R(n_t, g);
   A(n_t, f), A(n_t, g), mb0(T);
