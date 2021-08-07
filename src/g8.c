@@ -51,4 +51,4 @@ N(asort) {
   printf("N = %lu %p %p\n", N, A, E);
 }
 N(getdata) { A(q_t, 8), A(q_t, 9), A(q_t, 7), asort(T); }
-Main(4096, malloc, free, O(n_t, dump), O(n_t, dump), A(n_t, getdata), C);
+Main(4096, malloc, free, AA(n_t, dump, dump), PP, A(n_t, getdata), C);

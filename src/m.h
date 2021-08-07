@@ -27,7 +27,6 @@ typedef void (*n_t)(void *, void *, void *, void *);
 #define R(T, n)                                                                \
   SubAba(sizeof(void *));                                                      \
   T n = Aba(T, 0)
-#define O(T, v) SubObr(sizeof(T)), Obr(T, 0) = (v)
 #define Obr(T, i) (((T *)obr)[i])
 #define SubObr(bts) assert(aba <= obr - bts), obr -= bts
 #define AddObr(bts) assert(obr + bts <= rbs), obr += bts
@@ -40,10 +39,6 @@ typedef void (*n_t)(void *, void *, void *, void *);
 #define AAA(T, a, b, c) A(T, a), A(T, b), A(T, c)
 #define AAAA(T, a, b, c, d) A(T, a), A(T, b), A(T, c), A(T, d)
 #define AAAAA(T, a, b, c, d, e) A(T, a), A(T, b), A(T, c), A(T, d), A(T, e)
-#define OO(T, a, b) O(T, b), O(T, a)
-#define OOO(T, a, b, c) O(T, c), O(T, b), O(T, a)
-#define OOOO(T, a, b, c, d) O(T, d), O(T, c), O(T, b), O(T, a)
-#define OOOOO(T, a, b, c, d, e) O(T, e), O(T, d), O(T, c), O(T, b), O(T, a)
 #define P                                                                      \
   SubAba(sizeof(void *)), SubObr(sizeof(void *)),                              \
       Obr(void *, 0) = Aba(void *, 0)

@@ -1,6 +1,6 @@
 CC=clang
-WFLAGS=-Wall -Werror -Wno-multichar -Wno-pointer-arith
-CFLAGS=-std=c99 -Ofast ${WFLAGS}
+WFLAGS=-Wall -Wno-multichar -Wno-pointer-arith
+CFLAGS=-std=gnu99 -Ofast ${WFLAGS}
 UV=../libuv/build/libuv_a.a
 UVFLAGS=-lutil -lpthread -ldl -lrt
 

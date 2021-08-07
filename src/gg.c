@@ -42,7 +42,6 @@ int main() {
   void *abo, *aba, *obr, *rbs;
   abo = aba = malloc(1 << 12);
   obr = rbs = aba + (1 << 12);
-  O(n_t, logerr), O(n_t, logptr), O(n_t, logint);
-  A(unsigned long, 9), A(unsigned long, 16), talloc(T);
+  AAA(n_t, logerr, logptr, logint), PPP, AA(unsigned long, 9, 16), talloc(T);
   free(abo);
 }
