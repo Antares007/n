@@ -13,11 +13,11 @@ N(da_bma) { Obr(n_t, 1)(T); }
 N(ara_bma) { Obr(n_t, 2)(T); }
 #include <stdlib.h>
 
-N(one) { A(int, 1), A(n_t, da_bma), C; }
+N(one) { A(int, 1), Obr(n_t, 1)(T); }
 N(add) {
   R(int, r);
   R(int, l);
-  A(int, l + r), A(n_t, da_bma), C;
+  A(int, l + r), Obr(n_t, 1)(T);
 }
 N(two) { AAAAA(n_t, one, one, da, add, da), C; }
 

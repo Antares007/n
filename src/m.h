@@ -44,4 +44,21 @@ typedef void (*n_t)(void *, void *, void *, void *);
 #define OOO(T, a, b, c) O(T, c), O(T, b), O(T, a)
 #define OOOO(T, a, b, c, d) O(T, d), O(T, c), O(T, b), O(T, a)
 #define OOOOO(T, a, b, c, d, e) O(T, e), O(T, d), O(T, c), O(T, b), O(T, a)
+#define P                                                                      \
+  SubAba(sizeof(void *)), SubObr(sizeof(void *)),                              \
+      Obr(void *, 0) = Aba(void *, 0)
+#define U                                                                      \
+  Aba(void *, 0) = Obr(void *, 0), AddAba(sizeof(void *)),                     \
+              AddObr(sizeof(void *))
+#define D AddObr(sizeof(void *))
+#define PP P, P
+#define PPP P, PP
+#define PPPP P, PPP
+#define UU U, U
+#define UUU U, UU
+#define UUUU U, UUU
+#define DD D, D
+#define DDD D, DD
+#define DDDD D, DDD
+#define DDDDD D, DDDD
 #include <assert.h>
