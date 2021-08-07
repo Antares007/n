@@ -45,6 +45,26 @@ typedef void (*n_t)(void *, void *, void *, void *);
   A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f)
 #define AAAAAAA(T, a, b, c, d, e, f, g)                                        \
   A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g)
+#define AAAAAAAA(T, a, b, c, d, e, f, g, h)                                    \
+  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g), A(T, h)
+#define AAAAAAAAA(T, a, b, c, d, e, f, g, h, i)                                \
+  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g), A(T, h),      \
+      A(T, i)
+#define AAAAAAAAAA(T, a, b, c, d, e, f, g, h, i, j)                            \
+  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g), A(T, h),      \
+      A(T, i), A(T, j)
+#define AAAAAAAAAAA(T, a, b, c, d, e, f, g, h, i, j, k)                        \
+  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g), A(T, h),      \
+      A(T, i), A(T, j), A(T, k)
+#define AAAAAAAAAAA(T, a, b, c, d, e, f, g, h, i, j, k)                        \
+  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g), A(T, h),      \
+      A(T, i), A(T, j), A(T, k)
+#define AAAAAAAAAAAA(T, a, b, c, d, e, f, g, h, i, j, k, l)                    \
+  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g), A(T, h),      \
+      A(T, i), A(T, j), A(T, k), A(T, l)
+#define AAAAAAAAAAAAA(T, a, b, c, d, e, f, g, h, i, j, k, l, m)                \
+  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g), A(T, h),      \
+      A(T, i), A(T, j), A(T, k), A(T, l), A(T, m)
 #define P                                                                      \
   SubAba(sizeof(void *)), SubObr(sizeof(void *)),                              \
       Obr(void *, 0) = Aba(void *, 0)
