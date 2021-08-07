@@ -18,11 +18,11 @@ N(talloc) {
   R(unsigned long, size);
   void *aba_ = aba + size;
   if (obr < aba_)
-    return Obr(n_t, 2)(T);
+    return O(2)(T);
   for (int i = 1; i < (unsigned long)(aba - abo) / sizeof(void *) + 1; i++)
     *(void **)(aba_ - i * sizeof(void *)) =
         *(void **)(aba - i * sizeof(void *));
-  aba = aba_, A(void *, abo), abo += size, Obr(n_t, 1)(T);
+  aba = aba_, A(void *, abo), abo += size, O(1)(T);
 }
 // daN, anN, araN, andaN
 // cin1 cin2 da

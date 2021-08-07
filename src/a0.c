@@ -8,16 +8,16 @@ N(da_puts) {
 N(an_puts) { puts("an"); }
 N(ara_puts) { puts("ara"); }
 
-N(an_bma) { Obr(n_t, 0)(T); }
-N(da_bma) { Obr(n_t, 1)(T); }
-N(ara_bma) { Obr(n_t, 2)(T); }
+N(an_bma) { O(0)(T); }
+N(da_bma) { O(1)(T); }
+N(ara_bma) { O(2)(T); }
 #include <stdlib.h>
 
-N(one) { A(int, 1), Obr(n_t, 1)(T); }
+N(one) { A(int, 1), O(1)(T); }
 N(add) {
   R(int, r);
   R(int, l);
-  A(int, l + r), Obr(n_t, 1)(T);
+  A(int, l + r), O(1)(T);
 }
 N(two) { AAAAA(n_t, one, one, da, add, da), C; }
 

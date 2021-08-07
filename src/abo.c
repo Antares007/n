@@ -2,11 +2,11 @@
 N(mb0);
 N(f) {
   R(int, x);
-  A(int, x + 1), Obr(n_t, 0)(T);
+  A(int, x + 1), O(0)(T);
 }
 N(g) {
   R(int, x);
-  A(int, x + 2), Obr(n_t, 0)(T);
+  A(int, x + 2), O(0)(T);
 }
 N(gof) { A(n_t, f), A(n_t, g), mb0(T); }
 N(compose) {
