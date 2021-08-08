@@ -1,4 +1,4 @@
-#include "m.h"
+#include "aradani.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,7 +15,7 @@ N(logerr) {
   printf("E%d", v);
 }
 N(talloc) {
-  R(unsigned long, size);
+  R(Q_t, size);
   void *aba_ = aba + size;
   if (obr < aba_)
     return O(2)(T);
@@ -24,24 +24,10 @@ N(talloc) {
         *(void **)(aba - i * sizeof(void *));
   aba = aba_, A(void *, abo), abo += size, O(1)(T);
 }
-// daN, anN, araN, andaN
-// cin1 cin2 da
-// cin1 cin2 an
-// cin1 ancin2 dacin3 anda
-// cin1
-//    'p1' 'p2' ancin2
-//    'p1' 'p2' 'p3' dacin3
-// 023 andaN
-//    gamoascoreshecdoma
-// ara.
-// cin1 cin2 ara
-// cin1 'par1' cin2 1 araN
-// cin1 'par1' 'par2' cin2 2 araN
-
 int main() {
   void *abo, *aba, *obr, *rbs;
   abo = aba = malloc(1 << 12);
   obr = rbs = aba + (1 << 12);
-  AAA(n_t, logerr, logptr, logint), PPP, AA(unsigned long, 9, 16), talloc(T);
+  _n(n_t, logerr, logptr, logint) PPP _n(Q_t, 9, 16) _n(n_t, talloc) C;
   free(abo);
 }

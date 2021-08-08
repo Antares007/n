@@ -37,49 +37,24 @@ typedef void (*n_t)(void *, void *, void *, void *);
     void *abo, *aba, *obr, *rbs;                                               \
     abo = aba = malloc(size), rbs = obr = abo + size, __VA_ARGS__, free(abo);  \
   }
-#define AA(T, a, b) A(T, a), A(T, b)
-#define AAA(T, a, b, c) A(T, a), A(T, b), A(T, c)
-#define AAAA(T, a, b, c, d) A(T, a), A(T, b), A(T, c), A(T, d)
-#define AAAAA(T, a, b, c, d, e) A(T, a), A(T, b), A(T, c), A(T, d), A(T, e)
-#define AAAAAA(T, a, b, c, d, e, f)                                            \
-  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f)
-#define AAAAAAA(T, a, b, c, d, e, f, g)                                        \
-  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g)
-#define AAAAAAAA(T, a, b, c, d, e, f, g, h)                                    \
-  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g), A(T, h)
-#define AAAAAAAAA(T, a, b, c, d, e, f, g, h, i)                                \
-  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g), A(T, h),      \
-      A(T, i)
-#define AAAAAAAAAA(T, a, b, c, d, e, f, g, h, i, j)                            \
-  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g), A(T, h),      \
-      A(T, i), A(T, j)
-#define AAAAAAAAAAA(T, a, b, c, d, e, f, g, h, i, j, k)                        \
-  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g), A(T, h),      \
-      A(T, i), A(T, j), A(T, k)
-#define AAAAAAAAAAA(T, a, b, c, d, e, f, g, h, i, j, k)                        \
-  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g), A(T, h),      \
-      A(T, i), A(T, j), A(T, k)
-#define AAAAAAAAAAAA(T, a, b, c, d, e, f, g, h, i, j, k, l)                    \
-  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g), A(T, h),      \
-      A(T, i), A(T, j), A(T, k), A(T, l)
-#define AAAAAAAAAAAAA(T, a, b, c, d, e, f, g, h, i, j, k, l, m)                \
-  A(T, a), A(T, b), A(T, c), A(T, d), A(T, e), A(T, f), A(T, g), A(T, h),      \
-      A(T, i), A(T, j), A(T, k), A(T, l), A(T, m)
 #define P                                                                      \
   SubAba(sizeof(void *)), SubObr(sizeof(void *)),                              \
-      Obr(void *, 0) = Aba(void *, 0)
+      Obr(void *, 0) = Aba(void *, 0),
+#define PP P P
+#define PPP P PP
+#define PPPP P PPP
+
 #define U                                                                      \
   Aba(void *, 0) = Obr(void *, 0), AddAba(sizeof(void *)),                     \
-              AddObr(sizeof(void *))
-#define D AddObr(sizeof(void *))
-#define PP P, P
-#define PPP P, PP
-#define PPPP P, PPP
-#define UU U, U
-#define UUU U, UU
-#define UUUU U, UUU
-#define DD D, D
-#define DDD D, DD
-#define DDDD D, DDD
-#define DDDDD D, DDDD
+              AddObr(sizeof(void *)),
+#define UU U U
+#define UUU U UU
+#define UUUU U UUU
+
+#define D AddObr(sizeof(void *)),
+#define DD D D
+#define DDD D DD
+#define DDDD D DDD
+#define DDDDD D DDDD
+
 #include <assert.h>
