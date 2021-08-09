@@ -59,7 +59,9 @@ typedef void (*n_t)(void *, void *, void *, void *);
 #define DDD D DD
 #define DDDD D DDD
 #define DDDDD D DDDD
-
+// console.log(Array(21).fill().map((_,a) =>
+// String.fromCharCode(a+0x61)).map((v,i,a)=>`#define A${i}(T,${a.slice(0,i)})
+// ${a.slice(0,i).map(v=>`A(T,${v})`).join(' ')}`).slice(2).join('\n'))
 #define A2(T, a, b) A(T, a) A(T, b)
 #define A3(T, a, b, c) A(T, a) A(T, b) A(T, c)
 #define A4(T, a, b, c, d) A(T, a) A(T, b) A(T, c) A(T, d)
@@ -76,43 +78,51 @@ typedef void (*n_t)(void *, void *, void *, void *);
   A(T, b) A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j)
 #define A11(T, a, b, c, d, e, f, g, h, i, j, k)                                \
   A(T, a)                                                                      \
-  A(T, b) A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j)      \
-      A(T, k)
+  A(T, b)                                                                      \
+  A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j) A(T, k)
 #define A12(T, a, b, c, d, e, f, g, h, i, j, k, l)                             \
   A(T, a)                                                                      \
-  A(T, b) A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j)      \
-      A(T, k) A(T, l)
+  A(T, b)                                                                      \
+  A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j) A(T, k)      \
+      A(T, l)
 #define A13(T, a, b, c, d, e, f, g, h, i, j, k, l, m)                          \
   A(T, a)                                                                      \
-  A(T, b) A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j)      \
-      A(T, k) A(T, l) A(T, m)
+  A(T, b)                                                                      \
+  A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j) A(T, k)      \
+      A(T, l) A(T, m)
 #define A14(T, a, b, c, d, e, f, g, h, i, j, k, l, m, n)                       \
   A(T, a)                                                                      \
-  A(T, b) A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j)      \
-      A(T, k) A(T, l) A(T, m) A(T, n)
+  A(T, b)                                                                      \
+  A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j) A(T, k)      \
+      A(T, l) A(T, m) A(T, n)
 #define A15(T, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o)                    \
   A(T, a)                                                                      \
-  A(T, b) A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j)      \
-      A(T, k) A(T, l) A(T, m) A(T, n) A(T, o)
+  A(T, b)                                                                      \
+  A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j) A(T, k)      \
+      A(T, l) A(T, m) A(T, n) A(T, o)
 #define A16(T, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p)                 \
   A(T, a)                                                                      \
-  A(T, b) A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j)      \
-      A(T, k) A(T, l) A(T, m) A(T, n) A(T, o) A(T, p)
+  A(T, b)                                                                      \
+  A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j) A(T, k)      \
+      A(T, l) A(T, m) A(T, n) A(T, o) A(T, p)
 #define A17(T, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q)              \
   A(T, a)                                                                      \
-  A(T, b) A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j)      \
-      A(T, k) A(T, l) A(T, m) A(T, n) A(T, o) A(T, p) A(T, q)
+  A(T, b)                                                                      \
+  A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j) A(T, k)      \
+      A(T, l) A(T, m) A(T, n) A(T, o) A(T, p) A(T, q)
 #define A18(T, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r)           \
   A(T, a)                                                                      \
-  A(T, b) A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j)      \
-      A(T, k) A(T, l) A(T, m) A(T, n) A(T, o) A(T, p) A(T, q) A(T, r)
+  A(T, b)                                                                      \
+  A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j) A(T, k)      \
+      A(T, l) A(T, m) A(T, n) A(T, o) A(T, p) A(T, q) A(T, r)
 #define A19(T, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s)        \
   A(T, a)                                                                      \
-  A(T, b) A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j)      \
-      A(T, k) A(T, l) A(T, m) A(T, n) A(T, o) A(T, p) A(T, q) A(T, r) A(T, s)
+  A(T, b)                                                                      \
+  A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j) A(T, k)      \
+      A(T, l) A(T, m) A(T, n) A(T, o) A(T, p) A(T, q) A(T, r) A(T, s)
 #define A20(T, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t)     \
   A(T, a)                                                                      \
-  A(T, b) A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j)      \
-      A(T, k) A(T, l) A(T, m) A(T, n) A(T, o) A(T, p) A(T, q) A(T, r) A(T, s)  \
-          A(T, t)
+  A(T, b)                                                                      \
+  A(T, c) A(T, d) A(T, e) A(T, f) A(T, g) A(T, h) A(T, i) A(T, j) A(T, k)      \
+      A(T, l) A(T, m) A(T, n) A(T, o) A(T, p) A(T, q) A(T, r) A(T, s) A(T, t)
 #include <assert.h>
