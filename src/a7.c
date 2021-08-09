@@ -19,5 +19,5 @@ Main(4096, malloc, free,
    ორი = ერთი ერთი და შეკრიბე და.
    შვიდი = ერთი ორი და ორი და ორი და შეკრიბე და შეკრიბე და შეკრიბე და.
    logint v: int = printf("%d\n", v);
-   main = logint logint logint chaakhvie chaakhvie chaakhvie შვიდი.
+   main = logint logint logint ჩჩჩაახვიე შვიდი.
 */
