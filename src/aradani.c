@@ -19,8 +19,3 @@ Sar(dddddud, DDDDD U D);
 Sar(ddddddu, DDDDD D U);
 Sar(ddduudd, DDD UU DD);
 Nar(aradani, PPP A4(n_t, ddddddu, dddddud, ddduudd, O(5)) PPPP);
-
-Nar(და, A(n_t, da));
-Nar(ან, A(n_t, an));
-Nar(ანდა, A(n_t, anda));
-Nar(არადანი, A(n_t, aradani));
