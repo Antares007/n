@@ -26,20 +26,20 @@ typedef void (*n_t)(void *, void *, void *, void *);
 #define A(T, v) Aba(T, 0) = (v), AddAba(sizeof(void *)),
 #define Aba(T, i) (((T *)aba)[i])
 #define Abo(T, i) (((T *)abo)[i])
-#define AddAba(bts) assert(aba + bts <= obr), aba += bts
-#define SubAba(bts) assert(abo <= aba - bts), aba -= bts
+#define AddAba(bts) assert((char*)aba + bts <= (char*)obr), (aba =(char*)aba+ bts)
+#define SubAba(bts) assert((char*)abo <= (char*)aba - bts), (aba =(char*)aba- bts)
 #define C SubAba(sizeof(void *)), Aba(n_t, 0)(T)
 #define R(T, n)                                                                \
   SubAba(sizeof(void *));                                                      \
   T n = Aba(T, 0)
 #define Obr(T, i) (((T *)obr)[i])
 #define O(i) Obr(n_t, i)
-#define SubObr(bts) assert(aba <= obr - bts), obr -= bts
-#define AddObr(bts) assert(obr + bts <= rbs), obr += bts
+#define SubObr(bts) assert((char*)aba <= (char*)obr - bts), (obr = (char*)obr- bts)
+#define AddObr(bts) assert((char*)obr + bts <= (char*)rbs), (obr = (char*)obr+ bts)
 #define Main(size, malloc, free, ...)                                          \
   int main() {                                                                 \
     void *abo, *aba, *obr, *rbs;                                               \
-    abo = aba = malloc(size), rbs = obr = abo + size, __VA_ARGS__, free(abo);  \
+    abo = aba = malloc(size), rbs = obr = (char*)abo + size, __VA_ARGS__, free(abo);  \
   }
 #define P                                                                      \
   SubAba(sizeof(void *)), SubObr(sizeof(void *)),                              \
