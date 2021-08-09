@@ -1,10 +1,23 @@
 #include "aradani.h"
 #include <stdio.h>
 #include <stdlib.h>
-Nar(ერთი, _(int, 1) _(n_t, O(1)));
-Nar(შეკრიბე, R(int, r); R(int, l); _(int, l + r) _(n_t, O(1)));
-Nar(ორი, _n(n_t, ერთი, ერთი, და, შეკრიბე, და));
-Nar(შვიდი, _n(n_t, ერთი, ორი, და, ორი, და, ორი, და, შეკრიბე, და, შეკრიბე, და, შეკრიბე, და));
-S(empty) {}
-Nar(logint, R(int, v); printf("%d\n", v); _(n_t, empty));
-Main(4096, malloc, free, _n(n_t, logint, logint, logint) PPP _(n_t, შვიდი) C);
+Nar(ერთი, მიადგი(int, 1) მიადგი(n_t, O(1)));
+Nar(შეკრიბე, მოხსენი(int, r); მოხსენი(int, l);
+    მიადგი(int, l + r) მიადგი(n_t, O(1)));
+Nar(ორი, მიადგიn(n_t, ერთი, ერთი, და, შეკრიბე, და));
+Nar(შვიდი, მიადგიn(n_t, ერთი, ორი, და, ორი, და, ორი, და, შეკრიბე, და, შეკრიბე,
+                   და, შეკრიბე, და));
+N(logint) {
+  მოხსენი(int, v);
+  printf("%d\n", v);
+}
+Main(4096, malloc, free,
+     მიადგი3(n_t, logint, logint, logint) ჩჩჩაახვიე მიადგი(n_t, შვიდი) C);
+
+/*
+   ერთი = 1 .[1].
+   ორი = ერთი ერთი და შეკრიბე და.
+   შვიდი = ერთი ორი და ორი და ორი და შეკრიბე და შეკრიბე და შეკრიბე და.
+   logint v: int = printf("%d\n", v);
+   main = logint logint logint chaakhvie chaakhvie chaakhvie შვიდი.
+*/

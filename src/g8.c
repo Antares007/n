@@ -1,5 +1,6 @@
 #include "ints.h"
 #include "m.h"
+#include "orgs.h"
 #include <stdio.h>
 #include <stdlib.h>
 /*
@@ -50,5 +51,5 @@ N(asort) {
   Q_t N = E - A;
   printf("N = %lu %p %p\n", N, A, E);
 }
-N(getdata) { A(q_t, 8), A(q_t, 9), A(q_t, 7), asort(T); }
-Main(4096, malloc, free, AA(n_t, dump, dump), PP, A(n_t, getdata), C);
+N(getdata) { A(q_t, 8) A(q_t, 9) A(q_t, 7) asort(T); }
+Main(4096, malloc, free, An(n_t, dump, dump) PP A(n_t, getdata) C);

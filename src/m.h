@@ -19,7 +19,7 @@ typedef void (*n_t)(void *, void *, void *, void *);
 #define N(n) void n(void *abo, void *aba, void *obr, void *rbs)
 #define S(n) static N(n)
 #define T abo, aba, obr, rbs
-#define A(T, v) Aba(T, 0) = (v), AddAba(sizeof(void *))
+#define A(T, v) Aba(T, 0) = (v), AddAba(sizeof(void *)),
 #define Aba(T, i) (((T *)aba)[i])
 #define Abo(T, i) (((T *)abo)[i])
 #define AddAba(bts) assert(aba + bts <= obr), aba += bts
@@ -43,7 +43,6 @@ typedef void (*n_t)(void *, void *, void *, void *);
 #define PP P P
 #define PPP P PP
 #define PPPP P PPP
-
 #define U                                                                      \
   Aba(void *, 0) = Obr(void *, 0), AddAba(sizeof(void *)),                     \
               AddObr(sizeof(void *)),

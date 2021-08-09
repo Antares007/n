@@ -13,6 +13,6 @@
 #define ARG_uint64_t(a) arg(uint64_t, a);
 
 #define ARG_int(a) arg(int, a);
-#define ARG_nt(a) arg(void *, (void*)a);
+#define ARG_nt(a) arg(void *, (void *)a);
 
 #define args(T, ...) EVAL(MAP(CAT(ARG_, T), __VA_ARGS__))

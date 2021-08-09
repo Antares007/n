@@ -8,8 +8,8 @@ N(da_puts) {
 }
 N(an_puts) { puts("an"); }
 N(ara_puts) { puts("ara"); }
-Nar(one, _(int, 1) _(n_t, O(1)));
-Nar(add, R(int, r); R(int, l); _(int, l + r) _(n_t, O(1)));
-Nar(two, _n(n_t, one, one, da, add, da));
-Nar(seven, _n(n_t, one, two, da, add, da, two, da, add, da, two, da, add, da));
-Main((10 << 12), malloc, free, _n(n_t, seven, an_puts, da_puts, ara_puts) PPP C)
+Nar(one, A(int, 1) A(n_t, O(1)));
+Nar(add, R(int, r); R(int, l); A(int, l + r) A(n_t, O(1)));
+Nar(two, An(n_t, one, one, da, add, da));
+Nar(seven, An(n_t, one, two, da, add, da, two, da, add, da, two, da, add, da));
+Main((10 << 12), malloc, free, An(n_t, seven, an_puts, da_puts, ara_puts) PPP C)
