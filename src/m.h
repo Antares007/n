@@ -59,6 +59,16 @@ typedef void (*n_t)(void *, void *, void *, void *);
 #define DDD D DD
 #define DDDD D DDD
 #define DDDDD D DDDD
+#define Print4s(abo, aba, obr, rbs)                   \
+  printf("%07lx-%02lu-%07lx-%lu-%07lx-%02lu-%07lx\n"  \
+  , (unsigned long)abo&0x0FFFFFFF                     \
+  , ((char*)aba - (char*)abo)/sizeof(void*)           \
+  , (unsigned long)aba&0x0FFFFFFF                     \
+  , (char*)obr - (char*)aba                           \
+  , (unsigned long)obr&0x0FFFFFFF                     \
+  , ((char*)rbs - (char*)obr)/sizeof(void*)           \
+  , (unsigned long)rbs&0x0FFFFFFF)
+#define PLT(l) printf(l), Print4s(abo, aba, obr, rbs),
 // console.log(Array(21).fill().map((_,a) =>
 // String.fromCharCode(a+0x61)).map((v,i,a)=>`#define A${i}(T,${a.slice(0,i)})
 // ${a.slice(0,i).map(v=>`A(T,${v})`).join(' ')}`).slice(2).join('\n'))
