@@ -8,7 +8,7 @@ N(talloc) {
   R(unsigned long, size);
   void *_aba = (char *)aba + size;
   if (obr < _aba) {
-    A(n_t, O(2)) C;
+    A(n_t, Obr(n_t, 2)) C;
   } else {
     void *_abo = (char*)abo + size;
     unsigned long n = (unsigned long)((char *)aba - (char *)abo) / sizeof(void *);
@@ -16,6 +16,7 @@ N(talloc) {
     aba = _aba, A(void *, abo) abo = _abo, A(n_t, O(1)) C;
   }
 }
+#if 0
 N(anlog) {}
 N(dalog) {
   PLT("f.")0;
@@ -32,3 +33,4 @@ Main(         (10<<12),malloc,free,
               P P P
               PLT("d.")
               C)
+#endif
