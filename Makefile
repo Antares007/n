@@ -1,5 +1,5 @@
 CC=clang
-WFLAGS=-Wall -Werror -Wpedantic
+WFLAGS=-Wall -Werror
 CFLAGS=-std=c99 -g ${WFLAGS}
 UV=../libuv/build/libuv_a.a
 UVFLAGS=-lutil -lpthread -ldl -lrt
