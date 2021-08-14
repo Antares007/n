@@ -43,6 +43,7 @@ S(dot) {
   nar(o, a, r, s);
 }
 S(r1) { ((n_t *)o)[r + 1](o, a, r, s); }
+S(r2) { ((n_t *)o)[r + 2](o, a, r, s); }
 N(one) {
   o[a++] = (void *)1;
   r1(o, a, r, s);
@@ -61,18 +62,41 @@ N(seven) {
   o[a++] = two, o[a++] = da, o[a++] = add, o[a++] = da, o[a++] = two,
   o[a++] = da, o[a++] = add, o[a++] = da, dot(o, a, r, s);
 }
+// N(vvv);
+// N(ttt){
+//  void *oo = o;
+//  o+=2;
+//  o[a++] = oo;
+//  vvv(o,a,r,s);
+//}
+N(talloc) {
+  unsigned long ws = (unsigned long)o[--a];
+  if (r < a + ws) {
+    r2(o, a, r, s);
+  } else {
+    unsigned long n = a;
+    while (n--)
+      o[ws + n] = o[n];
+    o[ws + a++] = (void*)ws;
+    r1(o + ws, a, r - ws, s - ws);
+  }
+}
+
 #include <stdio.h>
 #include <stdlib.h>
 N(aralog) { printf("ara"); }
 N(dalog) {
-  long v = (long)o[--a];
-  printf("da %ld", v);
+  void *v = o[--a];
+  printf("da %p", v);
 }
 N(anlog) { printf("an"); }
 int main() {
   long a = 0, r, s = r = 512;
   void **o = malloc(s * sizeof(void *));
-  o[--r] = aralog, o[--r] = dalog, o[--r] = anlog, o[a++] = seven,
+  o[--r] = aralog, o[--r] = dalog, o[--r] = anlog;
+  o[a++] = (void *)9;
+  o[a++] = (void *)2;
+  o[a++] = talloc;
   dot(o, a, r, s);
   free(o);
   return 0;

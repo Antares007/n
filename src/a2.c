@@ -24,10 +24,10 @@ N(r2) { printf("r2\n"); }
 // ostream
 // "r" 'OPEN' .[1] .[2].
 // main
-// "src/file.c" ostream split transform 
-// "src/file.c" ostream split transform merge6
-// "src/file.c" ostream split transform merge6
-// "src/file.c" ostream split transform merge6.
+// "src/file.c" "r" 'OPEN' .[1] split transform 
+// "src/file.c" "r" 'OPEN' .[1] split transform merge6
+// "src/file.c" "r" 'OPEN' .[1] split transform merge6
+// "src/file.c" "r" 'OPEN' .[1] split transform merge6.
 Main(     (1 << 12), malloc, free,
           A3(n_t, r0, r1, r2) PPP
           A2(char *, "src/file.c", "r") A3(n_t, open, shemdeg, da) C
