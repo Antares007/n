@@ -83,7 +83,9 @@ N(dalog) {
 }
 N(anlog) { printf("an"); }
 int main() {
-  long α = 0, ρ, σ = ρ = 512;
+  long α = 0;
+  long ρ = 512;
+  long σ = ρ;
   void **ω = malloc(σ * sizeof(void *));
   O(, ω[--ρ] = aralog
     , ω[--ρ] = dalog
