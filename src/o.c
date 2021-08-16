@@ -1,5 +1,5 @@
 /*             init                           next
-   ...........................................................
+...........................................................
         a|              |r      .             fXXe
     o* - 0123456789abcdef - s   .             dXXc
          XXXXXXXXXXXXXXXX       .           a|    |r
@@ -91,16 +91,15 @@ N(talloc) {
 }
 #include <stdio.h>
 S(start) {
-  long dS = (long)o[--a];
-  long dR = (long)o[--a];
-  long dA = (long)o[--a];
-  void **dO = o[--a];
-  char *mode = o[--a];
-  char *fname = o[--a];
-  FILE *fd = fopen(fname, mode);
-  if (fd)
-    0;
-
+ // long dS = (long)o[--a];
+ // long dR = (long)o[--a];
+ // long dA = (long)o[--a];
+ // void **dO = o[--a];
+ // char *mode = o[--a];
+ // char *fname = o[--a];
+ // FILE *fd = fopen(fname, mode);
+ // if (fd)
+ //   0;
   printf("start\n");
 }
 S(next) {}
@@ -125,23 +124,21 @@ N(open) {
   dot(o, a, r, s);
 }
 
+#define T(n)                                                                   \
+  long n##S = (long)o[--a];                                                    \
+  long n##R = (long)o[--a];                                                    \
+  long n##A = (long)o[--a];                                                    \
+  void **n##O = o[--a]
 N(pipe3_1) {
-  long dS = (long)o[--a];
-  long dR = (long)o[--a];
-  long dA = (long)o[--a];
-  void **dO = o[--a];
-
-  long sS = (long)o[--a];
-  long sR = (long)o[--a];
-  long sA = (long)o[--a];
-  void **sO = o[--a];
+  T(d);
+  T(s);
 
   sO[sA++] = dO;
   sO[sA++] = (void *)dA;
   sO[sA++] = (void *)dR;
   sO[sA++] = (void *)dS;
   ((n_t *)sO)[sR](sO, sA, sR, sS);
-  r1(o, r, s, a);
+  r1(o, a, r, s);
 }
 N(pipe3) { A da3, A pipe3_1, A da, dot(o, a, r, s); }
 #include <stdlib.h>
