@@ -2,6 +2,7 @@ typedef void (*n_t)(void **ο, long α, long ρ, long σ);
 #define N(n) void(n)(void **ο, long α, long ρ, long σ)
 #define S(n) static N(n)
 #define Dot(n) ((n_t*)CAT(n,ο))[CAT(n,α)-1](CAT(n,ο),CAT(n,α)-1,CAT(n,ρ),CAT(n,σ));
+#define Dos(n) ((n_t*)CAT(n,ο))[CAT(n,σ)+0](CAT(n,ο),CAT(n,α),CAT(n,ρ),CAT(n,σ));
 #define C(n,r) ((n_t*)CAT(n,ο))[CAT(n,ρ)+r](CAT(n,ο),CAT(n,α),CAT(n,ρ),CAT(n,σ));
 #define O(n, ...)                                                              \
   do {                                                                         \
@@ -12,14 +13,14 @@ typedef void (*n_t)(void **ο, long α, long ρ, long σ);
     __VA_ARGS__((n_t *)ο)[α - 1](ο, α - 1, ρ, σ);                              \
   } while (0)
 #define CT(n, s, r, a, o)                                                      \
-  unsigned long n##σ = s, n##ρ = r, n##α = a;                                  \
-  void **n##ο = o
+  unsigned long CAT(n,σ) = s, CAT(n,ρ) = r, CAT(n,α) = a;                      \
+  void **CAT(n,ο) = o
 #define Nt(n, b, s) CT(n, (unsigned long)s, (unsigned long)s, 0, b)
 #define At(n,nt) A(n,CAT(nt,ο))A(n,CAT(nt,α))A(n,CAT(nt,ρ))A(n,CAT(nt,σ))
-#define R(T, n) T n = (T)ο[--α]
+#define R(nt, T, n) T n = (T)CAT(nt,ο)[--CAT(nt,α)]
 #define CAT_(a,b) a##b
 #define CAT(a,b) CAT_(a,b)
-#define RT(n) R(unsigned long, CAT(n,σ));R(unsigned long, CAT(n,ρ));R(unsigned long, CAT(n,α));R(void**, CAT(n,ο))
+#define RT(nt, n) R(nt, unsigned long, CAT(n,σ));R(nt, unsigned long, CAT(n,ρ));R(nt, unsigned long, CAT(n,α));R(nt, void**, CAT(n,ο))
 #define P(n,a) CAT(n,ο)[--CAT(n,ρ)] = (void *)a,
 #define P3(n,a,b,c) P(n,c)P(n,b)P(n,a)
 #define D(n) CAT(n,ρ)+=1,

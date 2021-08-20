@@ -1,8 +1,8 @@
 #include "aradani.h"
 N(one) { A(, 1) C(, 1); }
 N(add) {
-  R(long, rhs);
-  R(long, lhs);
+  R(, long, rhs);
+  R(, long, lhs);
   A(, rhs + lhs) C(, 1);
 }
 N(two) { A5(, one, one, da, add, da) Dot(); }
@@ -15,7 +15,7 @@ N(seven) {
 
 N(aralog) { printf("ara"); }
 N(dalog) {
-  R(void *, v);
+  R(, void *, v);
   printf("da %p", v);
 }
 N(anlog) { printf("an"); }

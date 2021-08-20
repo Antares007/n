@@ -1,33 +1,27 @@
 #include "queue.h"
 #include "mbo.h"
 #include <stdio.h>
-struct item_s {
+typedef struct {
   int x;
   QUEUE queue;
-};
-typedef struct item_s item_t;
-void vs(void *);
-void q_insert_tail(QUEUE *q, QUEUE *i) { QUEUE_INSERT_TAIL(q, i); }
+} item_t;
+#define PRINTF(a,b) printf(a, ((unsigned long)(b))&0xfff)
 int main() {
-  QUEUE queue;
-  QUEUE_INIT(&queue);
-  printf("queue*:%p\n", &queue);
   item_t a = {.x = 1};
-  q_insert_tail(&queue, &a.queue);
-  printf("a*:%p\n", &a.queue);
+  QUEUE_INIT(&a.queue);
+  PRINTF("a.queue*:%03lx\n", &a.queue);
   item_t b = {.x = 2};
-  q_insert_tail(&queue, &b.queue);
-  printf("b*:%p\n", &b.queue);
+  QUEUE_INSERT_TAIL(&a.queue, &b.queue);
+  PRINTF("b.queue*:%03lx\n", &b.queue);
   item_t c = {.x = 3};
-  q_insert_tail(&queue, &c.queue);
-  printf("c*:%p\n", &c.queue);
+  QUEUE_INSERT_TAIL(&a.queue, &c.queue);
+  PRINTF("c.queue*:%03lx\n", &c.queue);
   item_t d = {.x = 4};
-  q_insert_tail(&queue, &d.queue);
-  printf("d*:%p\n", &d.queue);
-
+  QUEUE_INSERT_TAIL(&a.queue, &d.queue);
+  PRINTF("d.queue*:%03lx\n", &d.queue);
   QUEUE *q;
-  QUEUE_FOREACH(q, &queue) {
-    struct item_s *user = QUEUE_DATA(q, struct item_s, queue);
+  QUEUE_FOREACH(q, &a.queue) {
+    item_t *user = QUEUE_DATA(q, item_t, queue);
     printf("%p %d\n", q, user->x);
   }
   printf("done\n");
