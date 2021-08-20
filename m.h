@@ -22,6 +22,24 @@ typedef void (*n_t)(void **ο, long α, long ρ, long σ);
 #define RT(n) R(unsigned long, CAT(n,σ));R(unsigned long, CAT(n,ρ));R(unsigned long, CAT(n,α));R(void**, CAT(n,ο))
 #define P(n,a) CAT(n,ο)[--CAT(n,ρ)] = (void *)a,
 #define P3(n,a,b,c) P(n,c)P(n,b)P(n,a)
+#define D(n) CAT(n,ρ)+=1,
+#define D2(n) D(n)D(n)
+#define D3(n) D(n)D2(n)
+#define D4(n) D(n)D3(n)
+#define D5(n) D(n)D4(n)
+#define D6(n) D(n)D5(n)
+#define U(n) CAT(n,ο)[CAT(n,α)++] = CAT(n,ο)[CAT(n,ρ)++],
+#define U2(n) U(n)U(n)
+#define U3(n) U(n)U2(n)
+#define U4(n) U(n)U3(n)
+#define U5(n) U(n)U4(n)
+#define U6(n) U(n)U5(n)
+#define CH(n) CAT(n, ο)[--CAT(n, ρ)] = CAT(n, ο)[--CAT(n, α)],
+#define CH2(n) CH(n) CH(n)
+#define CH3(n) CH(n) CH2(n)
+#define CH4(n) CH(n) CH3(n)
+#define CH5(n) CH(n) CH4(n)
+#define CH6(n) CH(n) CH5(n)
 #define A(n, a) CAT(n,ο)[CAT(n,α)++] = (void *)a,
 //console.log(
 //  Array(21).fill()

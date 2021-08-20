@@ -24,7 +24,7 @@ N(mystart) {
   P(, aralog)
   P(, dalog)
   P(, anlog)
-  A5(, seven, seven, da, add, da)
+  A(, seven)
   Dot();
 }
 int main() {

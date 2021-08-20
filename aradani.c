@@ -1,19 +1,19 @@
 #include "aradani.h"
-S(dddu) { O(, ρ += 3, ο[α++] = ο[ρ++], ); }
-S(dddd0) { O(, ρ += 4, ο[α++] = ο[ρ + 0], ); }
+
+S(dddu) { D3() U() Dot(); }
+S(dddd0) { D4() C(, 0); }
 N(da) {
   n_t ararkhi = ο[ρ + 2];
-  O(, ο[--ρ] = ο[--α], ο[--ρ] = ararkhi, ο[--ρ] = dddu, ο[--ρ] = dddd0, );
+  CH() P3(, dddd0, dddu, ararkhi) Dot();
 }
-S(dddd1) { O(, ρ += 4, ο[α++] = ο[ρ + 1], ); }
+S(dddd1) { D4() C(, 1); }
 N(an) {
   n_t ararkhi = ο[ρ + 2];
-  O(, ο[--ρ] = ο[--α], ο[--ρ] = ararkhi, ο[--ρ] = dddd1, ο[--ρ] = dddu, );
+  CH() P3(, dddu, dddd1, ararkhi) Dot();
 }
-S(dddddd0) { O(, ρ += 6, ο[α++] = ο[ρ + 0], ); }
-S(ddduuu) { O(, ρ += 3, ο[α++] = ο[ρ++], ο[α++] = ο[ρ++], ο[α++] = ο[ρ++], ); }
+S(dddddd0) { D6() C(, 0); }
+S(ddduuu) { D3() U3() Dot(); }
 N(da3) {
   n_t araarkhi = ο[ρ + 2];
-  O(, ο[--ρ] = ο[--α], ο[--ρ] = ο[--α], ο[--ρ] = ο[--α], ο[--ρ] = araarkhi,
-    ο[--ρ] = ddduuu, ο[--ρ] = dddddd0, );
+  CH3() P3(, dddddd0, ddduuu, araarkhi) Dot();
 }
