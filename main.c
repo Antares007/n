@@ -9,7 +9,6 @@ N(narN) { printf("narN\n"); }
 N(narA) { printf("narA\n"); }
 N(narC) { printf("narC\n"); }
 N(narK) { printf("narK\n"); }
-// tik narS narY narN 32 nt3.
 N(tik) { A5(, narS, narY, narN, 32, nt3) Dot(); }
 N(tak) { A5(, narA, narC, narK, 32, nt3) Dot(); }
 N(toe) {
@@ -33,14 +32,14 @@ N(anlog) { printf("an"); }
 N(talloc) {
   long ws = (long)ο[--α];
   if (ρ < α + ws) {
-    A(, ο[ρ + 2]) Dot();
+    C(, 2);
   } else {
     long n = α;
     while (n--)
       ο[ws + n] = ο[n];
     void **nο = &ο[ws];
     long nα = α, nρ = ρ - ws, nσ = σ - ws;
-    A2(n, ws, nο[nρ + 1]) Dot(n);
+    A(n, ws) C(n, 1);
   }
 }
 N(nt3_1) {
@@ -50,6 +49,6 @@ N(nt3_1) {
   R(void *, r0);
   Nt(n, ο - ws, ws);
   P3(n, r0, r1, r2)
-  At(, n) A(, ο[ρ + 1]) Dot();
+  At(, n) C(, 1);
 }
 N(nt3) { A3(, talloc, nt3_1, da) Dot(); }

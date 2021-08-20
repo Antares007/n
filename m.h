@@ -2,6 +2,7 @@ typedef void (*n_t)(void **ο, long α, long ρ, long σ);
 #define N(n) void(n)(void **ο, long α, long ρ, long σ)
 #define S(n) static N(n)
 #define Dot(n) ((n_t*)CAT(n,ο))[CAT(n,α)-1](CAT(n,ο),CAT(n,α)-1,CAT(n,ρ),CAT(n,σ));
+#define C(n,r) ((n_t*)CAT(n,ο))[CAT(n,ρ)+r](CAT(n,ο),CAT(n,α),CAT(n,ρ),CAT(n,σ));
 #define O(n, ...)                                                              \
   do {                                                                         \
     void **_ο = n##ο;                                                          \
@@ -22,15 +23,29 @@ typedef void (*n_t)(void **ο, long α, long ρ, long σ);
 #define P(n,a) CAT(n,ο)[--CAT(n,ρ)] = (void *)a,
 #define P3(n,a,b,c) P(n,c)P(n,b)P(n,a)
 #define A(n, a) CAT(n,ο)[CAT(n,α)++] = (void *)a,
-#define A2(n,a, b) A(n,a) A(n,b)
-#define A3(n,a, b, c) A(n,a) A(n,b) A(n,c)
-#define A4(n,a, b, c, d) A(n,a) A(n,b) A(n,c) A(n,d)
-#define A5(n,a, b, c, d, e) A(n,a) A(n,b) A(n,c) A(n,d) A(n,e)
-#define A6(n,a, b, c, d, e, f) A(n,a) A(n,b) A(n,c) A(n,d) A(n,e) A(n,f)
-#define A7(n,a, b, c, d, e, f, g) A(n,a) A(n,b) A(n,c) A(n,d) A(n,e) A(n,f) A(n,g)
-#define A8(n,a, b, c, d, e, f, g, h) A(n,a) A(n,b) A(n,c) A(n,d) A(n,e) A(n,f) A(n,g) A(n,h)
-#define A9(n,a, b, c, d, e, f, g, h,i) A(n,a) A(n,b) A(n,c) A(n,d) A(n,e) A(n,f) A(n,g) A(n,h)A(n,i)
-#define A10(n,a, b, c, d, e, f, g, h,i,j) A(n,a) A(n,b) A(n,c) A(n,d) A(n,e) A(n,f) A(n,g) A(n,h)A(n,i)A(n,j)
-#define A11(n,a, b, c, d, e, f, g, h,i,j,k) A(n,a) A(n,b) A(n,c) A(n,d) A(n,e) A(n,f) A(n,g) A(n,h)A(n,i)A(n,j)A(n,k)
-#define A12(n,a, b, c, d, e, f, g, h,i,j,k,l) A(n,a) A(n,b) A(n,c) A(n,d) A(n,e) A(n,f) A(n,g) A(n,h)A(n,i)A(n,j)A(n,k)A(n,l)
-#define A13(n,a, b, c, d, e, f, g, h,i,j,k,l,m) A(n,a) A(n,b) A(n,c) A(n,d) A(n,e) A(n,f) A(n,g) A(n,h)A(n,i)A(n,j)A(n,k)A(n,l)A(n,m)
+//console.log(
+//  Array(21).fill()
+//  .map((_,a) => String.fromCharCode(a+0x61))
+//  .map((v,i,a)=>`#define A${i}(T,${a.slice(0,i)}) ${a.slice(0,i).map(v=>`A(T,${v})`).join('')}`)
+//  .slice(2)
+//  .join('\n')
+//)
+#define A2(T,a,b) A(T,a)A(T,b)
+#define A3(T,a,b,c) A(T,a)A(T,b)A(T,c)
+#define A4(T,a,b,c,d) A(T,a)A(T,b)A(T,c)A(T,d)
+#define A5(T,a,b,c,d,e) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)
+#define A6(T,a,b,c,d,e,f) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)
+#define A7(T,a,b,c,d,e,f,g) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)A(T,g)
+#define A8(T,a,b,c,d,e,f,g,h) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)A(T,g)A(T,h)
+#define A9(T,a,b,c,d,e,f,g,h,i) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)A(T,g)A(T,h)A(T,i)
+#define A10(T,a,b,c,d,e,f,g,h,i,j) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)A(T,g)A(T,h)A(T,i)A(T,j)
+#define A11(T,a,b,c,d,e,f,g,h,i,j,k) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)A(T,g)A(T,h)A(T,i)A(T,j)A(T,k)
+#define A12(T,a,b,c,d,e,f,g,h,i,j,k,l) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)A(T,g)A(T,h)A(T,i)A(T,j)A(T,k)A(T,l)
+#define A13(T,a,b,c,d,e,f,g,h,i,j,k,l,m) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)A(T,g)A(T,h)A(T,i)A(T,j)A(T,k)A(T,l)A(T,m)
+#define A14(T,a,b,c,d,e,f,g,h,i,j,k,l,m,n) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)A(T,g)A(T,h)A(T,i)A(T,j)A(T,k)A(T,l)A(T,m)A(T,n)
+#define A15(T,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)A(T,g)A(T,h)A(T,i)A(T,j)A(T,k)A(T,l)A(T,m)A(T,n)A(T,o)
+#define A16(T,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)A(T,g)A(T,h)A(T,i)A(T,j)A(T,k)A(T,l)A(T,m)A(T,n)A(T,o)A(T,p)
+#define A17(T,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)A(T,g)A(T,h)A(T,i)A(T,j)A(T,k)A(T,l)A(T,m)A(T,n)A(T,o)A(T,p)A(T,q)
+#define A18(T,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)A(T,g)A(T,h)A(T,i)A(T,j)A(T,k)A(T,l)A(T,m)A(T,n)A(T,o)A(T,p)A(T,q)A(T,r)
+#define A19(T,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)A(T,g)A(T,h)A(T,i)A(T,j)A(T,k)A(T,l)A(T,m)A(T,n)A(T,o)A(T,p)A(T,q)A(T,r)A(T,s)
+#define A20(T,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t) A(T,a)A(T,b)A(T,c)A(T,d)A(T,e)A(T,f)A(T,g)A(T,h)A(T,i)A(T,j)A(T,k)A(T,l)A(T,m)A(T,n)A(T,o)A(T,p)A(T,q)A(T,r)A(T,s)A(T,t)

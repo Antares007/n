@@ -1,9 +1,9 @@
 #include "aradani.h"
-N(one) { A2(, 1, ο[ρ + 1]) Dot(); }
+N(one) { A(, 1) C(, 1); }
 N(add) {
   R(long, rhs);
   R(long, lhs);
-  A2(, rhs + lhs, ο[ρ + 1]) Dot();
+  A(, rhs + lhs) C(, 1);
 }
 N(two) { A5(, one, one, da, add, da) Dot(); }
 N(seven) {
@@ -28,7 +28,7 @@ N(mystart) {
   Dot();
 }
 int main() {
-  NT(, malloc(512 * sizeof(void *)), 512);
+  Nt(, malloc(512 * sizeof(void *)), 512);
   A(, mystart) Dot();
   free(ο);
   return 0;
