@@ -19,8 +19,8 @@ N(narA) {
 }
 N(narC) { printf("narC\n"); }
 N(narK) { printf("narK\n"); }
-N(tik) { A5(, narS, narY, narN, 32, nt3) Dot(); }
-N(tak) { A5(, narA, narC, narK, 32, nt3) Dot(); }
+N(tik) { A4(, narS, narY, narN, 32) nt3(ο, α, ρ, σ); }
+N(tak) { A4(, narA, narC, narK, 32) nt3(ο, α, ρ, σ); }
 N(toe) {
   RT(, b);
   RT(, a);
@@ -41,7 +41,7 @@ int main() {
   QUEUE_INIT(&queue);
   Nt(o, malloc(512 * sizeof(void *)), 512);
   P3(o, dot, 0, 0) oσ = oρ;
-  P3(o, anlog, dalog, aralog) A5(o, tik, tak, da, toe, da) Dos(o);
+  P3(o, anlog, dalog, aralog) A4(o, tik, tak, da, toe) da(oο, oα, oρ, oσ);
   QUEUE q1;
   QUEUE_INSERT_TAIL(&queue, &q1);
   QUEUE q2;
