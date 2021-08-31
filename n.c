@@ -1,5 +1,5 @@
 #include "m2.h"
-N(one) { A(1) Or1(T); }
+N(one) { A(1) ο[ρ + 1].c(T); }
 N(add) {
   R(long, rhs);
   R(long, lhs);
@@ -34,7 +34,7 @@ N(i2) { printf("i2 "); }
 N(crux);
 N(os1) {
   printf("osx ");
-  long m = (long)ο[--α];
+  long m = (long)ο[--α].v;
   switch (m) {
   case 'new': {
     crux(T);
@@ -49,8 +49,8 @@ static N(dot) {
   R(n_t, nara);
   nara(T);
 }
-static N(dddd0) { D4 Or0(T); }
-static N(dddu) { D3 U dot(T); }
+static N(dddd0) { ρ += 4, ο[ρ].c(T); }
+static N(dddu) { ρ += 3, ο[ρ].c(ο, α, ρ + 1, σ); }
 N(da) {
   n_t araarkhi = Or2;
   P O3(dddd0, dddu, araarkhi) dot(T);
@@ -60,7 +60,7 @@ static N(next) {
   // Or1(T);
 }
 int main() {
-  void **ο = malloc(512 * sizeof(void *));
+  p_t *ο = malloc(512 * sizeof(void *));
   long α = 0, ρ, σ = (ρ = 512);
   A8(i0, i1, i2, os1, 128, 'new', os1, next) da(T);
   free(ο);
@@ -75,12 +75,12 @@ N(crux) {
   if (oρ < α)
     return A5(r0, r1, r2, os, ws) Or2(T);
   unsigned long oα = α, oσ = σ - ws;
-  void **oο = ο + ws;
+  p_t *oο = ο + ws;
   while (α--)
-    oο[α] = ο[α];
-  void **nο = ο;
+    oο[α].v = ο[α].v;
+  p_t *nο = ο;
   long nα = 0, nρ = ws, nσ = ws;
-  nο[--nρ] = os, nο[--nρ] = r2, nο[--nρ] = r1, nο[--nρ] = r0;
+  nο[--nρ].c = os, nο[--nρ].c = r2, nο[--nρ].c = r1, nο[--nρ].c = r0;
   ο = oο, α = oα, ρ = oρ, σ = oσ;
-  A4(nο, nα, nρ, nσ) Or1(T);
+  A4(nο, nα, nρ, nσ) ο[ρ + 1].c(T);
 }

@@ -1,9 +1,23 @@
 #pragma once
 #pragma clang diagnostic ignored "-Wmultichar"
-typedef void (*n_t)(void **, long, long, long);
-#define N(n) void n(void **ο, long α, long ρ, long σ)
-#define R(T, n) T n = (T)ο[--α]
-#define A(a) ο[α++] = (void *)a,
+typedef struct p_s {
+  union {
+    void (*c)(struct p_s *, long, long, long);
+    void *v;
+    char  b;
+    short w;
+    int   d;
+    long  q;
+    unsigned char  B;
+    unsigned short W;
+    unsigned int   D;
+    unsigned long  Q;
+  };
+} p_t;
+typedef void (*n_t)(p_t *, long, long, long);
+#define N(n) void n(p_t *ο, long α, long ρ, long σ)
+#define R(T, n) T n = (T)ο[--α].v
+#define A(a) ο[α++].v = (void *)a,
 #define A2(a, ...) A(a) A(__VA_ARGS__)
 #define A3(a, ...) A(a) A2(__VA_ARGS__)
 #define A4(a, ...) A(a) A3(__VA_ARGS__)
@@ -24,21 +38,21 @@ typedef void (*n_t)(void **, long, long, long);
 #define A19(a, ...) A(a) A18(__VA_ARGS__)
 #define A20(a, ...) A(a) A19(__VA_ARGS__)
 #define A21(a, ...) A(a) A20(__VA_ARGS__)
-#define On_t(i) ((n_t*)ο)[i]
-#define O(a) ο[--ρ] = a,
+#define On_t(i) ((n_t *)ο)[i].c
+#define O(a) ο[--ρ].c = a,
 #define O2(a, ...) O(__VA_ARGS__) O(a)
 #define O3(a, ...) O2(__VA_ARGS__) O(a)
 #define O4(a, ...) O3(__VA_ARGS__) O(a)
 #define T ο, α, ρ, σ
-#define Or0 ((n_t *)ο)[ρ + 0]
-#define Or1 ((n_t *)ο)[ρ + 1]
-#define Or2 ((n_t *)ο)[ρ + 2]
-#define Os1 ((n_t *)ο)[σ - 1]
-#define U ο[α++] = ο[ρ++],
+#define Or0 ο[ρ + 0].c
+#define Or1 ο[ρ + 1].c
+#define Or2 ο[ρ + 2].c
+#define Os1 ο[σ - 1].c
+#define U ο[α++].v = ο[ρ++].v,
 #define U2 U U
 #define U3 U2 U
 #define U4 U3 U
-#define P ο[--ρ] = ο[--α],
+#define P ο[--ρ].v = ο[--α].v,
 #define P2 P P
 #define P3 P2 P
 #define P4 P3 P
@@ -48,4 +62,3 @@ typedef void (*n_t)(void **, long, long, long);
 #define D4 D3 D
 #define D5 D4 D
 #define D6 D5 D
-
