@@ -1,34 +1,34 @@
-#include "m2.h"
-N(one) { A(1) ο[ρ + 1].c(T); }
-N(add) {
-  R(long, rhs);
-  R(long, lhs);
-  A(rhs + lhs) Or1(T);
-}
-// erti erti da shekribe da.
-// ο---α------------ρ----------σ
-//
-// D -> EEDS|012x
-// D ->   EE|-S-012x
-// E ->     |-E--S-012x
-// E ->    1|-S-012x
-// S ->   11|012x
-// 1 ->    2|012x
-//
+#pragma clang diagnostic ignored "-Wmultichar"
 #include <stdio.h>
 #include <stdlib.h>
+typedef struct p_s {
+  union {
+    void (*c)(struct p_s *, long, long, long);
+    void *v;
+    char b;
+    short w;
+    int d;
+    long q;
+    unsigned char B;
+    unsigned short W;
+    unsigned int D;
+    unsigned long Q;
+  };
+} p_t;
+typedef void (*n_t)(p_t *, long, long, long);
+#define N(n) void n(p_t *ο, long α, long ρ, long σ)
+N(one) { ο[α++].q = 1, ο[ρ + 1].c(ο, α, ρ, σ); }
+N(add) {
+  long rhs = ο[--α].q;
+  long lhs = ο[--α].q;
+  ο[α++].q = rhs + lhs;
+  ο[ρ + 1].c(ο, α, ρ, σ);
+}
 N(ix) {
   printf("ix ");
-  Os1(T);
+  ο[σ - 1].c(ο, α, ρ, σ);
 }
-N(i0) {
-  printf("i0 ");
-  // 'dup' S1 'pid' S1 daa cmp da next1 next2 anda.
-  // ο[σ - 1] == ix;
-  // ο[ρ + 0] == i0;
-  // ο[ρ + 1] == i1;
-  // ο[ρ + 2] == i2;
-}
+N(i0) { printf("i0 "); }
 N(i1) { printf("i1 "); }
 N(i2) { printf("i2 "); }
 N(crux);
@@ -37,7 +37,7 @@ N(os1) {
   long m = (long)ο[--α].v;
   switch (m) {
   case 'new': {
-    crux(T);
+    crux(ο, α, ρ, σ);
   } break;
   case 'me': {
   } break;
@@ -45,35 +45,49 @@ N(os1) {
   } break;
   }
 }
-static N(dot) {
-  R(n_t, nara);
-  nara(T);
+static N(dddd0) {
+  ρ += 4;
+  ο[ρ].c(ο, α, ρ, σ);
 }
-static N(dddd0) { ρ += 4, ο[ρ].c(T); }
-static N(dddu) { ρ += 3, ο[ρ].c(ο, α, ρ + 1, σ); }
+static N(dddu) {
+  ρ += 3;
+  ο[ρ].c(ο, α, ρ + 1, σ);
+}
 N(da) {
-  n_t araarkhi = Or2;
-  P O3(dddd0, dddu, araarkhi) dot(T);
+  n_t araarkhi = ο[ρ + 2].c;
+  ο[--ρ].v = ο[--α].v;
+  ο[--ρ].c = araarkhi;
+  ο[--ρ].c = dddu;
+  ο[--ρ].c = dddd0;
+  ο[α].c(ο, α - 1, ρ, σ);
 }
-static N(next) {
+static N(next) { //
   printf("next os1");
-  // Or1(T);
 }
 int main() {
   p_t *ο = malloc(512 * sizeof(void *));
   long α = 0, ρ, σ = (ρ = 512);
-  A8(i0, i1, i2, os1, 128, 'new', os1, next) da(T);
+  ο[α++].c = i0;
+  ο[α++].c = i1;
+  ο[α++].c = i2;
+  ο[α++].c = os1;
+  ο[α++].Q = 128;
+  ο[α++].Q = 'new';
+  ο[α++].c = os1;
+  ο[α++].c = next;
+  da(ο, α, ρ, σ);
   free(ο);
 }
 N(crux) {
-  R(unsigned long, ws);
-  R(n_t, os);
-  R(n_t, r2);
-  R(n_t, r1);
-  R(n_t, r0);
+  unsigned long ws = ο[--α].Q;
+  n_t os = ο[--α].c;
+  n_t r2 = ο[--α].c;
+  n_t r1 = ο[--α].c;
+  n_t r0 = ο[--α].c;
   unsigned long oρ = ρ - ws;
   if (oρ < α)
-    return A5(r0, r1, r2, os, ws) Or2(T);
+    return ο[α++].c = r0, ο[α++].c = r1, ο[α++].c = r2, ο[α++].c = os,
+           ο[α++].Q = ws, ο[ρ + 2].c(ο, α, ρ, σ);
   unsigned long oα = α, oσ = σ - ws;
   p_t *oο = ο + ws;
   while (α--)
@@ -82,5 +96,6 @@ N(crux) {
   long nα = 0, nρ = ws, nσ = ws;
   nο[--nρ].c = os, nο[--nρ].c = r2, nο[--nρ].c = r1, nο[--nρ].c = r0;
   ο = oο, α = oα, ρ = oρ, σ = oσ;
-  A4(nο, nα, nρ, nσ) ο[ρ + 1].c(T);
+  ο[α++].v = (void *)nο, ο[α++].v = (void *)nα, ο[α++].v = (void *)nρ,
+  ο[α++].v = (void *)nσ, ο[ρ + 1].c(ο, α, ρ, σ);
 }
