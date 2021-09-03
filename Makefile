@@ -4,6 +4,8 @@ CFLAGS=-std=c99 -g ${WFLAGS} -Wno-multichar
 UV=../libuv/build/libuv_a.a
 UVFLAGS=-lutil -lpthread -ldl -lrt
 
+n: n.c a.o
+	${CC} $^ -o $@ ${CFLAGS}
 main: main.c aradani.o
 	${CC} $^ -o $@ ${CFLAGS}
 seven: seven.c aradani.o
