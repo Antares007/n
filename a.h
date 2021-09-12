@@ -17,11 +17,11 @@ typedef struct p_s {
 typedef void (*n_t)(p_t *, long, long, long);
 #define N(n) void n(p_t *ο, long α, long ρ, long σ)
 #define T ο, α, ρ, σ
-#define C(n, b, s)                                                             \
+#define C(n, b, s, a)                                                          \
   p_t *n##ο = b;                                                               \
-  crux_t *n##ξ = (crux_t *)&n##ο[(s)-6];                                       \
-  long n##α = 0, n##ρ, n##σ = (n##ρ = (s)-6);                                  \
-  n##ξ->ο = n##ο, n##ξ->α = n##α, n##ξ->ρ = n##ρ, n##ξ->σ = n##σ
+  crux_t *n##ξ = (crux_t *)&n##ο[(s)-4];                                       \
+  long n##α = a, n##ρ, n##σ = (n##ρ = (s)-4);                                  \
+  n##ξ->α = a, n##ξ->σ = n##σ
 N(da);
 N(daa);
 N(daaa);
