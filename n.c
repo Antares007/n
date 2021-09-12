@@ -116,7 +116,7 @@ N(os_crux) { // ο...NNNNQα ρ.12₀₁₂Sσσαqq
   nο[--nρ].c = r1;
   nο[--nρ].c = r0;
 
-  crux_t *nc = (crux_t *)(nο + nσ);
+  crux_t *nc = (crux_t *)&nο[nσ];
   nc->α = nα;
   nc->σ = nσ;
   nc->q[0] = 0;
