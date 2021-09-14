@@ -8,37 +8,33 @@ N(add) {
   ο[α++].q = rhs + lhs;
   ο[ρ + 1].c(T);
 }
-N(ix) {
-  printf("ix ");
-  ο[σ - 1].c(T);
+N(c_new_os) { ο[α++].Q = 'new', ο[σ - 1].c(T); }
+N(c_quot_os) { ο[α++].Q = 'quot', ο[σ - 1].c(T); }
+N(ix) { printf("ix\n"), ο[σ - 1].c(T); }
+N(c_next_os) { ο[α++].Q = 'next', ο[σ - 1].c(T); }
+N(i0) { printf("i0\n"), c_next_os(T); }
+N(i1) { printf("i1\n"), c_next_os(T); }
+N(i2) { printf("i2\n"), c_next_os(T); }
+N(myo) {
+  crux_t *c = (crux_t *)&ο[σ];
+  c->p[-1].c(ο, α, ρ, σ);
 }
-N(i0) { printf("i0 "); }
-N(i1) { printf("i1 "); }
-N(i2) { printf("i2 "); }
-
-N(c_new_os) {
-  ο[α++].Q = 'new';
-  ο[σ - 1].c(T);
-}
-N(c_quot_os) {
-  ο[α++].Q = 'quot';
-  ο[σ - 1].c(T);
-}
-
-N(nargo) {
+N(aaa) {
   ο[α++].Q = 3, ο[α++].Q = 6, ο[α++].c = add;
-  ο[α++].c = i0, ο[α++].c = i1, ο[α++].c = i2, ο[α++].c = ο[σ - 1].c,
-  ο[α++].Q = 128, ο[α++].c = c_new_os;
+  ο[α++].c = i0, ο[α++].c = i1, ο[α++].c = i2, ο[α++].c = myo, ο[α++].Q = 128,
+  ο[α++].c = c_new_os;
   ο[α++].Q = 3, ο[α++].c = c_quot_os;
   daa(T);
+}
+N(nargo) {
+  // aaa(T);
+  ο[α++].c = aaa;
+  ο[α++].c = aaa;
+  da(T);
 }
 
 #include "./src/queue.h"
 #define PROCESS_MAX_PID 1024
-typedef struct {
-  unsigned long σ, α;
-  void *q[2];
-} crux_t;
 static crux_t *cruxs[PROCESS_MAX_PID] = {0};
 static QUEUE queue;
 static int process_allocate_pid() {
@@ -54,11 +50,11 @@ static int process_allocate_pid() {
 }
 N(os_next) {
   QUEUE *q;
-  if (&queue == (q = QUEUE_NEXT(&queue)))
-    return;
-  QUEUE_REMOVE(q);
-  crux_t *c = QUEUE_DATA(q, crux_t, q);
-  ((p_t *)c - c->σ)[c->α - 1].c(((p_t *)c - c->σ), c->α - 1, c->σ - 4, c->σ);
+  if (&queue != (q = QUEUE_NEXT(&queue))) {
+    QUEUE_REMOVE(q);
+    crux_t *c = QUEUE_DATA(q, crux_t, q);
+    ((p_t *)c - c->σ)[c->α - 1].c(((p_t *)c - c->σ), c->α - 1, c->σ - 4, c->σ);
+  }
 }
 N(os_ara) {
   printf("os_ara\n");
@@ -86,7 +82,7 @@ N(os_quot) { //
 // |       |₀₁₂sσαqq|     |  |₀₁₂sσαqq|
 //
 N(os_crux) { // ο...NNNNQα ρ.12₀₁₂Sσσαqq
-  unsigned long ws = ο[--α].Q + 4;
+  unsigned long ws = ο[--α].Q + 5;
 
   long oρ = ρ - ws;
   int pid;
@@ -101,7 +97,7 @@ N(os_crux) { // ο...NNNNQα ρ.12₀₁₂Sσσαqq
 
   p_t *oο = ο + ws;
   long oα = α, oσ = σ - ws;
-  crux_t *oc = (crux_t*)&ο[σ];
+  crux_t *oc = (crux_t *)&ο[σ];
   oc->σ = oσ;
   oc->α = oα;
 
@@ -109,18 +105,18 @@ N(os_crux) { // ο...NNNNQα ρ.12₀₁₂Sσσαqq
     oο[α].v = ο[α].v;
 
   p_t *nο = ο;
-  long nα = 0, nρ, nσ = (nρ = ws - 4);
+  long nα = 0, nρ, nσ = (nρ = ws - 5);
 
   nο[--nρ].c = os;
   nο[--nρ].c = r2;
   nο[--nρ].c = r1;
   nο[--nρ].c = r0;
 
-  crux_t *nc = (crux_t *)&nο[nσ];
-  nc->α = nα;
-  nc->σ = nσ;
-  nc->q[0] = 0;
-  cruxs[pid] = nc;
+  cruxs[pid] = (crux_t *)&nο[nσ];
+  nο[nσ + 0].Q = nσ;
+  nο[nσ + 1].Q = nα;
+  nο[nσ + 2].v = &ο[σ];
+  nο[nσ + 3].Q = 0;
 
   oο[oα++].Q = pid;
   oο[oρ + 1].c(oο, oα, oρ, oσ);
@@ -129,6 +125,9 @@ N(os_os1) {
   // printf("osx %lu %lu %s\n", α, ο[α - 2].Q, (char *)&ο[α - 1].Q);
   long m = (long)ο[--α].v;
   switch (m) {
+  case 'next': {
+    os_next(ο, α, ρ, σ);
+  } break;
   case 'new': {
     os_crux(ο, α, ρ, σ);
   } break;
@@ -137,7 +136,6 @@ N(os_os1) {
   } break;
   }
 }
-N(wnext) { printf("end\n"); }
 int main() {
   QUEUE_INIT(&queue);
   C(, malloc(512 * sizeof(void *)), 512, 0);
@@ -146,6 +144,5 @@ int main() {
   ο[--ρ].c = os_da;
   ο[--ρ].c = os_an;
   nargo(T);
-
   free(ο);
 }
