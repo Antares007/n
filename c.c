@@ -16,6 +16,7 @@ function counter(o, depth) {
   C(o.selement, "-", depth, "button", button);
   C(o.text, o.state.n + "");
 }*/
+#define STATIC
 #include "a3.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,38 +34,49 @@ N(o0) {
 }
 N(o1) {
   Rpith(i);
+  R(unsigned long, opcode);
+  printf("opcode: %lu\n", opcode);
   A(σ) C(i, 1);
 }
 N(o2) {}
+N(dadeσ) { A(σ) C(, 1); }
 N(i0) {
   Rpith(o);
-  A(σ) C(o, 1);
+  A2(3, σ) C(o, 1);
 }
 N(i1) {
   Rpith(o);
   R(long, n);
-  if(n!=0){
-  printf("i1\n");
-   A2(n-1, σ) C(o, 1);
+  if (n != 0) {
+    printf("i1\n");
+    A3(n - 1, 6, σ) C(o, 1);
   }
 }
 N(i2) {}
+
+N(one) { A(1) C(, 1); }
+n_t opcodes[] = {one};
+N(os) {
+  R(unsigned long, opcode);
+  opcodes[opcode](T());
+}
 int main() {
   p_t *ο = malloc(0x3000), *oσ = ο + 0x2000, *iσ = ο + 0x3000;
   long α = 0, oρ = 0, iρ = 0;
   oσ--;
-  oσ[0].q = -3;
+  oσ[--oρ].c = os;
   oσ[--oρ].c = o2;
   oσ[--oρ].c = o1;
   oσ[--oρ].c = o0;
+  oσ[0].q = oρ;
 
   iσ--;
-  iσ[0].q = -3;
   iσ[--iρ].c = i2;
   iσ[--iρ].c = i1;
   iσ[--iρ].c = i0;
+  iσ[0].q = iρ;
 
-  A2(99,iσ) C(o, 0);
+  A2(9, iσ) C(o, 0);
 
   free(ο);
 }
