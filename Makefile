@@ -1,9 +1,12 @@
 CC=clang
 WFLAGS=-Wall
-CFLAGS=-std=c99 -g ${WFLAGS} -Wno-multichar
+CFLAGS=-std=c99 -O0 -g ${WFLAGS} -Wno-multichar
 UV=../libuv/build/libuv_a.a
 UVFLAGS=-lutil -lpthread -ldl -lrt
 
+a3.o: a3.c
+	${CC} -std=c99 -c $^ -o $@ -O3 -g
+c2: c2.c a3.o
 n: n.c a.o
 	${CC} $^ -o $@ ${CFLAGS}
 main: main.c aradani.o
