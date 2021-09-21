@@ -22,6 +22,7 @@ typedef void (*n_t)(p_t *, long, long, p_t *);
   p_t * n##σ = ο[--α].v;\
   long  n##ρ = n##σ[0].q
 #define C(n,r) n##σ[n##ρ + r].c(ο, α, n##ρ, n##σ)
+#define O ο[α - 1].c(ο, α - 1, ρ, σ)
 #define A(a) ο[α++].v = (void*)a,
 /*
 console.log(
@@ -51,6 +52,7 @@ console.log(
 #define A18(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r) A(a)A(b)A(c)A(d)A(e)A(f)A(g)A(h)A(i)A(j)A(k)A(l)A(m)A(n)A(o)A(p)A(q)A(r)
 #define A19(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s) A(a)A(b)A(c)A(d)A(e)A(f)A(g)A(h)A(i)A(j)A(k)A(l)A(m)A(n)A(o)A(p)A(q)A(r)A(s)
 #define A20(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t) A(a)A(b)A(c)A(d)A(e)A(f)A(g)A(h)A(i)A(j)A(k)A(l)A(m)A(n)A(o)A(p)A(q)A(r)A(s)A(t)
+
 #ifdef STATIC
 static N(da_an) {
   ρ += 4;
@@ -67,6 +69,26 @@ static N(da) {
   σ[--ρ].c = araarkhi;
   σ[--ρ].c = da_da;
   σ[--ρ].c = da_an;
+  n_t n = ο[--α].c;
+  n(T());
+}
+static N(daa_an) {
+  ρ += 5;
+  C(, 0);
+}
+static N(daa_da) {
+  ρ += 3;
+  ο[α++].v = σ[ρ++].v;
+  n_t n = σ[ρ++].c;
+  n(T());
+}
+static N(daa) {
+  n_t araarkhi = σ[ρ + 2].c;
+  σ[--ρ].c = ο[--α].c;
+  σ[--ρ].c = ο[--α].c;
+  σ[--ρ].c = araarkhi;
+  σ[--ρ].c = daa_da;
+  σ[--ρ].c = daa_an;
   n_t n = ο[--α].c;
   n(T());
 }
