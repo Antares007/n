@@ -6,7 +6,9 @@ UVFLAGS=-lutil -lpthread -ldl -lrt
 
 a3.o: a3.c
 	${CC} -std=c99 -c $^ -o $@ -O3 -g
-c2: c2.c a3.o
+page.o: page.c
+	${CC} -std=c99 -c $^ -o $@ -O3 -g
+c2: c2.c a3.o page.o
 n: n.c a.o
 	${CC} $^ -o $@ ${CFLAGS}
 main: main.c aradani.o
