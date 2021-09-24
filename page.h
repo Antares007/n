@@ -11,4 +11,4 @@ typedef struct {
 void page_init(page_t *o, void *begin, unsigned long length,
                unsigned long page_bits);
 void page_free(page_t *o, void *pageaddr);
-void *page_alloc(page_t *o, int);
+void *page_alloc(page_t *o);

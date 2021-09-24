@@ -1,57 +1,62 @@
-/*
-function onclick(o, event, delta, depth) {
-  C(o.setState, { n: o.state.n + delta });
-  i += delta;
-  C(o.parent, depth, counter);
-}
-function button(o, label, depth) {
-  //  console.log(depth);
-  C(o.text, label);
-  C(o.on, label === "+" ? 1 : -1, depth, "click", onclick);
-  if (depth) C(o.skelement, depth - 1, "div", counter, label, initstate);
-}
-let i = 0;
-function counter(o, depth) {
-  C(o.selement, "+", depth, "button", button);
-  C(o.selement, "-", depth, "button", button);
-  C(o.text, o.state.n + "");
-}*/
 #include "a3.h"
 #include <stdio.h>
 #include <stdlib.h>
-N(button) {}
-N(counter) {
-  R(unsigned long, depth);
-  Rpith(o);
-  A5("+", depth, "button", button, 'sele') C(o, 1);
-  A5("-", depth, "button", button, 'sele') C(o, 1);
-  A2("o.state.n+''", 'text') C(o, 1);
-}
-N(i0) {}
-N(i1) {}
-N(i2) {}
 
+N(akhali_purtseli) { A(0) σ[-1].c(T()); }
+N(akhali_gulguli) { A(1) σ[-1].c(T()); }
+N(amotsere) { A(2) σ[-1].c(T()); }
+N(tsertili) { A(3) σ[-1].c(T()); }
+N(shemdegi) { A(4) σ[-1].c(T()); }
+
+N(test) { C(, 1); }
+
+N(an_gadasvla) { C(, 0); }
+N(os_gadamkvani) {
+  p_t *osσ = σ[-2].v;
+  (osσ[-1].c(ο, α, osσ[0].q, osσ));
+}
+N(i0) { printf("i0\n"); }
+N(i1) { printf("i1\n"); }
+N(i2) { printf("i2\n"); }
+N(tskaros_gulguli) {
+  A9(i0, i1, i2, 3, 6, σ, os_gadamkvani, 7, akhali_gulguli) O;
+}
+N(kalapotis_gulguli) {
+  A9(i0, i1, i2, 3, 6, σ, os_gadamkvani, 7, akhali_gulguli) O;
+}
+N(tsinamkhare) {
+  A11(kalapotis_gulguli, an_gadasvla, akhali_purtseli, daa, 2, amotsere, daa,
+      tskaros_gulguli, da, tsertili, da)
+  O;
+  // A3(akhali_purtseli, test, da) O;
+  // A5(akhali_purtseli, akhali_purtseli, da, tskaros_gulguli, da) O;
+}
+
+#include "page.h"
+#define ISPAGE(lx)                                                             \
+  ((unsigned long)lx & (unsigned long)0xFFF) == 3 * sizeof(void *)
 N(os_akhali_purtseli) {
-  p_t *nο = malloc(0x1000);
-  nο++;
-  nο[-1].q = 0;
+  p_t *lx = σ[1].v;
+  p_t *nο = &lx[ISPAGE(lx) ? 512 : 6];
+  if (σ < nο)
+    return C(, 2);
+  nο[-3].v = lx, nο[-2].v = σ, nο[-1].Q = 0;
+  lx[-2].v = nο;
+  σ[1].v = nο;
   A(nο) C(, 1);
 }
 N(os_akhali_gulguli) {
-  R(unsigned long, wc);
-  p_t *nσ = malloc(0x1000) + 0x1000;
+  p_t *lx = σ[1].v;
+  p_t *begin = &lx[ISPAGE(lx) ? -3 : 3];
+  long pages = (((unsigned long)σ >> 12) - ((unsigned long)begin >> 12)) / 2;
+  p_t *nσ = &begin[pages * 512 + 512 - 3];
   long nρ = 0;
-  nσ--;
-  wc -= 3;
+  R(unsigned long, wc);
   while (wc--)
     nσ[--nρ].v = ο[--α].v;
-  nσ[--nρ].v = σ[σ[0].q + 2].v;
-  nσ[--nρ].v = σ[σ[0].q + 1].v;
-  nσ[--nρ].v = σ[σ[0].q + 0].v;
-  nσ[--nρ].v = ο[--α].v;
-  nσ[--nρ].v = ο[--α].v;
-  nσ[--nρ].v = ο[--α].v;
-  nσ[0].q = nρ;
+  nσ[0].q = nρ, nσ[1].v = lx, nσ[2].v = σ;
+  lx[-2].v = nσ;
+  σ[1].v = nσ;
   A(nσ) C(, 1);
 }
 N(os_amotsere) {
@@ -62,82 +67,93 @@ N(os_amotsere) {
     pο[pα - i].v = ο[--α].v;
   A(pο) C(, 1);
 }
-/*
-
-PPPPPPPPPPPPPPPPPP
-*/
-#include "page.h"
 #include "src/queue.h"
-QUEUE queue;
 typedef struct {
   QUEUE q;
   p_t *ο;
   p_t *σ;
 } rigis_elementi_t;
-rigis_elementi_t rigis_elementebi[67] = {0};
-page_t rigis_o;
+#define PROCESS_MAX_PID 1024
+static int process_allocate_pid(rigis_elementi_t *arr) {
+  static int last = 0;
+  int i;
+  for (i = last + 1; i < PROCESS_MAX_PID; i++)
+    if (arr[i].q[0] == 0)
+      return last = i, i;
+  for (i = 1; i < last; i++)
+    if (arr[i].q[0] == 0)
+      return last = i, i;
+  return 0;
+}
 N(os_tsertili) {
-  rigis_elementi_t *e = page_alloc(&rigis_o, 0);
+  rigis_elementi_t *elms = (void *)&σ[-3 - PROCESS_MAX_PID * sizeof(rigis_elementi_t)/sizeof(void*)];
+  int pid = process_allocate_pid(elms);
+  if (pid == 0)
+    return C(, 2);
+  rigis_elementi_t *e = &elms[pid];
   R(p_t *, nσ);
   R(p_t *, nο);
   e->ο = nο;
   e->σ = nσ;
-  QUEUE_INSERT_TAIL(&queue, &e->q);
+  QUEUE_INSERT_TAIL((QUEUE *)&σ[-3], &e->q);
   C(, 1);
 }
 N(os_shemdegi) {
+  ο[-1].Q = α;
   QUEUE *q;
-  if (&queue != (q = QUEUE_NEXT(&queue))) {
+  if ((QUEUE *)&σ[-3] != (q = QUEUE_NEXT((QUEUE *)&σ[-3]))) {
     QUEUE_REMOVE(q);
-    p_t *qο = (p_t *)q, *qσ = qο[-1].v;
-    long qα = qο[-2].q, qρ = qσ[0].q;
-    qο = qο - qα - 1;
+    rigis_elementi_t *e = (void *)q;
+    e->q[0]=0;
+    p_t *eο = e->ο, *eσ = e->σ;
+    long eα = eο[-1].q, eρ = eσ[0].q;
+    eο[eα - 1].c(eο, eα - 1, eρ, eσ);
   }
 }
-N(akhali_purtseli) { A(0) σ[-1].c(T()); }
-N(akhali_gulguli) { A(1) σ[-1].c(T()); }
-N(amotsere) { A(2) σ[-1].c(T()); }
-N(tsertili) { A(3) σ[-1].c(T()); }
-N(shemdegi) { A(4) σ[-1].c(T()); }
 n_t opcodes[] = {os_akhali_purtseli, os_akhali_gulguli, os_amotsere,
                  os_tsertili, os_shemdegi};
 N(os) {
   R(unsigned long, opcode);
   opcodes[opcode](T());
 }
-N(an_gadasvla) { C(, 0); }
+N(o0) { printf("o0\n"), os_shemdegi(T()); }
+N(o1) { printf("o1\n"), os_shemdegi(T()); }
+N(o2) { printf("o2\n"), os_shemdegi(T()); }
 
-N(tskaros_gulguli) { A9(i0, i1, i2, 3, 6, 9, σ[-1].c, 7, akhali_gulguli) O; }
-N(kalapotis_gulguli) { A9(i0, i1, i2, 3, 6, 9, σ[-1].c, 7, akhali_gulguli) O; }
-N(o0) {
-  printf("o0\n");
-  os_shemdegi(T());
+// ....|x...dddd..............oans|.......
+page_t *pith_init(void *begin, unsigned long length, unsigned long page_bits) {
+  page_init(begin + 0x20, begin, length, page_bits);
+  return begin + 0x20;
 }
-N(o1) {
-  printf("o1\n");
-  os_shemdegi(T());
-}
-N(o2) {
-  printf("o2\n");
-  os_shemdegi(T());
-}
-N(test) { C(, 1); }
 int main() {
-  QUEUE_INIT(&queue);
-  printf("%ld %d %x\n", sizeof(rigis_elementebi), (64 + 5) % 64,
-         ((1 << 5) - 1));
-  page_init(&rigis_o, &rigis_elementebi, sizeof(rigis_elementebi), 5);
-  printf("%lx %lx\n", rigis_o.freemap[0], rigis_o.freemap[1]);
-  p_t *ο = malloc(1024 * sizeof(void *)), *σ = ο + 1024;
+  // |.b..........|............|.e..........|............
+  //
+  void *b = malloc(100 << 12);
+  void *e = b + (100 << 12);
+  p_t *ο = (void *)((unsigned long)b |  ((unsigned long)0xFFF)) + 1,
+      *σ = (void *)((unsigned long)e & ~((unsigned long)0xFFF));
+  printf("mem   %p %p\n", b, e);
+  printf("grid  %p %p\n", ο, σ);
+  printf("pages %ld\n", ((unsigned long)σ>>12)-((unsigned long)ο>>12));
   long α = 0, ρ = 0;
-  σ--;
+  ο+=3, σ-=3;
+  printf("tree  %p %p\n", ο, σ);
+  ο[-3].Q = 0, ο[-2].v = σ, ο[-1].Q = 0;
+
   σ[--ρ].c = os;
+  σ[--ρ].v = 0;
+  σ[--ρ].v = 0;
+  rigis_elementi_t *elms = (void *)&σ[ρ -= PROCESS_MAX_PID * sizeof(rigis_elementi_t) / sizeof(void *)];
+  for (int i = 0; i < PROCESS_MAX_PID; i++)
+    elms[i].q[0] = 0;
   σ[--ρ].c = o2;
   σ[--ρ].c = o1;
   σ[--ρ].c = o0;
-  σ[0].q = ρ;
-  A11(kalapotis_gulguli, an_gadasvla, akhali_purtseli, daa, 2, amotsere, daa,
-      tskaros_gulguli, da, tsertili, da)
-  O;
-  free(ο);
+  σ[0].q = ρ, σ[1].v = ο, σ[2].v = 0;
+
+  QUEUE_INIT((QUEUE *)&σ[-3]);
+
+  tsinamkhare(ο, α, ρ, σ);
+
+  free(b);
 }
