@@ -68,7 +68,7 @@ console.log(
 #define A18(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r) A(a)A(b)A(c)A(d)A(e)A(f)A(g)A(h)A(i)A(j)A(k)A(l)A(m)A(n)A(o)A(p)A(q)A(r)
 #define A19(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s) A(a)A(b)A(c)A(d)A(e)A(f)A(g)A(h)A(i)A(j)A(k)A(l)A(m)A(n)A(o)A(p)A(q)A(r)A(s)
 #define A20(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t) A(a)A(b)A(c)A(d)A(e)A(f)A(g)A(h)A(i)A(j)A(k)A(l)A(m)A(n)A(o)A(p)A(q)A(r)A(s)A(t)
-N(da);N(daa);N(aradani);
+N(da);N(daa);N(daaa);N(aradani);
 #ifdef STATIC
 static N(da_an) {
   ρ += 4;
@@ -105,6 +105,28 @@ N(daa) {
   σ[--ρ].c = araarkhi;
   σ[--ρ].c = daa_da;
   σ[--ρ].c = daa_an;
+  n_t n = ο[--α].c;
+  n(T());
+}
+static N(daaa_an) {
+  ρ += 6;
+  C(, 0);
+}
+static N(daaa_da) {
+  ρ += 3;
+  ο[α++].v = σ[ρ++].v;
+  ο[α++].v = σ[ρ++].v;
+  n_t n = σ[ρ++].c;
+  n(T());
+}
+N(daaa) {
+  n_t araarkhi = σ[ρ + 2].c;
+  σ[--ρ].c = ο[--α].c;
+  σ[--ρ].c = ο[--α].c;
+  σ[--ρ].c = ο[--α].c;
+  σ[--ρ].c = araarkhi;
+  σ[--ρ].c = daaa_da;
+  σ[--ρ].c = daaa_an;
   n_t n = ο[--α].c;
   n(T());
 }

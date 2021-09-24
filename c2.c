@@ -17,16 +17,24 @@ N(sss) {
   R(n_t, nar);
   R(unsigned long, c);
   R(p_t *, kalapoti);
-  A12(σ, c+1, nar, akhali_purtseli, 3, amotsere, daa, kalapoti, tsertili, daa,
+  A12(σ, c + 1, nar, akhali_purtseli, 4, amotsere, daa, kalapoti, tsertili, daa,
       shemdegi, da)
   O;
 }
-N(tskaro0) {  A3(0, an_gadasvla, sss) O; }
-N(tskaro1) {  printf("c: %ld\n", ο[α-1].q), A2(da_gadasvla, sss) O; }
-N(tskaro2) {  }
-N(kalapoti0) {  A2(da_gadasvla, sss) O; }
-N(kalapoti1) {  printf("c: %ld\n", ο[α-1].q), A2(da_gadasvla, sss) O; }
-N(kalapoti2) {  }
+N(tskaro0) { A2(an_gadasvla, sss) O; }
+N(tskaro1) {
+  if (ο[α - 1].Q % 1000000 == 0)
+    printf("%s, c: %ld\n", (char *)ο[α - 3].v, ο[α - 1].q);
+  A2(da_gadasvla, sss) O;
+}
+N(tskaro2) {}
+N(kalapoti0) { A2(da_gadasvla, sss) O; }
+N(kalapoti1) {
+  if (ο[α - 1].Q % 1000000 == 0)
+    printf("c: %ld\n", ο[α - 1].q);
+  A2(da_gadasvla, sss) O;
+}
+N(kalapoti2) {}
 N(tskaros_gulguli) {
   A9(tskaro0, tskaro1, tskaro2, 3, 6, 9, σ[-1].c, 7, akhali_gulguli) O;
 }
@@ -34,16 +42,14 @@ N(kalapotis_gulguli) {
   A9(kalapoti0, kalapoti1, kalapoti2, 3, 9, 6, σ[-1].c, 7, akhali_gulguli) O;
 }
 N(exam) {
-  A11(kalapotis_gulguli, an_gadasvla, akhali_purtseli, daa, 2, amotsere, daa,
-      tskaros_gulguli, da, tsertili, da)
+  A12(kalapotis_gulguli, -2, an_gadasvla, akhali_purtseli, daaa, 4, amotsere,
+      daa, tskaros_gulguli, da, tsertili, da)
   O;
 }
 N(tsinamkhare) {
-  // A9(exam, exam, da, exam, da, exam, da, exam, da) O;
-  A7(exam, exam, da, exam, da, exam, da) O;
-  // A5(exam, exam, da, exam, da) O;
-  // A3(exam, exam, da) O;
-  //A(exam) O;
+  // A8("პირველი", exam, "მეორე", exam, daa, "მესამე", exam, daa) O;
+  // A5("პირველი", exam, "მეორე", exam, daa) O;
+  A2("პირველი", exam) O;
 }
 
 #include "page.h"
@@ -68,7 +74,7 @@ N(os_akhali_gulguli) {
   p_t *lx = σ[1].v;
   p_t *nσ = &lx[ISPAGE(lx) ? 506 : 512];
   long pages = (((unsigned long)σ >> 12) - ((unsigned long)nσ >> 12)) / 3;
-  printf("%ld\n", pages);
+  //printf("%ld\n", pages);
   nσ = &nσ[pages * 512];
   long nρ = 0;
   R(unsigned long, wc);
