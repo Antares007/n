@@ -15,18 +15,18 @@ N(an_gadasvla) { C(, 0); }
 N(da_gadasvla) { C(, 1); }
 N(sss) {
   R(n_t, nar);
+  R(unsigned long, c);
   R(p_t *, kalapoti);
-  A11(σ, nar, akhali_purtseli, 2, amotsere, daa, kalapoti, tsertili, daa,
+  A12(σ, c+1, nar, akhali_purtseli, 3, amotsere, daa, kalapoti, tsertili, daa,
       shemdegi, da)
   O;
 }
-#define PF printf("%s\n", __FUNCTION__)
-N(tskaro0) { PF,A2(an_gadasvla, sss) O; }
-N(tskaro1) { PF,A2(da_gadasvla, sss) O; }
-N(tskaro2) { PF;}
-N(kalapoti0) { PF,A2(da_gadasvla, sss) O; }
-N(kalapoti1) { PF,A2(da_gadasvla, sss) O; }
-N(kalapoti2) { PF;}
+N(tskaro0) {  A3(0, an_gadasvla, sss) O; }
+N(tskaro1) {  printf("c: %ld\n", ο[α-1].q), A2(da_gadasvla, sss) O; }
+N(tskaro2) {  }
+N(kalapoti0) {  A2(da_gadasvla, sss) O; }
+N(kalapoti1) {  printf("c: %ld\n", ο[α-1].q), A2(da_gadasvla, sss) O; }
+N(kalapoti2) {  }
 N(tskaros_gulguli) {
   A9(tskaro0, tskaro1, tskaro2, 3, 6, 9, σ[-1].c, 7, akhali_gulguli) O;
 }
@@ -43,6 +43,7 @@ N(tsinamkhare) {
   A7(exam, exam, da, exam, da, exam, da) O;
   // A5(exam, exam, da, exam, da) O;
   // A3(exam, exam, da) O;
+  //A(exam) O;
 }
 
 #include "page.h"
@@ -140,7 +141,7 @@ N(os_shemdegi) {
   }
 }
 n_t opcode_map[] = {os_akhali_purtseli, os_akhali_gulguli, os_amotsere,
-                 os_tsertili, os_shemdegi};
+                    os_tsertili, os_shemdegi};
 N(os_opcode) {
   R(unsigned long, opcode);
   opcode_map[opcode](T());
