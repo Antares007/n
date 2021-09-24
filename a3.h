@@ -1,3 +1,19 @@
+/*
+               init                           next
+   ...........................................................
+        α|              |ρ      .             fXXe
+     ο - 0123456789abcdef - σ   .             dXXc
+         XXXXXXXXXXXXXXXX       .           α|    |ρ  
+         rsp - fXXe             .   ο - 0123456789abcdef - σ  
+               dXXc             .       XXXXXXXXXXXXXXXX
+               bXXa             .       rsp - bXXa
+               9XX8             .             9XX8
+               7XX6             .             7XX6
+               5XX4             .             5XX4
+               3XX2             .             3XX2
+               1XX0             .             1XX0
+                    abo <= aba <= obr <= rbs
+*/
 #pragma once
 #pragma clang diagnostic ignored "-Wmultichar"
 typedef struct p_s {
