@@ -69,6 +69,10 @@ console.log(
 #define A19(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s) A(a)A(b)A(c)A(d)A(e)A(f)A(g)A(h)A(i)A(j)A(k)A(l)A(m)A(n)A(o)A(p)A(q)A(r)A(s)
 #define A20(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t) A(a)A(b)A(c)A(d)A(e)A(f)A(g)A(h)A(i)A(j)A(k)A(l)A(m)A(n)A(o)A(p)A(q)A(r)A(s)A(t)
 N(da);N(daa);N(daaa);N(aradani);
+#define და da
+#define დაა daa
+#define დააა daaa
+#define არადანი aradani
 #ifdef STATIC
 static N(da_an) {
   ρ += 4;

@@ -1,14 +1,11 @@
 CC=clang
-WFLAGS=-Wall
-CFLAGS=-std=c99 -O0 -g ${WFLAGS} -Wno-multichar
+CFLAGS+=-std=c99 -Wall -Wno-multichar
 UV=../libuv/build/libuv_a.a
 UVFLAGS=-lutil -lpthread -ldl -lrt
 
-a3.o: a3.c
-	${CC} -std=c99 -c $^ -o $@ -O3 -g
-page.o: page.c
-	${CC} -std=c99 -c $^ -o $@ -O3 -g
-c2: c2.c a3.o page.o
+c2: c2.c a3.o
+%.o: %.c
+	${CC} -c $^ -o $@ ${CFLAGS}
 n: n.c a.o
 	${CC} $^ -o $@ ${CFLAGS}
 main: main.c aradani.o
@@ -21,8 +18,6 @@ src/g%: src/g%.c src/mbo.o src/aradani.o
 	${CC} $^ -o $@ ${CFLAGS} ${UV} ${UVFLAGS}
 src/a%: src/a%.c src/aradani.o
 	${CC} $^ -o $@ ${CFLAGS}
-%.o: %.c
-	${CC} -c $^ -o $@ ${CFLAGS}
 src/main: src/main.c
 	${CC} $< -o $@ -O3 -Wno-multichar  /usr/lib/libraylib.so  -lraylib
 pith: pith.c pith.h
