@@ -15,7 +15,7 @@ seven: seven.c aradani.o
 src/a2: src/a2.c src/aradani.o src/atalloc.o
 	${CC} $^ -o $@ ${CFLAGS}
 src/g%: src/g%.c src/mbo.o src/aradani.o
-	${CC} $^ -o $@ ${CFLAGS} ${UV} ${UVFLAGS}
+	${CC} $^ -o $@ ${UVFLAGS} ${UV} -O0 -g
 src/a%: src/a%.c src/aradani.o
 	${CC} $^ -o $@ ${CFLAGS}
 src/main: src/main.c
