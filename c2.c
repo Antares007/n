@@ -15,8 +15,7 @@ N(sss) {
   R(n_t, nar);
   R(unsigned long, c);
   R(p_t *, sσ);
-  A12(σ, c + 1, nar, აფურცელი, 4, ამოწერე, დაა, sσ, წერტილი, დაა, შემდეგი,
-      და)
+  A12(σ, c + 1, nar, აფურცელი, 4, ამოწერე, დაა, sσ, წერტილი, დაა, შემდეგი, და)
   O;
 }
 N(წყაროს_ან) { A2(ან_გადასვლა, sss) O; }
@@ -55,34 +54,29 @@ N(მთავარი) {
 #include "page.h"
 #define ISPAGE(lx)                                                             \
   ((unsigned long)lx & (unsigned long)0xFFF) == 3 * sizeof(void *)
-#define PS(p) (void *)((unsigned long)p & ~((unsigned long)0xFFF))
-#define PN(p) (PS(p) + 0x1000)
 N(os_აფურცელი) {
-  // printf("%s %ld\n", __FUNCTION__, (((unsigned long)σ) >> 12) - (((unsigned
-  // long)σ[1].v) >> 12));
   p_t *lx = σ[1].v;
-  p_t *nο = PN(lx);
+  p_t *nο = (void *)(((unsigned long)lx | ((unsigned long)0xFFF)) + 1);
   nο += 3;
   if (σ < nο)
     return C(, 2);
   nο[-3].v = lx, nο[-2].v = σ, nο[-1].Q = 0;
-  lx[-2].v = nο;
-  σ[1].v = nο;
+  lx[-2].v = nο, σ[1].v = nο;
   A(nο) C(, 1);
 }
 N(os_აგულგული) {
   p_t *lx = σ[1].v;
   p_t *nσ = &lx[ISPAGE(lx) ? 506 : 512];
-  long pages = (((unsigned long)σ >> 12) - ((unsigned long)nσ >> 12)) / 3;
-  // printf("%ld\n", pages);
-  nσ = &nσ[pages * 512];
+  long pages = (((unsigned long)σ >> 12) - ((unsigned long)nσ >> 12));
+  if (pages < 0)
+    return C(, 2);
+  nσ = &nσ[pages / 3 * 512];
   long nρ = 0;
   R(unsigned long, wc);
   while (wc--)
     nσ[--nρ].v = ο[--α].v;
   nσ[0].q = nρ, nσ[1].v = lx, nσ[2].v = σ;
-  lx[-2].v = nσ;
-  σ[1].v = nσ;
+  lx[-2].v = nσ, σ[1].v = nσ;
   A(nσ) C(, 1);
 }
 N(os_ამოწერე) {
@@ -124,8 +118,7 @@ N(os_წერტილი) {
     return C(, 2);
   R(p_t *, nσ);
   R(p_t *, nο);
-  rigis_elementebi[nomeri].ο = nο;
-  rigis_elementebi[nomeri].σ = nσ;
+  rigis_elementebi[nomeri].ο = nο, rigis_elementebi[nomeri].σ = nσ;
   QUEUE_INSERT_TAIL(&rigis_tavi, &rigis_elementebi[nomeri].q);
   C(, 1);
 }
